@@ -1,0 +1,25 @@
+.main{
+    text-align: center;
+    position: relative;
+    top: 100px;
+   
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.label-date{
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+
+}
+
+.input-date {
+    background-image: linear-gradient(to bottom, #f3f4f6, #fff);
+    font-size: 1.5rem;
+}
+
