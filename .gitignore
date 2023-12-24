@@ -9,6 +9,9 @@
 /coverage
 cypress/
 cypress.config.js
+/.github/workflows/cypress.yml
+
+
 
 # production
 /build
