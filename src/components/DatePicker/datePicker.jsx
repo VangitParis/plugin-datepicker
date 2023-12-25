@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+
+
 import Calendar from "../Calendar/calendar";
 import "./datePicker.css";
+import { formatDate } from "../../utils/modelisation";
 
 export default function DatePicker() {
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
+
+  window.selectedDate = selectedDate;
 
   const handleDateChange = (event) => {
     // Implémente la logique pour mettre à jour la date sélectionnée
@@ -19,14 +24,10 @@ export default function DatePicker() {
     // Implémente la logique pour mettre à jour la date sélectionnée depuis le calendrier
     setSelectedDate(date);
     setShowCalendar(false);
+   
   };
 
-  const formatDate = (date) => {
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
+
 
   return (
     <main>
@@ -37,16 +38,20 @@ export default function DatePicker() {
         <input
           id="date"
           type="text"
-          placeholder="Sélectionnez une date"
+          placeholder="Select date"
           value={selectedDate ? formatDate(selectedDate) : ""}
           onChange={handleDateChange}
           onFocus={toggleCalendar}
           className="input-date"
+          data-cy="input-date"
         />
         {/* Calendrier personnalisé */}
         {showCalendar && (
+         
           <div>
+          
             <Calendar onSelect={handleCalendarDateClick} />
+            
           </div>
         )}
       </form>

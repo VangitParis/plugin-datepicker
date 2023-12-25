@@ -4,11 +4,30 @@ import "./calendar.css";
 export default function Calendar({ onSelect }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const daysInMonth = [...Array(31).keys()];
-  const months = Array.from({ length: 12 }, (_, index) => index);
+  const getFirstDayOfMonth = () => {
+    return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+  };
 
-  const handleDayClick = (day) => {
-    // Implémente la logique pour mettre à jour la date sélectionnée
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  const daysInMonth = Array.from({ length: 31 }, (_, index) => index + 1);
+
+  const getDaysInMonthWithOffset = () => {
+    const firstDayOfWeek = getFirstDayOfMonth().getDay();
+    const dayName = daysOfWeek[firstDayOfWeek];
+   
+    return [...Array(dayName).fill(null), ...daysInMonth];
+  };
+
+  const handleDateSelection = (day) => {
     const newDate = new Date(
       selectedDate.getFullYear(),
       selectedDate.getMonth(),
@@ -16,14 +35,16 @@ export default function Calendar({ onSelect }) {
     );
     if (onSelect) {
       onSelect(newDate);
+      console.log("onSelect called with:", newDate);
     }
   };
 
-  // Générer une liste d'années, par exemple, de 10 ans en arrière à 10 ans en avant
+  const months = Array.from({ length: 12 }, (_, index) => index);
+
   const currentYear = new Date().getFullYear();
   const years = Array.from(
-    { length: 21 },
-    (_, index) => currentYear - 10 + index
+    { length: 101 },
+    (_, index) => currentYear - 100 + index
   );
 
   return (
@@ -41,8 +62,8 @@ export default function Calendar({ onSelect }) {
         >
           {months.map((month) => (
             <option key={month} value={month}>
-              {new Date(2000, month, 1).toLocaleDateString("default", {
-                month: "short",
+              {new Date(2000, month, 1).toLocaleDateString("en-US", {
+                month: "long",
               })}
             </option>
           ))}
@@ -69,26 +90,27 @@ export default function Calendar({ onSelect }) {
       <div className="calendar__body">
         {/* Jours de la semaine */}
         <div className="calendar__days">
+          <div>S</div>
           <div>M</div>
           <div>T</div>
           <div>W</div>
           <div>T</div>
           <div>F</div>
           <div>S</div>
-          <div>S</div>
         </div>
         {/* Dates du mois */}
+
         <div className="calendar__dates">
           {/* Exemple de dates - À remplacer par la logique dynamique */}
-          {daysInMonth.map((day) => (
+
+          {getDaysInMonthWithOffset().map((day, index) => (
             <div
-              key={day + 1}
+              key={index}
               className="calendar__date"
-              onClick={() => handleDayClick(day + 1)}
+              onClick={() => handleDateSelection(day)}
+              data-cy="calendar-date"
             >
-              <span>
-                { day + 1}
-              </span>
+              <span data-cy="calendar-day">{day}</span>
             </div>
           ))}
         </div>
