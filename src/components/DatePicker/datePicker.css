@@ -1,11 +1,13 @@
 .main{
+    display: flex;
+    flex-direction: column;
     text-align: center;
     position: relative;
-    top: 100px;
+    top: 50px;
    
 }
 
-form{
+.form{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,5 +23,18 @@ form{
 .input-date {
     background-image: linear-gradient(to bottom, #f3f4f6, #fff);
     font-size: 1.5rem;
+    padding-right: 30px;
 }
 
+
+.input-container{
+    display: flex;
+    align-items: center;
+    
+}
+
+.calendar-icon{
+    position: relative;
+    left: -25px;
+    color: #9eb4f6;;
+}

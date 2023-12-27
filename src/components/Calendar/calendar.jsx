@@ -1,51 +1,81 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+  faHome,
+} from "@fortawesome/free-solid-svg-icons";
+
 import "./calendar.css";
 
-export default function Calendar({ onSelect }) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+export default function Calendar({ onSelect, selectedDate, onDisplayChange }) {
+  const [displayed, setDisplayedMonth] = useState(selectedDate || new Date());
+
+ 
+
+  const months = Array.from({ length: 12 }, (_, index) => index);
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: 201 },
+    (_, index) => currentYear - 100 + index
+  );
 
   const getFirstDayOfMonth = () => {
-    return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    return new Date(displayed.getFullYear(), displayed.getMonth(), 1);
   };
 
-  const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  const daysInMonth = Array.from({ length: 31 }, (_, index) => index + 1);
-
   const getDaysInMonthWithOffset = () => {
-    const firstDayOfWeek = getFirstDayOfMonth().getDay();
-    const dayName = daysOfWeek[firstDayOfWeek];
-   
-    return [...Array(dayName).fill(null), ...daysInMonth];
+    const firstDayOfMonth = getFirstDayOfMonth();
+    const firstDayOfWeek = firstDayOfMonth.getDay();
+    const daysInMonth = new Date(
+      displayed.getFullYear(),
+      displayed.getMonth() + 1,
+      0
+    ).getDate();
+
+    const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
+    const daysWithOffset = [...Array(firstDayOfWeek).fill(null), ...days];
+    return daysWithOffset;
+  };
+
+  const handleMonthChange = (offset) => {
+    const newDisplayedMonth = new Date(displayed);
+    newDisplayedMonth.setMonth(displayed.getMonth() + offset);
+    setDisplayedMonth(newDisplayedMonth);
+    if (onDisplayChange) {
+      onDisplayChange(newDisplayedMonth);
+    }
+  };
+
+  const handleHomeClick = () => {
+    const initialDate = new Date();
+    setDisplayedMonth(initialDate);
+    if (onSelect) {
+      onSelect(initialDate);
+    }
   };
 
   const handleDateSelection = (day) => {
     const newDate = new Date(
-      selectedDate.getFullYear(),
-      selectedDate.getMonth(),
+      displayed.getFullYear(),
+      displayed.getMonth(),
       day
     );
+
+    setDisplayedMonth(newDate);
+
     if (onSelect) {
       onSelect(newDate);
-      console.log("onSelect called with:", newDate);
+    }
+
+    if (onDisplayChange) {
+      onDisplayChange(newDate);
     }
   };
 
-  const months = Array.from({ length: 12 }, (_, index) => index);
-
-  const currentYear = new Date().getFullYear();
-  const years = Array.from(
-    { length: 101 },
-    (_, index) => currentYear - 100 + index
-  );
+  const isSelectedDate = (day) => {
+    return displayed && day === displayed.getDate();
+  };
 
   return (
     <div className="calendar">
@@ -53,30 +83,35 @@ export default function Calendar({ onSelect }) {
         <select
           name="calendar__month"
           id="calendar__month"
-          value={selectedDate.getMonth()}
+          value={displayed.getMonth()}
           onChange={(e) => {
-            const newMonth = new Date(selectedDate);
+            const newMonth = new Date(displayed);
             newMonth.setMonth(parseInt(e.target.value, 10));
-            setSelectedDate(newMonth);
+            setDisplayedMonth(newMonth);
+            if (onDisplayChange) {
+              onDisplayChange(newMonth);
+            }
           }}
         >
           {months.map((month) => (
             <option key={month} value={month}>
-              {new Date(2000, month, 1).toLocaleDateString("en-US", {
+              {new Date(2000, month, 1).toLocaleDateString("default", {
                 month: "long",
               })}
             </option>
           ))}
         </select>
-        {/* Sélecteur d'année */}
         <select
           name="calendar__year"
           id="calendar__year"
-          value={selectedDate.getFullYear()}
+          value={displayed.getFullYear()}
           onChange={(e) => {
-            const newYear = new Date(selectedDate);
+            const newYear = new Date(displayed);
             newYear.setFullYear(parseInt(e.target.value, 10));
-            setSelectedDate(newYear);
+            setDisplayedMonth(newYear);
+            if (onDisplayChange) {
+              onDisplayChange(newYear);
+            }
           }}
         >
           {years.map((year) => (
@@ -88,7 +123,27 @@ export default function Calendar({ onSelect }) {
       </div>
 
       <div className="calendar__body">
-        {/* Jours de la semaine */}
+        {displayed && (
+          <div className="flex-between-center">
+            <button
+              className="btn arrow-left"
+              onClick={() => handleMonthChange(-1)}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <button className="btn icon-home" onClick={handleHomeClick}>
+              <FontAwesomeIcon icon={faHome} />
+            </button>
+
+            <button
+              className="btn arrow-right"
+              onClick={() => handleMonthChange(1)}
+            >
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+          </div>
+        )}
+
         <div className="calendar__days">
           <div>S</div>
           <div>M</div>
@@ -98,15 +153,14 @@ export default function Calendar({ onSelect }) {
           <div>F</div>
           <div>S</div>
         </div>
-        {/* Dates du mois */}
 
         <div className="calendar__dates">
-          {/* Exemple de dates - À remplacer par la logique dynamique */}
-
           {getDaysInMonthWithOffset().map((day, index) => (
             <div
               key={index}
-              className="calendar__date"
+              className={`calendar__date ${
+                isSelectedDate(day) ? "selected" : ""
+              }`}
               onClick={() => handleDateSelection(day)}
               data-cy="calendar-date"
             >
