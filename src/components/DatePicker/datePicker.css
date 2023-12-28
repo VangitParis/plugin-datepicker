@@ -23,18 +23,22 @@
 .input-date {
     background-image: linear-gradient(to bottom, #f3f4f6, #fff);
     font-size: 1.5rem;
-    padding-right: 30px;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 
 .input-container{
     display: flex;
     align-items: center;
-    
+    margin-bottom: 15px;
 }
 
 .calendar-icon{
     position: relative;
     left: -25px;
-    color: #9eb4f6;;
+    color: #9eb4f6;
+    font-size: 1.3rem;
+    cursor: pointer;
 }
+

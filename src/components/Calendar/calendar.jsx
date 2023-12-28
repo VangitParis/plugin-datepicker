@@ -94,8 +94,8 @@ export default function Calendar({ onSelect, selectedDate, onDisplayChange }) {
           }}
         >
           {months.map((month) => (
-            <option key={month} value={month}>
-              {new Date(2000, month, 1).toLocaleDateString("default", {
+            <option key={month} value={month} data-cy="calendar-month-option">
+              {new Date(2000, month, 1).toLocaleDateString("en-US", {
                 month: "long",
               })}
             </option>
@@ -127,16 +127,21 @@ export default function Calendar({ onSelect, selectedDate, onDisplayChange }) {
           <div className="flex-between-center">
             <button
               className="btn arrow-left"
+              data-cy="arrow-left"
               onClick={() => handleMonthChange(-1)}
             >
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
-            <button className="btn icon-home" onClick={handleHomeClick}>
+            <button
+              className="btn icon-home"
+              data-cy="icon-home"
+              onClick={handleHomeClick}>
               <FontAwesomeIcon icon={faHome} />
             </button>
 
             <button
               className="btn arrow-right"
+              data-cy="arrow-right"
               onClick={() => handleMonthChange(1)}
             >
               <FontAwesomeIcon icon={faChevronRight} />
@@ -164,7 +169,7 @@ export default function Calendar({ onSelect, selectedDate, onDisplayChange }) {
               onClick={() => handleDateSelection(day)}
               data-cy="calendar-date"
             >
-              <span data-cy="calendar-day">{day}</span>
+              <span className="calendar-day" data-cy="calendar-day">{day}</span>
             </div>
           ))}
         </div>

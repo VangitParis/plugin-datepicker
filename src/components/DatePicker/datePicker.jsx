@@ -16,24 +16,6 @@ export default function DatePicker() {
       setDateInput(formatDate(selectedDate));
     }
   }, [selectedDate]);
- 
-  //TO DO
-  const handleDateChange = (event) => {
-    const inputValue = event.target.value;
-  
-    // Vérifier si la saisie est une date valide
-    const parsedDate = parseDateInput(inputValue);
-  
-    // Si la saisie n'est pas valide, effacer la sélection
-    if (!parsedDate) {
-      setSelectedDate(null);
-    }
-  
-    // Mettre à jour l'entrée avec la valeur formatée
-    setDateInput(parsedDate ? formatDate(parsedDate) : inputValue);
-  };
-  
-  
 
   const toggleCalendar = () => {
     setShowCalendar(!showCalendar);
@@ -50,16 +32,30 @@ export default function DatePicker() {
     setDateInput(formatDate(newDisplayedDate));
   };
 
+  //TO DO
+  const handleDateChange = (event) => {
+    const inputValue = event.target.value;
+    setDateInput(inputValue);
+    const newDate = parseDateInput(inputValue);
 
+    if (newDate && !isNaN(newDate.getTime())) {
+      setSelectedDate(newDate);
+    }
+  };
 
-  const handleKeyPress = (event) => {
-    // Vérifier si la touche saisie est un chiffre, le caractère "/", ou la touche de suppression (Backspace)
-    const isValidInput = /^[0-9/]*$/.test(event.key) || event.key === 'Backspace';
-  
-    // Si la saisie n'est pas valide, empêcher l'événement par défaut
-    if (!isValidInput) {
-      event.preventDefault();
-      return '';
+  const handleKeyPress = (event) =>{
+
+    if (event.key === "Enter") {
+      console.log('enter');
+      const parsedDate = parseDateInput(dateInput);
+
+      if (parsedDate) {
+        setSelectedDate(parsedDate);
+        setShowCalendar(true); // Afficher le calendrier
+      } else {
+        // Si la saisie n'est pas une date valide, empêcher l'événement par défaut
+        event.preventDefault();
+      }
     }
   };
 
@@ -78,25 +74,24 @@ export default function DatePicker() {
             onChange={(e) => setDateInput(e.target.value)}
             onBlur={handleDateChange}
             onFocus={toggleCalendar}
-            onKeyPress={handleKeyPress} 
+            onKeyDown={handleKeyPress}
             className="input-date"
             data-cy="input-date"
           />
           <FontAwesomeIcon
             icon={faCalendarDay}
             className="calendar-icon"
+            data-cy={"calendar-icon"}
             onClick={toggleCalendar}
           ></FontAwesomeIcon>
         </div>
         {/* Calendrier personnalisé */}
         {showCalendar && (
-          <div>
-            <Calendar
-              selectedDate={selectedDate}
-              onSelect={handleCalendarDateClick}
-              onDisplayChange={handleDisplayChange}
-            />
-          </div>
+          <Calendar
+            selectedDate={selectedDate}
+            onSelect={handleCalendarDateClick}
+            onDisplayChange={handleDisplayChange}
+          />
         )}
       </div>
     </main>

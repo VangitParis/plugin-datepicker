@@ -5,7 +5,7 @@ import Calendar from "../Calendar/calendar";
 import { formatDate } from "../../utils/modelisation";
 
 describe("<DatePicker />", () => {
-  it("renders", () => {
+  it("renders and selects a date", () => {
     // see: https://on.cypress.io/mounting-react
     cy.mount(<DatePicker />);
   });
@@ -14,13 +14,11 @@ describe("<DatePicker />", () => {
     cy.mount(<DatePicker />);
 
     // input was empty
-    cy.get(".input-date").should("have.value", "");
+    cy.get(".calendar-icon").should("have.value", "");
 
     // click to input
-    cy.get(".input-date").click();
+    cy.get(".calendar-icon").click();
 
-    // Show Calendar component
-    cy.mount(<Calendar />);
 
     // onSelect date month
     cy.get("select#calendar__month").select("0");
@@ -32,26 +30,23 @@ describe("<DatePicker />", () => {
     // onSelect date year
     cy.get("select#calendar__year").select("2000");
     cy.get("select#calendar__year option:selected").should(
-      "have.value",
-      "2000"
-    );
+      'have.value', "2000");
 
-    // onSelect date day
+    // onSelect date into calendar day
     cy.get('[data-cy="calendar-date"]').should('not.have.value', 'Jane')
-    cy.get('[data-cy="calendar-date"]').eq(27).click();
 
+    cy.get('[data-cy="calendar-date"]').contains('27').click();
 
-
+    // show date into input
+    cy.get('[data-cy="input-date"]').should('have.value', '27/01/2000')
     
-
+    
+     // Show date selected into log console 
     cy.get('[data-cy="input-date"]').invoke('val').then((selectedDate) => {
       console.log('Selected Date:', selectedDate);
     });
-
-    cy.window().should('have.property', 'selectedDate').and('not.be.null');
-
-    // const expectedDate = cy.get('[data-cy=".input-date"]');
-    //   cy.log(formatDate(expectedDate))
     
   });
+
+  
 });
