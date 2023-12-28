@@ -11,8 +11,6 @@ import "./calendar.css";
 export default function Calendar({ onSelect, selectedDate, onDisplayChange }) {
   const [displayed, setDisplayedMonth] = useState(selectedDate || new Date());
 
- 
-
   const months = Array.from({ length: 12 }, (_, index) => index);
   const currentYear = new Date().getFullYear();
   const years = Array.from(
@@ -135,7 +133,8 @@ export default function Calendar({ onSelect, selectedDate, onDisplayChange }) {
             <button
               className="btn icon-home"
               data-cy="icon-home"
-              onClick={handleHomeClick}>
+              onClick={handleHomeClick}
+            >
               <FontAwesomeIcon icon={faHome} />
             </button>
 
@@ -169,7 +168,9 @@ export default function Calendar({ onSelect, selectedDate, onDisplayChange }) {
               onClick={() => handleDateSelection(day)}
               data-cy="calendar-date"
             >
-              <span className="calendar-day" data-cy="calendar-day">{day}</span>
+              <span className="calendar-day" data-cy="calendar-day">
+                {day}
+              </span>
             </div>
           ))}
         </div>

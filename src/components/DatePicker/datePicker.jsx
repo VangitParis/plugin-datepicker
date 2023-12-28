@@ -21,18 +21,20 @@ export default function DatePicker() {
     setShowCalendar(!showCalendar);
   };
 
+  // Fonction lorque su'on clique sur une date, affiche dans l'input et ferme le calendrier
   const handleCalendarDateClick = (date) => {
     setSelectedDate(date);
     setDateInput(formatDate(date));
     setShowCalendar(false);
   };
 
+  // Affiche le changement de date 
   const handleDisplayChange = (newDisplayedDate) => {
     setSelectedDate(newDisplayedDate);
     setDateInput(formatDate(newDisplayedDate));
   };
 
-  //TO DO
+ // Fonction pour modifier la date initiale
   const handleDateChange = (event) => {
     const inputValue = event.target.value;
     setDateInput(inputValue);
@@ -43,11 +45,18 @@ export default function DatePicker() {
     }
   };
 
-  const handleKeyPress = (event) =>{
+  // TO-DO //
+  // Quand la touche 'ENTRER' est pressée ouvrir le calendrier et afficher la date saisie
+  const handleKeyPress = (event) => {
+    //Empêcher la saisie de caractères spéciaux ou alphabétiques 
+    // avec une regex
+    // TO-DO
 
     if (event.key === "Enter") {
       console.log('enter');
-      const parsedDate = parseDateInput(dateInput);
+      const inputValue = event.target.value;
+    setDateInput(inputValue);
+    const parsedDate = parseDateInput(inputValue);
 
       if (parsedDate) {
         setSelectedDate(parsedDate);
