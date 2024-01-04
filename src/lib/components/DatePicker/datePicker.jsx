@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Calendar from "../Calendar/calendar";
-import { formatDate, parseDateInput } from "../../../utils/modelisation";
+import { formatDate, parseDateInput } from "../../utils/modelisation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import "./datePicker.css";

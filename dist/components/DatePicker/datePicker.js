@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = DatePicker;
 var _react = _interopRequireWildcard(require("react"));
 var _calendar = _interopRequireDefault(require("../Calendar/calendar"));
-var _modelisation = require("../../../utils/modelisation");
+var _modelisation = require("../../utils/modelisation");
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
 require("./datePicker.css");
