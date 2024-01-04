@@ -43,7 +43,8 @@ export default App;
 - language (string, optional): The language for the date picker. Defaults to "en".
 - font (string, optional): The font style for the input.
 - fontSize (string, optional): The font size for the input.
-- Features
+
+## Features
 - Easy date selection with a built-in calendar.
 - Customizable appearance with various styling options.
 - Supports different date formats and languages.
