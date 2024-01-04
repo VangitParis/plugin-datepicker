@@ -166,7 +166,7 @@ export default function Calendar({
       onDisplayChange(newDate);
     }
 
-    // Updtae year and month of the input
+    // Update year and month of the input
     yearSelectRef.current.value = selectedYear;
     monthSelectRef.current.value = selectedMonth;
 

@@ -7,12 +7,15 @@ A flexible and customizable React DatePicker component with a built-in calendar 
 To install the DatePicker component, use npm or yarn:
 
 ```bash
-npm install plugin-datepicker
+npm install plugin-datepicker --save
+```
+
 
 ### Usage
+
 Import the DatePicker component in your React application and use it as follows:
 
-
+```bash
 import React from 'react';
 import DatePicker from 'plugin-datepicker';
 

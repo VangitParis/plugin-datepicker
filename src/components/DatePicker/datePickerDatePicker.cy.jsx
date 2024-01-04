@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import React from "react";
 import DatePicker from "./datePicker";
-import { formatDate } from "../../utils/modelisation";
 
 describe("<DatePicker />", () => {
   it("renders and selects a date", () => {

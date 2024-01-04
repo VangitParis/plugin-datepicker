@@ -7,13 +7,7 @@ import "./datePicker.css";
 
 /**
  * React component for a date picker.
- * @param {number} minYear - The minimum allowed year for selection.
- * @param {number} maxYear - The maximum allowed year for selection.
- * @param {string} customClass - Additional custom class for styling.
- * @param {string} dateFormat - The format in which the date should be displayed.
- * @param {string} language - The language for the date picker.
- * @param {string} font - The font style for the input.
- * @param {string} fontSize - The font size for the input.
+ * @param {{minYear : number, maxYear: number, customClass: string, dateFormat:string, dateFormat:string, language:string,font:string, fontSize:string }}
  */
 export default function DatePicker({
   minYear,
