@@ -1,0 +1,44 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    top: 50px;
+   
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.label-date{
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+
+}
+
+.input-date {
+    background-image: linear-gradient(to bottom, #f3f4f6, #fff);
+    font-size: 1.5rem;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+.input-container{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.calendar-icon{
+    position: relative;
+    left: -25px;
+    color: #9eb4f6;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
