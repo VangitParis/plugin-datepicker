@@ -9,10 +9,10 @@
       padding: 15px 20px;
       font-size: 1rem;
       font-weight: bold;
-      background-color: #9eb4f6;
+      background-color: #284bbd;
 }
 .focused:focus{
-  border: 2px solid #1752ff;
+  border: 2px solid orange;
 }
   
 .calendar__opts, .calendar__buttons {
@@ -155,7 +155,7 @@ background-position: calc(100% - var(--side-padding)) center;
     
 
 .btn{
-  background-color:#9eb4f6;
+  background-color:#284bbd;
   color: white;
   font-weight: bold;
   font-size: 0.7rem;
@@ -163,10 +163,10 @@ background-position: calc(100% - var(--side-padding)) center;
 }
 
   .arrow-left{
-    background-color:#9eb4f6;
+    background-color:#284bbd;
   }
   .arrow-right{
-    background-color: #9eb4f6;
+    background-color: #284bbd;
   }
 
   .flex-between-center{
@@ -176,7 +176,7 @@ background-position: calc(100% - var(--side-padding)) center;
   }
 
   .calendar__date.selected::before{
-    background-color: #9eb4f6;
+    background-color: #284bbd;
   }
 
   
