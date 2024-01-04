@@ -60,7 +60,7 @@ https://github.com/VangitParis/plugin-datepicker.git
 
 - Install dependencies: 
 ```bash
-cd your-react-datepicker-repo
+cd plugin-datepicker
 npm install
 ```
 - Start the server
