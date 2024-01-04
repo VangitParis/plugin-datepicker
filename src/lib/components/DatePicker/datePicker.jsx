@@ -3,6 +3,7 @@ import Calendar from "../Calendar/calendar";
 import { formatDate, parseDateInput } from "../../utils/modelisation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
+import DatePickerInput from "../DatePickerInput/datePickerInput";
 import "./datePicker.css";
 
 /**
@@ -126,20 +127,15 @@ export default function DatePicker({
         </label>
         <div className="input-container">
           {/* Input element for date selection */}
-          <input
-            ref={inputRef}
-            id="date"
-            type="datetime"
-            placeholder="Select date"
-            value={dateInput}
-            onChange={(e) => setDateInput(e.target.value)}
-            onBlur={handleDateChange}
-            onKeyDown={handleKeyPress}
-            style={inputStyle}
-            className="input-date"
-            data-cy="input-date"
-            autoFocus={showCalendar}
-          />
+          <DatePickerInput
+  dateInput={dateInput}
+  onChange={handleDateChange}
+  onBlur={handleDateChange}
+  onKeyDown={handleKeyPress}
+  inputStyle={inputStyle}
+  showCalendar={showCalendar}
+  inputRef={inputRef}
+/>
           {/* Calendar icon for opening/closing the calendar */}
           <FontAwesomeIcon
             icon={faCalendarDay}

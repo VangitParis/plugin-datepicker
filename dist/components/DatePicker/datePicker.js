@@ -9,6 +9,7 @@ var _calendar = _interopRequireDefault(require("../Calendar/calendar"));
 var _modelisation = require("../../utils/modelisation");
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
+var _datePickerInput = _interopRequireDefault(require("../DatePickerInput/datePickerInput"));
 require("./datePicker.css");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
@@ -134,19 +135,14 @@ function DatePicker(_ref) {
     className: "label-date"
   }, "Select your favorite date"), /*#__PURE__*/_react.default.createElement("div", {
     className: "input-container"
-  }, /*#__PURE__*/_react.default.createElement("input", {
-    ref: inputRef,
-    id: "date",
-    type: "datetime",
-    placeholder: "Select date",
-    value: dateInput,
-    onChange: e => setDateInput(e.target.value),
+  }, /*#__PURE__*/_react.default.createElement(_datePickerInput.default, {
+    dateInput: dateInput,
+    onChange: handleDateChange,
     onBlur: handleDateChange,
     onKeyDown: handleKeyPress,
-    style: inputStyle,
-    className: "input-date",
-    "data-cy": "input-date",
-    autoFocus: showCalendar
+    inputStyle: inputStyle,
+    showCalendar: showCalendar,
+    inputRef: inputRef
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",
