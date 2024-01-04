@@ -119,23 +119,18 @@ export default function DatePicker({
 
   // JSX for rendering the component
   return (
-    <main className={`main ${customClass}`}>
-      <div className="form">
-        {/* Label for the date input */}
-        <label htmlFor="date" aria-label="date" className="label-date">
-          Select your favorite date
-        </label>
+    <>
         <div className="input-container">
           {/* Input element for date selection */}
           <DatePickerInput
-  dateInput={dateInput}
-  onChange={handleDateChange}
-  onBlur={handleDateChange}
-  onKeyDown={handleKeyPress}
-  inputStyle={inputStyle}
-  showCalendar={showCalendar}
-  inputRef={inputRef}
-/>
+            dateInput={dateInput}
+            onChange={handleDateChange}
+            onBlur={handleDateChange}
+            onKeyDown={handleKeyPress}
+            inputStyle={inputStyle}
+            showCalendar={showCalendar}
+            inputRef={inputRef}
+          />
           {/* Calendar icon for opening/closing the calendar */}
           <FontAwesomeIcon
             icon={faCalendarDay}
@@ -143,14 +138,12 @@ export default function DatePicker({
             data-cy={"calendar-icon"}
             onClick={toggleCalendar}
             onFocus={toggleCalendar}
-          ></FontAwesomeIcon>
-        </div>
-
+      ></FontAwesomeIcon>
         {/* Display error message if there is an error */}
         {errorMessage !== null && (
           <p className="error-message">{errorMessage}</p>
         )}
-
+   </div>
         {/* Custom calendar component */}
         {showCalendar && (
           <Calendar
@@ -165,7 +158,8 @@ export default function DatePicker({
             tabIndex={0}
           />
         )}
-      </div>
-    </main>
+     </>
+  
+    
   );
 }

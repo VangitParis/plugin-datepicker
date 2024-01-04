@@ -125,15 +125,7 @@ function DatePicker(_ref) {
   };
 
   // JSX for rendering the component
-  return /*#__PURE__*/_react.default.createElement("main", {
-    className: "main ".concat(customClass)
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "form"
-  }, /*#__PURE__*/_react.default.createElement("label", {
-    htmlFor: "date",
-    "aria-label": "date",
-    className: "label-date"
-  }, "Select your favorite date"), /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "input-container"
   }, /*#__PURE__*/_react.default.createElement(_datePickerInput.default, {
     dateInput: dateInput,
@@ -149,9 +141,9 @@ function DatePicker(_ref) {
     "data-cy": "calendar-icon",
     onClick: toggleCalendar,
     onFocus: toggleCalendar
-  })), errorMessage !== null && /*#__PURE__*/_react.default.createElement("p", {
+  }), errorMessage !== null && /*#__PURE__*/_react.default.createElement("p", {
     className: "error-message"
-  }, errorMessage), showCalendar && /*#__PURE__*/_react.default.createElement(_calendar.default, {
+  }, errorMessage)), showCalendar && /*#__PURE__*/_react.default.createElement(_calendar.default, {
     selectedDate: selectedDate,
     onSelect: handleCalendarDateClick,
     onDisplayChange: handleDisplayChange,
@@ -163,5 +155,5 @@ function DatePicker(_ref) {
       selectClass: "custom-select-class"
     },
     tabIndex: 0
-  })));
+  }));
 }
