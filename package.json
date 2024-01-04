@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "your-build-script",
-    "publish": "npm publish",
+    "publish": "npm version patch && npm publish",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open"
