@@ -1,6 +1,6 @@
 {
   "name": "plugin-datepicker",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A versatile and customizable React DatePicker component with an integrated calendar for easy date selection.",
   "main": "dist/index.js",
   "module": "dist/index.js",
