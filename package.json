@@ -1,9 +1,14 @@
 {
   "name": "plugin-datepicker",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "description": "A versatile and customizable React DatePicker component with an integrated calendar for easy date selection.",
+  "main": "dist/index.js", 
+  "module": "dist/index.js",
+  
+  "keywords": ["datepicker", "date-picker", "calendar", "react-datepicker", "input", "form", "date-selection"],
+  "author": {"name":"vangit"},
   "private": true,
   "dependencies": {
-    
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
