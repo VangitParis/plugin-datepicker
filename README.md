@@ -53,3 +53,19 @@ export default App;
 # Development
 If you want to contribute or modify the DatePicker component, follow these steps:
 - Clone the repository 
+```bash
+https://github.com/VangitParis/plugin-datepicker.git
+```
+
+- Install dependencies: 
+```bash
+cd your-react-datepicker-repo
+npm install
+```
+- Start the server
+```bash
+npm start
+```
+
+
+
