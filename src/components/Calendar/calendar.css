@@ -4,14 +4,16 @@
     --accent-br: 15px; 
     width: 400px;
 }
-.calendar select {
+.default-select-class {
       color: #f3f4f6;
       padding: 15px 20px;
       font-size: 1rem;
       font-weight: bold;
       background-color: #9eb4f6;
 }
-
+.focused:focus{
+  border: 2px solid #1752ff;
+}
   
 .calendar__opts, .calendar__buttons {
       background-color: #fff;
@@ -148,7 +150,9 @@
     background-size: 24px;
     background-repeat: no-repeat;
 background-position: calc(100% - var(--side-padding)) center;
+
     }
+    
 
 .btn{
   background-color:#9eb4f6;
@@ -175,5 +179,4 @@ background-position: calc(100% - var(--side-padding)) center;
     background-color: #9eb4f6;
   }
 
-  
   

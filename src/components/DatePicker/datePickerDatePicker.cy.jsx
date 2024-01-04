@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import React from "react";
 import DatePicker from "./datePicker";
-import Calendar from "../Calendar/calendar";
 import { formatDate } from "../../utils/modelisation";
 
 describe("<DatePicker />", () => {
@@ -14,7 +13,7 @@ describe("<DatePicker />", () => {
     cy.mount(<DatePicker />);
 
     // input was empty
-    cy.get(".calendar-icon").should("have.value", "");
+    cy.get(".input-date").should("have.value", "");
 
     // click to input
     cy.get(".calendar-icon").click();
