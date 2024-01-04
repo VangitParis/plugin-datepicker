@@ -14,7 +14,7 @@ Import the DatePicker component in your React application and use it as follows:
 
 
 import React from 'react';
-import DatePicker from 'your-react-datepicker-package-name';
+import DatePicker from 'plugin-datepicker';
 
 function App() {
   return (
