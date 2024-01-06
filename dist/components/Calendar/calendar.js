@@ -1,3 +1,5 @@
+/* eslint-disable no-func-assign */
+
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
