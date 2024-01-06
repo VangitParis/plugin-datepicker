@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import React from "react";
 import DatePicker from "./datePicker";
-import Calendar from "../Calendar/calendar";
 import { formatDate } from "../../utils/modelisation";
 
 describe("<DatePicker />", () => {
@@ -41,10 +40,10 @@ describe("<DatePicker />", () => {
     cy.get("select#calendar__year option:selected").should("have.value", "2000");
 
     // Select the date in the calendar
-    cy.get('[data-cy="calendar-date"]').contains("27").click();
+    cy.get('[data-cy="calendar-date"]').contains("1").click();
 
     // Access the input-date within the DatePicker component
-    cy.get('[data-cy="input-date"]').should("have.value", "27/01/2000");
+    cy.get('[data-cy="input-date"]').should("have.value", "01/01/2000");
 
     // Display the selected date in the console along with the initial value
     cy.get("@initialValue").then((initialValue) => {
