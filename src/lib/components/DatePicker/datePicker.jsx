@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import Calendar from "../Calendar/calendar";
-import { formatDate, parseDateInput } from "../../utils/modelisation";
+import Calendar from "../Calendar/calendar.jsx";
+import { formatDate, parseDateInput } from "../../utils/modelisation.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
-import DatePickerInput from "../DatePickerInput/datePickerInput";
 import "./datePicker.css";
 
 /**
@@ -13,11 +12,15 @@ import "./datePicker.css";
 export default function DatePicker({
   minYear,
   maxYear,
-  customClass,
+  inputClassName,
   dateFormat,
   language,
   font,
   fontSize,
+  backgroundColor,
+  color,
+  width,
+  height,
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
@@ -73,13 +76,13 @@ export default function DatePicker({
    * Handles the change of the input date, parses the input and updates the state accordingly.
    * @param {Event} event - The input change event.
    */
-  const handleDateChange = (event) => {
-    const inputValue = event.target.value;
+  const handleDateChange = (inputValue) => {
+    setDateInput(inputValue);
+
     const newDate = parseDateInput(inputValue);
 
     if (newDate && !isNaN(newDate.getTime())) {
       setSelectedDate(newDate);
-      setDateInput(formatDate(newDate));
       setShowCalendar(true);
       setErrorMessage("");
     } else {
@@ -88,12 +91,16 @@ export default function DatePicker({
     }
   };
 
+  const handleBlur = () => {
+    handleDateChange(dateInput);
+  };
+
   /**
    * Handles key press events, opens the calendar and displays the entered date on 'Enter'.
    * @param {Event} event - The key press event.
    */
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
+  const handleKeyPress = (e) => {
+    if (e.code === "Enter") {
       const parsedDate = parseDateInput(dateInput);
 
       if (parsedDate && !isNaN(parsedDate.getTime())) {
@@ -101,12 +108,12 @@ export default function DatePicker({
         setShowCalendar(true);
         setErrorMessage("");
       } else {
-        event.preventDefault();
+        e.preventDefault();
         setShowCalendar(false);
         setErrorMessage("Invalid date format");
       }
     }
-    if (event.key === "Escape") {
+    if (e.code === "Escape") {
       setShowCalendar(false);
     }
   };
@@ -115,51 +122,56 @@ export default function DatePicker({
   const inputStyle = {
     fontFamily: font,
     fontSize: fontSize,
+    backgroundColor: backgroundColor,
+    width,
+    color,
+    height,
   };
 
   // JSX for rendering the component
   return (
     <>
-        <div className="input-container">
-          {/* Input element for date selection */}
-          <DatePickerInput
-            dateInput={dateInput}
-            onChange={handleDateChange}
-            onBlur={handleDateChange}
-            onKeyDown={handleKeyPress}
-            inputStyle={inputStyle}
-            showCalendar={showCalendar}
-            inputRef={inputRef}
-          />
-          {/* Calendar icon for opening/closing the calendar */}
-          <FontAwesomeIcon
-            icon={faCalendarDay}
-            className="calendar-icon"
-            data-cy={"calendar-icon"}
-            onClick={toggleCalendar}
-            onFocus={toggleCalendar}
-      ></FontAwesomeIcon>
-        {/* Display error message if there is an error */}
-        {errorMessage !== null && (
-          <p className="error-message">{errorMessage}</p>
-        )}
-   </div>
-        {/* Custom calendar component */}
-        {showCalendar && (
-          <Calendar
-            selectedDate={selectedDate}
-            onSelect={handleCalendarDateClick}
-            onDisplayChange={handleDisplayChange}
-            onKeyPress={handleKeyPress}
-            minYear={minYear}
-            maxYear={maxYear}
-            language={language}
-            customStyles={{ selectClass: "custom-select-class" }}
-            tabIndex={0}
-          />
-        )}
-     </>
-  
-    
+      <div className="input-container">
+        {/* Input element for date selection */}
+        <input
+          ref={inputRef}
+          id="date"
+          type="datetime"
+          placeholder="Select date"
+          value={dateInput}
+          onChange={(e) => handleDateChange(e.target.value)}
+          onBlur={() => handleBlur}
+          onKeyDown={handleKeyPress}
+          style={inputStyle}
+          className={`input-date ${inputClassName}`}
+          autoFocus={showCalendar}
+          data-cy="input-date"
+        />
+        {/* Calendar icon for opening/closing the calendar */}
+        <FontAwesomeIcon
+          icon={faCalendarDay}
+          className="calendar-icon"
+          data-cy={"calendar-icon"}
+          onClick={toggleCalendar}
+          onFocus={toggleCalendar}
+        ></FontAwesomeIcon>
+      </div>
+      {/* Display error message if there is an error */}
+      {errorMessage !== null && <p className="error-message">{errorMessage}</p>}
+      {/* Custom calendar component */}
+      {showCalendar && (
+        <Calendar
+          selectedDate={selectedDate}
+          onSelect={handleCalendarDateClick}
+          onDisplayChange={handleDisplayChange}
+          onKeyPress={handleKeyPress}
+          minYear={minYear}
+          maxYear={maxYear}
+          language={language}
+          customStyles={{ selectClass: "custom-select-class" }}
+          tabIndex={0}
+        />
+      )}
+    </>
   );
 }

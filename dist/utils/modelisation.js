@@ -12,18 +12,21 @@ const formatDate = date => {
 };
 
 // Fonction pour convertir une chaîne de date en instance de Date
-//TODO try/catch
 exports.formatDate = formatDate;
 const parseDateInput = input => {
-  const parts = input.split("/");
-  if (parts.length === 3) {
-    const day = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1;
-    const year = parseInt(parts[2], 10);
-    if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-      return new Date(year, month, day);
+  try {
+    const parts = input.split("/");
+    if (parts.length === 3) {
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const year = parseInt(parts[2], 10);
+      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+        return new Date(year, month, day);
+      }
     }
+    return null;
+  } catch (error) {
+    console.error("Error in parseDateInput:", error);
   }
-  return null;
 };
 exports.parseDateInput = parseDateInput;

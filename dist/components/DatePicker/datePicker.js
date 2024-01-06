@@ -5,11 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = DatePicker;
 var _react = _interopRequireWildcard(require("react"));
-var _calendar = _interopRequireDefault(require("../Calendar/calendar"));
-var _modelisation = require("../../utils/modelisation");
+var _calendar = _interopRequireDefault(require("../Calendar/calendar.jsx"));
+var _modelisation = require("../../utils/modelisation.js");
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
-var _datePickerInput = _interopRequireDefault(require("../DatePickerInput/datePickerInput"));
 require("./datePicker.css");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
@@ -22,11 +21,15 @@ function DatePicker(_ref) {
   let {
     minYear,
     maxYear,
-    customClass,
+    inputClassName,
     dateFormat,
     language,
     font,
-    fontSize
+    fontSize,
+    backgroundColor,
+    color,
+    width,
+    height
   } = _ref;
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = (0, _react.useState)("");
@@ -82,12 +85,11 @@ function DatePicker(_ref) {
    * Handles the change of the input date, parses the input and updates the state accordingly.
    * @param {Event} event - The input change event.
    */
-  const handleDateChange = event => {
-    const inputValue = event.target.value;
+  const handleDateChange = inputValue => {
+    setDateInput(inputValue);
     const newDate = (0, _modelisation.parseDateInput)(inputValue);
     if (newDate && !isNaN(newDate.getTime())) {
       setSelectedDate(newDate);
-      setDateInput((0, _modelisation.formatDate)(newDate));
       setShowCalendar(true);
       setErrorMessage("");
     } else {
@@ -95,25 +97,28 @@ function DatePicker(_ref) {
       setErrorMessage("Invalid date format");
     }
   };
+  const handleBlur = () => {
+    handleDateChange(dateInput);
+  };
 
   /**
    * Handles key press events, opens the calendar and displays the entered date on 'Enter'.
    * @param {Event} event - The key press event.
    */
-  const handleKeyPress = event => {
-    if (event.key === "Enter") {
+  const handleKeyPress = e => {
+    if (e.code === "Enter") {
       const parsedDate = (0, _modelisation.parseDateInput)(dateInput);
       if (parsedDate && !isNaN(parsedDate.getTime())) {
         setSelectedDate(parsedDate);
         setShowCalendar(true);
         setErrorMessage("");
       } else {
-        event.preventDefault();
+        e.preventDefault();
         setShowCalendar(false);
         setErrorMessage("Invalid date format");
       }
     }
-    if (event.key === "Escape") {
+    if (e.code === "Escape") {
       setShowCalendar(false);
     }
   };
@@ -121,29 +126,38 @@ function DatePicker(_ref) {
   // Style for the input element
   const inputStyle = {
     fontFamily: font,
-    fontSize: fontSize
+    fontSize: fontSize,
+    backgroundColor: backgroundColor,
+    width,
+    color,
+    height
   };
 
   // JSX for rendering the component
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "input-container"
-  }, /*#__PURE__*/_react.default.createElement(_datePickerInput.default, {
-    dateInput: dateInput,
-    onChange: handleDateChange,
-    onBlur: handleDateChange,
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    ref: inputRef,
+    id: "date",
+    type: "datetime",
+    placeholder: "Select date",
+    value: dateInput,
+    onChange: e => handleDateChange(e.target.value),
+    onBlur: () => handleBlur,
     onKeyDown: handleKeyPress,
-    inputStyle: inputStyle,
-    showCalendar: showCalendar,
-    inputRef: inputRef
+    style: inputStyle,
+    className: "input-date ".concat(inputClassName),
+    autoFocus: showCalendar,
+    "data-cy": "input-date"
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",
     "data-cy": "calendar-icon",
     onClick: toggleCalendar,
     onFocus: toggleCalendar
-  }), errorMessage !== null && /*#__PURE__*/_react.default.createElement("p", {
+  })), errorMessage !== null && /*#__PURE__*/_react.default.createElement("p", {
     className: "error-message"
-  }, errorMessage)), showCalendar && /*#__PURE__*/_react.default.createElement(_calendar.default, {
+  }, errorMessage), showCalendar && /*#__PURE__*/_react.default.createElement(_calendar.default, {
     selectedDate: selectedDate,
     onSelect: handleCalendarDateClick,
     onDisplayChange: handleDisplayChange,

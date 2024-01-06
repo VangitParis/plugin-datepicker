@@ -40,13 +40,8 @@
     "eject": "react-scripts eject",
     "build": "rm -rf dist && babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
     "cypress:open": "cypress open",
-    "publish": "npm publish"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "publish": "npm publish",
+    "lint": "eslint ."
   },
   "browserslist": {
     "production": [
@@ -69,6 +64,10 @@
     "@babel/preset-react": "^7.23.3",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.1.0",
+    "cypress": "^13.6.2",
+    "eslint": "^8.56.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react": "^7.33.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",

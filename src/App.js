@@ -1,5 +1,5 @@
 import React from "react";
-import DatePicker from "./lib/components/DatePicker/datePicker";
+import DatePicker from "./lib/components/DatePicker/datePicker.jsx";
 import './App.css';
 
 function App({customClass}) {
@@ -17,7 +17,7 @@ function App({customClass}) {
             dateFormat="yyyy/MM/dd"
             language={"en-EN"}
             font="Roboto, sans-serif"
-            fontSize="18px"
+            fontSize="16px"
               />
         </div>
       </main>

@@ -7,8 +7,9 @@ export const formatDate = (date) => {
   
 
 // Fonction pour convertir une chaîne de date en instance de Date
-//TODO try/catch
+
 export const parseDateInput = (input) => {
+  try {
     const parts = input.split("/");
     if (parts.length === 3) {
       const day = parseInt(parts[0], 10);
@@ -20,5 +21,9 @@ export const parseDateInput = (input) => {
       }
     }
     return null;
+  } catch (error) {
+    console.error("Error in parseDateInput:", error);
+    
+  }
 };
   

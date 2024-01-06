@@ -50,7 +50,10 @@ function Calendar(_ref) {
   // Interval of years based on minYear and maxYear properties
   const years = Array.from({
     length: maxYear - minYear + 1
-  }, (_, index) => minYear + index);
+  }, (_, index) => {
+    const year = minYear + index;
+    return year;
+  });
 
   /**
    * Get the first day of the displayed month.
@@ -67,14 +70,19 @@ function Calendar(_ref) {
    * @returns {number[]} The days of the month with offset.
    */
   const getDaysInMonthWithOffset = () => {
-    const firstDayOfMonth = getFirstDayOfMonth();
-    const firstDayOfWeek = firstDayOfMonth.getDay();
-    const daysInMonth = new Date(displayed.getFullYear(), displayed.getMonth() + 1, 0).getDate();
-    const days = Array.from({
-      length: daysInMonth
-    }, (_, index) => index + 1);
-    const daysWithOffset = [...Array(firstDayOfWeek).fill(null), ...days];
-    return daysWithOffset;
+    try {
+      const firstDayOfMonth = getFirstDayOfMonth();
+      const firstDayOfWeek = firstDayOfMonth.getDay();
+      const daysInMonth = new Date(displayed.getFullYear(), displayed.getMonth() + 1, 0).getDate();
+      const days = Array.from({
+        length: daysInMonth
+      }, (_, index) => index + 1);
+      const daysWithOffset = [...Array(firstDayOfWeek).fill(null), ...days];
+      return daysWithOffset;
+    } catch (error) {
+      console.error("Error in getDaysInMonthWithOffset:", error);
+      return [];
+    }
   };
 
   /**

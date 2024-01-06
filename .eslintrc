@@ -1,4 +1,43 @@
-{
-    "extends": "react-app"
+
+
+  {
+    "settings": {
+      "version": "detect",
+      "react": {
+        "version": "detect"
+      }
+    },
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "sourceType": "module"
+    },
+    "plugins": [
+      "react"
+    ],
+    "overrides": [
+      {
+        "files": ["cypress/**/*.js"],
+        "rules":{}
+      }
+      ],
+    "rules": {
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
+      "react/prop-types": "off"
+    }
   }
+
+  
   
