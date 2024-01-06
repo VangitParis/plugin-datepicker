@@ -4,11 +4,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.parseDateInput = exports.formatDate = void 0;
-const formatDate = date => {
+/**
+ * Format a date according to the specified format.
+ * Default format is 'dd/MM/yyyy'.
+ * @param {Date} date - The date to format.
+ * @param {string} format - The format to apply.
+ * @returns {string} The formatted date.
+ */
+const formatDate = function (date) {
+  let format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "dd/MM/yyyy";
   const day = date.getDate().toString().padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
-  return "".concat(day, "/").concat(month, "/").concat(year);
+
+  // Replace placeholders in the format with actual values
+  let formattedDate = format.replace("dd", day);
+  formattedDate = formattedDate.replace("MM", month);
+  formattedDate = formattedDate.replace("yyyy", year);
+  return formattedDate;
 };
 
 // Fonction pour convertir une chaîne de date en instance de Date

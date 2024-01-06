@@ -2,7 +2,8 @@ import React from "react";
 import DatePicker from "./lib/components/DatePicker/datePicker.jsx";
 import './App.css';
 
-function App({customClass}) {
+function App({ customClass }) {
+  console.log("Custom Class in App:", customClass);
   return (
 
       <main className={`main ${customClass}`}>
@@ -14,7 +15,7 @@ function App({customClass}) {
           <DatePicker
             minYear={2000}
             maxYear={2030}
-            dateFormat="yyyy/MM/dd"
+            dateFormat="dd/MM/yyyy"
             language={"en-EN"}
             font="Roboto, sans-serif"
             fontSize="16px"

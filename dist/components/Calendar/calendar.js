@@ -1,5 +1,3 @@
-/* eslint-disable no-func-assign */
-
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45,17 +43,17 @@ function Calendar(_ref) {
   const monthSelectRef = (0, _react.useRef)();
   const yearSelectRef = (0, _react.useRef)();
   const daySelectRef = (0, _react.useRef)();
+  console.log("selectedDate=", selectedDate);
   const months = Array.from({
     length: 12
   }, (_, index) => index);
+  console.log('minYear:', minYear);
+  console.log('maxYear:', maxYear);
 
   // Interval of years based on minYear and maxYear properties
   const years = Array.from({
     length: maxYear - minYear + 1
-  }, (_, index) => {
-    const year = minYear + index;
-    return year;
-  });
+  }, (_, index) => minYear + index);
 
   /**
    * Get the first day of the displayed month.
@@ -63,7 +61,9 @@ function Calendar(_ref) {
    * @returns {Date} The first day of the displayed month.
    */
   const getFirstDayOfMonth = () => {
-    return new Date(displayed.getFullYear(), displayed.getMonth(), 1);
+    const firstDayOfMonth = new Date(displayed);
+    firstDayOfMonth.setDate(1);
+    return firstDayOfMonth;
   };
 
   /**
@@ -76,11 +76,14 @@ function Calendar(_ref) {
       const firstDayOfMonth = getFirstDayOfMonth();
       const firstDayOfWeek = firstDayOfMonth.getDay();
       const daysInMonth = new Date(displayed.getFullYear(), displayed.getMonth() + 1, 0).getDate();
+      console.log('First day of month:', firstDayOfMonth);
+      console.log('First day of week:', firstDayOfWeek);
+      console.log('Days in month:', daysInMonth);
       const days = Array.from({
         length: daysInMonth
       }, (_, index) => index + 1);
-      const daysWithOffset = [...Array(firstDayOfWeek).fill(null), ...days];
-      return daysWithOffset;
+      console.log("Years:", years);
+      return days;
     } catch (error) {
       console.error("Error in getDaysInMonthWithOffset:", error);
       return [];

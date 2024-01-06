@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import Calendar from "../Calendar/calendar.jsx";
+import Calendar from "../Calendar/calendar";
 import { formatDate, parseDateInput } from "../../utils/modelisation.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
@@ -22,6 +22,7 @@ export default function DatePicker({
   width,
   height,
 }) {
+  console.log(language);
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
   const [dateInput, setDateInput] = useState("");
@@ -37,8 +38,9 @@ export default function DatePicker({
   useEffect(() => {
     if (!selectedDate) {
       const currentDate = new Date();
+      
       setSelectedDate(currentDate);
-      setDateInput(formatDate(currentDate, dateFormat || "yyyy/MM/dd"));
+      setDateInput(formatDate(currentDate, dateFormat));
     }
   }, [dateFormat, selectedDate]);
 
@@ -79,7 +81,7 @@ export default function DatePicker({
   const handleDateChange = (inputValue) => {
     setDateInput(inputValue);
 
-    const newDate = parseDateInput(inputValue);
+    const newDate = parseDateInput(new Date(inputValue));
 
     if (newDate && !isNaN(newDate.getTime())) {
       setSelectedDate(newDate);
@@ -170,6 +172,7 @@ export default function DatePicker({
           language={language}
           customStyles={{ selectClass: "custom-select-class" }}
           tabIndex={0}
+          dateFormat={dateFormat}
         />
       )}
     </>

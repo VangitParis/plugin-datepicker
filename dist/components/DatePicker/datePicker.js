@@ -1,5 +1,3 @@
-/* eslint-disable no-func-assign */
-
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = DatePicker;
 var _react = _interopRequireWildcard(require("react"));
-var _calendar = _interopRequireDefault(require("../Calendar/calendar.jsx"));
+var _calendar = _interopRequireDefault(require("../Calendar/calendar"));
 var _modelisation = require("../../utils/modelisation.js");
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
@@ -33,6 +31,7 @@ function DatePicker(_ref) {
     width,
     height
   } = _ref;
+  console.log(language);
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = (0, _react.useState)("");
   const [dateInput, setDateInput] = (0, _react.useState)("");
@@ -49,7 +48,7 @@ function DatePicker(_ref) {
     if (!selectedDate) {
       const currentDate = new Date();
       setSelectedDate(currentDate);
-      setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat || "yyyy/MM/dd"));
+      setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
     }
   }, [dateFormat, selectedDate]);
 
@@ -89,7 +88,7 @@ function DatePicker(_ref) {
    */
   const handleDateChange = inputValue => {
     setDateInput(inputValue);
-    const newDate = (0, _modelisation.parseDateInput)(inputValue);
+    const newDate = (0, _modelisation.parseDateInput)(new Date(inputValue));
     if (newDate && !isNaN(newDate.getTime())) {
       setSelectedDate(newDate);
       setShowCalendar(true);
@@ -170,6 +169,7 @@ function DatePicker(_ref) {
     customStyles: {
       selectClass: "custom-select-class"
     },
-    tabIndex: 0
+    tabIndex: 0,
+    dateFormat: dateFormat
   }));
 }
