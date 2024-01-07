@@ -17,6 +17,7 @@ export default function DatePicker({
   language,
   font,
   fontSize,
+  errorClass,
   backgroundColor,
   color,
   width,
@@ -38,7 +39,7 @@ export default function DatePicker({
   useEffect(() => {
     if (!selectedDate) {
       const currentDate = new Date();
-      
+
       setSelectedDate(currentDate);
       setDateInput(formatDate(currentDate, dateFormat));
     }
@@ -145,7 +146,9 @@ export default function DatePicker({
           onBlur={() => handleBlur}
           onKeyDown={handleKeyPress}
           style={inputStyle}
-          className={`input-date ${inputClassName}`}
+          className={`input-date ${inputClassName} ${
+            errorMessage !== null ? errorClass : ""
+          }`}
           autoFocus={showCalendar}
           data-cy="input-date"
         />
@@ -159,7 +162,9 @@ export default function DatePicker({
         ></FontAwesomeIcon>
       </div>
       {/* Display error message if there is an error */}
-      {errorMessage !== null && <p className="error-message">{errorMessage}</p>}
+      {errorMessage !== null && errorClass !== "error-message" && (
+        <p className={`error-message ${errorClass}`}>{errorMessage}</p>
+      )}
       {/* Custom calendar component */}
       {showCalendar && (
         <Calendar
