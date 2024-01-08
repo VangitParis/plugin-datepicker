@@ -178,5 +178,6 @@ background-position: calc(100% - var(--side-padding)) center;
   .calendar__date.selected::before{
     background-color: #284bbd;
   }
+  
 
   

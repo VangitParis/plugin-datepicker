@@ -23,7 +23,6 @@ export default function DatePicker({
   width,
   height,
 }) {
-  console.log(language);
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
   const [dateInput, setDateInput] = useState("");
@@ -51,6 +50,13 @@ export default function DatePicker({
   const toggleCalendar = () => {
     if (errorMessage === null) {
       setShowCalendar(!showCalendar);
+    } else {
+      // Reset input and selected date to current date if there is an error
+      const currentDate = new Date();
+      setDateInput(formatDate(currentDate, dateFormat));
+      setSelectedDate(currentDate);
+      setShowCalendar(false);
+      setErrorMessage(null);
     }
   };
 
@@ -75,16 +81,18 @@ export default function DatePicker({
     setErrorMessage(null);
   };
 
-  /**
-   * Handles the change of the input date, parses the input and updates the state accordingly.
-   * @param {Event} event - The input change event.
-   */
-  const handleDateChange = (inputValue) => {
-    setDateInput(inputValue);
-
-    const newDate = parseDateInput(new Date(inputValue));
-
-    if (newDate && !isNaN(newDate.getTime())) {
+  const updateDate = (newDate) => {
+    if (
+      newDate &&
+      !isNaN(newDate.getTime()) &&
+      newDate.getFullYear() >= minYear &&
+      newDate.getFullYear() <= maxYear &&
+      newDate.getMonth() >= 0 &&
+      newDate.getMonth() <= 11 &&
+      newDate.getDate() >= 1 &&
+      newDate.getDate() <=
+        new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate()
+    ) {
       setSelectedDate(newDate);
       setShowCalendar(true);
       setErrorMessage("");
@@ -92,6 +100,16 @@ export default function DatePicker({
       setShowCalendar(false);
       setErrorMessage("Invalid date format");
     }
+  };
+
+  /**
+   * Handles the change of the input date, parses the input and updates the state accordingly.
+   * @param {Event} event - The input change event.
+   */
+  const handleDateChange = (inputValue) => {
+    setDateInput(inputValue);
+    updateDate(parseDateInput(inputValue));
+    setShowCalendar(false);
   };
 
   const handleBlur = () => {
@@ -104,19 +122,11 @@ export default function DatePicker({
    */
   const handleKeyPress = (e) => {
     if (e.code === "Enter") {
-      const parsedDate = parseDateInput(dateInput);
-
-      if (parsedDate && !isNaN(parsedDate.getTime())) {
-        setSelectedDate(parsedDate);
-        setShowCalendar(true);
-        setErrorMessage("");
-      } else {
-        e.preventDefault();
-        setShowCalendar(false);
-        setErrorMessage("Invalid date format");
-      }
-    }
-    if (e.code === "Escape") {
+      updateDate(parseDateInput(dateInput));
+    } else if (e.code === "Escape") {
+      setShowCalendar(false);
+      setErrorMessage(null);
+    } else if (e.code !== "Tab") {
       setShowCalendar(false);
     }
   };
@@ -146,9 +156,7 @@ export default function DatePicker({
           onBlur={() => handleBlur}
           onKeyDown={handleKeyPress}
           style={inputStyle}
-          className={`input-date ${inputClassName} ${
-            errorMessage !== null ? errorClass : ""
-          }`}
+          className={`input-date ${inputClassName}`}
           autoFocus={showCalendar}
           data-cy="input-date"
         />
@@ -162,12 +170,19 @@ export default function DatePicker({
         ></FontAwesomeIcon>
       </div>
       {/* Display error message if there is an error */}
-      {errorMessage !== null && errorClass !== "error-message" && (
-        <p className={`error-message ${errorClass}`}>{errorMessage}</p>
+      {errorMessage !== null && errorClass !== errorMessage && (
+        <p
+          className={`error-message ${errorClass}`}
+          style={{ borderColor: errorMessage !== null ? "red" : "" }}
+        >
+          {errorMessage}
+        </p>
       )}
+
       {/* Custom calendar component */}
       {showCalendar && (
         <Calendar
+          data-cy={"calendar"}
           selectedDate={selectedDate}
           onSelect={handleCalendarDateClick}
           onDisplayChange={handleDisplayChange}
@@ -175,7 +190,12 @@ export default function DatePicker({
           minYear={minYear}
           maxYear={maxYear}
           language={language}
-          customStyles={{ selectClass: "custom-select-class" }}
+          customStyles={{
+            selectClass: "custom-select-class",
+            calendarStyle: {
+              width: "400px",
+            },
+          }}
           tabIndex={0}
           dateFormat={dateFormat}
         />

@@ -33,23 +33,22 @@ export default function Calendar({
   maxYear,
   language,
   customStyles,
- 
 }) {
   const [displayed, setDisplayedMonth] = useState(selectedDate || new Date());
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const monthSelectRef = useRef();
   const yearSelectRef = useRef();
   const daySelectRef = useRef();
-  console.log("selectedDate=",selectedDate);
+  console.log("selectedDate=", selectedDate);
   const months = Array.from({ length: 12 }, (_, index) => index);
 
-  console.log('minYear:', minYear);
-console.log('maxYear:', maxYear);
+  console.log("minYear:", minYear);
+  console.log("maxYear:", maxYear);
 
   // Interval of years based on minYear and maxYear properties
   const years = Array.from(
     { length: maxYear - minYear + 1 },
-   
+
     (_, index) => minYear + index
   );
 
@@ -73,33 +72,27 @@ console.log('maxYear:', maxYear);
     try {
       const firstDayOfMonth = getFirstDayOfMonth();
       const firstDayOfWeek = firstDayOfMonth.getDay();
-      
+
       const daysInMonth = new Date(
         displayed.getFullYear(),
         displayed.getMonth() + 1,
         0
       ).getDate();
-     
-      console.log('First day of month:', firstDayOfMonth);
-      console.log('First day of week:', firstDayOfWeek);
-      console.log('Days in month:', daysInMonth);
-  
+
+      console.log("First day of month:", firstDayOfMonth);
+      console.log("First day of week:", firstDayOfWeek);
+      console.log("Days in month:", daysInMonth);
+
       const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
-     
-  
-     
 
       console.log("Years:", years);
-      
+
       return days;
     } catch (error) {
       console.error("Error in getDaysInMonthWithOffset:", error);
       return [];
     }
   };
-
-  
-  
 
   /**
    * Handle month change based on the given offset.
@@ -221,12 +214,16 @@ console.log('maxYear:', maxYear);
     daySelectRef.current.value = selectDay;
   };
 
-  // Select class for styling select elements, using custom class if provided
+  // Sélectionnez la classe pour styliser les éléments de sélection, en utilisant la classe personnalisée si elle est fournie
   const selectClass = customStyles?.selectClass || "default-select-class";
+
+  // Utilisez les propriétés width et height pour les styles du calendrier
+  const calendarStyle = customStyles?.calendarStyle || {};
+
 
   // Render the Calendar component
   return (
-    <div className="calendar">
+    <div className="calendar" data-cy="calendar" style={calendarStyle}>
       <div className="calendar__opts">
         <select
           ref={monthSelectRef}

@@ -2,6 +2,7 @@
 import React from "react";
 import DatePicker from "./datePicker";
 import { formatDate } from "../../utils/modelisation";
+import Calendar from "../Calendar/calendar";
 
 describe("<DatePicker />", () => {
   it("renders and selects a date", () => {
@@ -12,32 +13,43 @@ describe("<DatePicker />", () => {
 
   it("click and select date value", () => {
     // Mount the DatePicker component with the specified date format
-    cy.mount(<DatePicker dateFormat="dd/MM/yyyy" minYear={2000} maxYear={2030} language="en-EN" />);
+    cy.mount(
+      <DatePicker
+        dateFormat="dd/MM/yyyy"
+        minYear={2000}
+        maxYear={2030}
+        language="en-EN"
+      />
+    );
 
     // Get the initial value of the input
     cy.get('[data-cy="input-date"]').invoke("val").as("initialValue");
-
 
     // Click to open the calendar
     cy.get(".calendar-icon").click();
 
     // Select the month of January
-    cy.get('[data-cy="input-date"]').invoke("val").then(() => {
-      const formattedDate = formatDate(new Date(), "dd/MM/yyyy");
-      console.log("Selected Date:", formattedDate);
-      
-      // Check the month in the expected format
-      const month = formattedDate.split("/")[1]; // Assuming the output format of formatDate is 'DD/MM/YYYY'
-      cy.log(`Month: ${month}`);
-      cy.get("select#calendar__month option:selected").should(
-        "have.text",
-        "January"
-      );
-    });
+    cy.get('[data-cy="input-date"]')
+      .invoke("val")
+      .then(() => {
+        const formattedDate = formatDate(new Date(), "dd/MM/yyyy");
+        console.log("Selected Date:", formattedDate);
+
+        // Check the month in the expected format
+        const month = formattedDate.split("/")[1]; // Assuming the output format of formatDate is 'DD/MM/YYYY'
+        cy.log(`Month: ${month}`);
+        cy.get("select#calendar__month option:selected").should(
+          "have.text",
+          "January"
+        );
+      });
 
     // Select the year 2000
     cy.get("select#calendar__year").select("2000");
-    cy.get("select#calendar__year option:selected").should("have.value", "2000");
+    cy.get("select#calendar__year option:selected").should(
+      "have.value",
+      "2000"
+    );
 
     // Select the date in the calendar
     cy.get('[data-cy="calendar-date"]').contains("1").click();
@@ -47,10 +59,54 @@ describe("<DatePicker />", () => {
 
     // Display the selected date in the console along with the initial value
     cy.get("@initialValue").then((initialValue) => {
-      cy.get('[data-cy="input-date"]').invoke("val").then((selectedDate) => {
-        console.log("Initial Value:", initialValue);
-        console.log("Selected Date:", selectedDate);
-      });
+      cy.get('[data-cy="input-date"]')
+        .invoke("val")
+        .then((selectedDate) => {
+          console.log("Initial Value:", initialValue);
+          console.log("Selected Date:", selectedDate);
+        });
     });
+  });
+
+  it("renders and selects a date with custom styles", () => {
+    const customStyles = {
+      calendarStyle: {
+        width: "300px",
+        height: "300px"
+
+      },
+    };
+    cy.mount(<DatePicker />);
+    // Cliquez pour ouvrir le calendrier
+    cy.get(".calendar-icon").click();
+
+    // Montez le composant DatePicker avec les propriétés personnalisées
+    cy.mount(
+      <Calendar
+        minYear={2000}
+        maxYear={2030}
+        dateFormat="dd/MM/yyyy"
+        language="en-EN"
+        font="Arial"
+        fontSize="16px"
+        backgroundColor="#f0f0f0"
+        color="#333"
+        customStyles={customStyles}
+      />
+    );
+
+    // Vérifiez que la largeur du calendrier est correcte
+    cy.get('[data-cy="calendar"]').should(
+      "have.css",
+      "width",
+      customStyles.calendarStyle.width
+      );
+
+    // Vérifiez que la hauteur du calendrier est correcte
+    cy.get('[data-cy="calendar"]').should(
+      "have.css",
+      "height",
+      customStyles.calendarStyle.height
+    );
   });
 });

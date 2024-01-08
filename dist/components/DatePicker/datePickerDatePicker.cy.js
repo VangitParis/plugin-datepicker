@@ -2,7 +2,6 @@
 
 var _react = _interopRequireDefault(require("react"));
 var _datePicker = _interopRequireDefault(require("./datePicker"));
-var _calendar = _interopRequireDefault(require("../Calendar/calendar"));
 var _modelisation = require("../../utils/modelisation");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /* eslint-disable no-undef */
@@ -44,10 +43,10 @@ describe("<DatePicker />", () => {
     cy.get("select#calendar__year option:selected").should("have.value", "2000");
 
     // Select the date in the calendar
-    cy.get('[data-cy="calendar-date"]').contains("27").click();
+    cy.get('[data-cy="calendar-date"]').contains("1").click();
 
     // Access the input-date within the DatePicker component
-    cy.get('[data-cy="input-date"]').should("have.value", "27/01/2000");
+    cy.get('[data-cy="input-date"]').should("have.value", "01/01/2000");
 
     // Display the selected date in the console along with the initial value
     cy.get("@initialValue").then(initialValue => {

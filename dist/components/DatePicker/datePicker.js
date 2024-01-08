@@ -26,6 +26,7 @@ function DatePicker(_ref) {
     language,
     font,
     fontSize,
+    errorClass,
     backgroundColor,
     color,
     width,
@@ -147,7 +148,7 @@ function DatePicker(_ref) {
     onBlur: () => handleBlur,
     onKeyDown: handleKeyPress,
     style: inputStyle,
-    className: "input-date ".concat(inputClassName),
+    className: "input-date ".concat(inputClassName, " ").concat(errorMessage !== null ? errorClass : ""),
     autoFocus: showCalendar,
     "data-cy": "input-date"
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
@@ -156,8 +157,8 @@ function DatePicker(_ref) {
     "data-cy": "calendar-icon",
     onClick: toggleCalendar,
     onFocus: toggleCalendar
-  })), errorMessage !== null && /*#__PURE__*/_react.default.createElement("p", {
-    className: "error-message"
+  })), errorMessage !== null && errorClass !== "error-message" && /*#__PURE__*/_react.default.createElement("p", {
+    className: "error-message ".concat(errorClass)
   }, errorMessage), showCalendar && /*#__PURE__*/_react.default.createElement(_calendar.default, {
     selectedDate: selectedDate,
     onSelect: handleCalendarDateClick,

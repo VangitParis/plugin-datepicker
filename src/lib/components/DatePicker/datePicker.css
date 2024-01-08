@@ -1,5 +1,5 @@
 
-
+/* Style for the input element */
 .input-date {
     background-image: linear-gradient(to bottom, #f3f4f6, #fff);
     font-size: 1.5rem;
@@ -9,16 +9,26 @@
 
 
 .input-container{
-    display: flex;
-    align-items: center;
+    position: relative;
+  display: inline-block;
+
     margin-bottom: 15px;
 }
 
+/* Style for the calendar icon */
 .calendar-icon{
     position: relative;
-    left: -25px;
     color: #284bbd;
-    font-size: 1.3rem;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-5%);
     cursor: pointer;
 }
+
+/* Style for the error message */
+.error-message {
+    color: red; /* Couleur rouge, ajustez selon vos besoins */
+    font-size: 14px; /* Taille de police, ajustez selon vos besoins */
+  }
+
 
