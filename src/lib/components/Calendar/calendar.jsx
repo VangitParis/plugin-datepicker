@@ -20,7 +20,8 @@ import "./calendar.css";
  * @property {number} maxYear - The maximum selectable year.
  * @property {string} language - The language used for month names.
  * @property {Object} customStyles - Custom styles for the component.
- *   @property {string} customStyles.selectClass - Custom class for the select elements.
+ * @property {string} customStyles.monthSelectClass - Custom class for the select month elements.
+ * @property {string} customStyles.yearSelectClass - Custom class for the select year elements.
  *
  * @param {CalendarProps} props - The component properties.
  * @returns {JSX.Element} The rendered Calendar component.
@@ -35,15 +36,14 @@ export default function Calendar({
   customStyles,
 }) {
   const [displayed, setDisplayedMonth] = useState(selectedDate || new Date());
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const monthSelectRef = useRef();
-  const yearSelectRef = useRef();
-  const daySelectRef = useRef();
-  console.log("selectedDate=", selectedDate);
-  const months = Array.from({ length: 12 }, (_, index) => index);
+  const [isMonthDropdownOpen, setMonthDropdownOpen] = useState(false);
+  const [isYearDropdownOpen, setYearDropdownOpen] = useState(false);
 
-  console.log("minYear:", minYear);
-  console.log("maxYear:", maxYear);
+  const monthSelectRef = useRef(null);
+  const yearSelectRef = useRef(null);
+  const daySelectRef = useRef();
+
+  const months = Array.from({ length: 12 }, (_, index) => index);
 
   // Interval of years based on minYear and maxYear properties
   const years = Array.from(
@@ -71,6 +71,7 @@ export default function Calendar({
   const getDaysInMonthWithOffset = () => {
     try {
       const firstDayOfMonth = getFirstDayOfMonth();
+
       const firstDayOfWeek = firstDayOfMonth.getDay();
 
       const daysInMonth = new Date(
@@ -83,11 +84,13 @@ export default function Calendar({
       console.log("First day of week:", firstDayOfWeek);
       console.log("Days in month:", daysInMonth);
 
-      const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
+      const offset = firstDayOfWeek;
 
+      const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
+      const daysWithOffset = [...Array(offset).fill(null), ...days];
       console.log("Years:", years);
 
-      return days;
+      return daysWithOffset;
     } catch (error) {
       console.error("Error in getDaysInMonthWithOffset:", error);
       return [];
@@ -189,7 +192,8 @@ export default function Calendar({
     monthSelectRef.current.value = selectedMonth;
 
     // Close dropdown list
-    setDropdownOpen(false);
+    setMonthDropdownOpen(false);
+    setYearDropdownOpen(false);
     yearSelectRef.current.size = 1;
     monthSelectRef.current.size = 1;
   };
@@ -215,11 +219,13 @@ export default function Calendar({
   };
 
   // Sélectionnez la classe pour styliser les éléments de sélection, en utilisant la classe personnalisée si elle est fournie
-  const selectClass = customStyles?.selectClass || "default-select-class";
+  const monthSelectClass =
+    customStyles?.monthSelectClass || "default-month-select-class";
+  const yearSelectClass =
+    customStyles?.yearSelectClass || "default-year-select-class";
 
   // Utilisez les propriétés width et height pour les styles du calendrier
   const calendarStyle = customStyles?.calendarStyle || {};
-
 
   // Render the Calendar component
   return (
@@ -238,30 +244,38 @@ export default function Calendar({
               onDisplayChange(newMonth);
             }
           }}
-          className={`default-select-class ${selectClass}`}
+          className={`month-dropdown ${monthSelectClass} ${
+            isMonthDropdownOpen ? "dropdown-open" : ""
+          }`}
           tabIndex={0}
           onFocus={(e) => {
-            if (!isDropdownOpen) {
-              e.preventDefault(); // Disabled dropdown default
-              e.target.classList.add("focused");
+            e.preventDefault();
+            e.stopPropagation();
+            e.target.classList.add("focused");
 
-              // Open dropdown
-              setDropdownOpen(true);
-              monthSelectRef.current.size = 6;
+            // Assurez-vous que monthSelectRef.current est défini avant de l'utiliser
+            if (monthSelectRef.current) {
+              setMonthDropdownOpen(true);
+              monthSelectRef.current.size = 4;
             }
           }}
           onBlur={(e) => {
             e.target.classList.remove("focused");
+            // Fermer la dropdown du mois si elle est ouverte
+            if (isMonthDropdownOpen && monthSelectRef.current) {
+              setMonthDropdownOpen(false);
+              monthSelectRef.current.size = 1;
+            }
           }}
           onKeyDown={(e) => {
             console.log("key code:", e.code);
-            if (e.code === "Enter" && !isDropdownOpen) {
+            if (e.code === "Enter" && !isMonthDropdownOpen) {
               e.preventDefault();
 
-              setDropdownOpen(true);
+              setMonthDropdownOpen(true);
 
               monthSelectRef.current.size = 2;
-            } else if (e.code === "Enter" && isDropdownOpen) {
+            } else if (e.code === "Enter" && isMonthDropdownOpen) {
               e.preventDefault();
 
               // Get month select value
@@ -305,19 +319,27 @@ export default function Calendar({
               onDisplayChange(newYear);
             }
           }}
-          className={`default-select-class ${selectClass}`}
+          className={`year-dropdown ${yearSelectClass} ${
+            isYearDropdownOpen ? "dropdown-open" : ""
+          }`}
           tabIndex={0}
           onFocus={(e) => {
-            if (!isDropdownOpen) {
-              e.preventDefault();
-              e.target.classList.add("focused");
+            e.preventDefault();
+            e.stopPropagation();
+            e.target.classList.add("focused");
 
-              setDropdownOpen(true);
-              yearSelectRef.current.size = 6;
+            if (yearSelectRef.current) {
+              setYearDropdownOpen(true);
+              yearSelectRef.current.size = 4;
             }
           }}
           onBlur={(e) => {
             e.target.classList.remove("focused");
+            // Fermez la dropdown de l'année si elle est ouverte
+            if (isYearDropdownOpen && yearSelectRef.current) {
+              setYearDropdownOpen(false);
+              yearSelectRef.current.size = 1;
+            }
           }}
           onKeyDown={(e) => {
             console.log("key code:", e.code);
@@ -357,14 +379,14 @@ export default function Calendar({
               data-cy="arrow-left"
               onClick={() => handleMonthChange(-1)}
             >
-              <FontAwesomeIcon icon={faChevronLeft} tabIndex={0} />
+              <FontAwesomeIcon icon={faChevronLeft} tabIndex={0} focusable />
             </button>
             <button
               className="btn icon-home"
               data-cy="icon-home"
               onClick={handleHomeClick}
             >
-              <FontAwesomeIcon icon={faHome} tabIndex={0} />
+              <FontAwesomeIcon icon={faHome} tabIndex={0} focusable />
             </button>
 
             <button
@@ -372,12 +394,12 @@ export default function Calendar({
               data-cy="arrow-right"
               onClick={() => handleMonthChange(1)}
             >
-              <FontAwesomeIcon icon={faChevronRight} tabIndex={0} />
+              <FontAwesomeIcon icon={faChevronRight} tabIndex={0} focusable />
             </button>
           </div>
         )}
 
-        <div className="calendar__days">
+        <div className="calendar__days" data-cy="calendar__days">
           <div>S</div>
           <div>M</div>
           <div>T</div>
@@ -407,7 +429,11 @@ export default function Calendar({
                 }
               }}
             >
-              <span className="calendar-day" data-cy="calendar-day">
+              <span
+                ref={daySelectRef}
+                className="calendar-day"
+                data-cy="calendar-day"
+              >
                 {day}
               </span>
             </div>

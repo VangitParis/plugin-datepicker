@@ -10,8 +10,7 @@
 
 .input-container{
     position: relative;
-  display: inline-block;
-
+    display: inline-block;
     margin-bottom: 15px;
 }
 
@@ -32,3 +31,6 @@
   }
 
 
+.focused:focus{
+    border: 2px solid orange;
+  }

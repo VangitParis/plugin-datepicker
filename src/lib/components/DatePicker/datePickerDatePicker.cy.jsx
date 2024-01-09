@@ -72,8 +72,7 @@ describe("<DatePicker />", () => {
     const customStyles = {
       calendarStyle: {
         width: "300px",
-        height: "300px"
-
+        height: "300px",
       },
     };
     cy.mount(<DatePicker />);
@@ -100,7 +99,7 @@ describe("<DatePicker />", () => {
       "have.css",
       "width",
       customStyles.calendarStyle.width
-      );
+    );
 
     // Vérifiez que la hauteur du calendrier est correcte
     cy.get('[data-cy="calendar"]').should(
@@ -108,5 +107,90 @@ describe("<DatePicker />", () => {
       "height",
       customStyles.calendarStyle.height
     );
+  });
+  it("displays error message for invalid date", () => {
+    cy.mount(
+      <DatePicker
+        dateFormat="dd/MM/yyyy"
+        minYear={2000}
+        maxYear={2030}
+        language="en-EN"
+      />
+    );
+
+    // Clear initial date of input
+    cy.get('[data-cy="input-date"]').clear();
+
+    // Test with invalidate date day
+    cy.get('[data-cy="input-date"]').type("39/09/2020{enter}");
+
+    // Error message should be visible
+    cy.get(".error-message")
+      .should("be.visible")
+      .and("have.text", "Invalid date format");
+
+    // Clear initial date of input
+    cy.get('[data-cy="input-date"]').clear();
+
+    // Test with invalidate date month
+    cy.get('[data-cy="input-date"]').type("01/49/2020{enter}");
+
+    // Error message should be visible
+    cy.get(".error-message")
+      .should("be.visible")
+      .and("have.text", "Invalid date format");
+
+    // Clear initial date of input
+    cy.get('[data-cy="input-date"]').clear();
+
+    // Test with invalidate date year
+    cy.get('[data-cy="input-date"]').type("01/01/2090{enter}");
+
+    // Error message should be visible
+    cy.get(".error-message")
+      .should("be.visible")
+      .and("have.text", "Invalid date format");
+  });
+  it("verifies autofocus on input", () => {
+    cy.mount(
+      <DatePicker
+        dateFormat="dd/MM/yyyy"
+        minYear={2000}
+        maxYear={2030}
+        language="en-EN"
+        autofocus
+      />
+    );
+    // Check if the input is focused
+    cy.get("input").should("have.class", "focused");
+  });
+});
+describe("Calendar", () => {
+  it("verifies that 01/01/2024 is a Monday", () => {
+    const dateToCheck = new Date(2024, 0, 1); // Le mois commence à 0, donc janvier est 0
+
+    // Montez le composant Calendar avec la date spécifiée
+    cy.mount(
+      <Calendar
+        onSelect={() => {}}
+        selectedDate={null}
+        onDisplayChange={() => {}}
+        minYear={2000}
+        maxYear={2030}
+        language="en-EN"
+        customStyles={{
+          calendarStyle: {
+            backgroundColor: "#f0f0f0",
+            color: "#333",
+            font: "Arial",
+            fontSize: "16px",
+          },
+        }}
+        displayed={dateToCheck}
+      />
+    );
+
+    // Vérifiez si le premier jour du mois dans le calendrier est un lundi
+    cy.get('[data-cy="calendar__days"] div').eq(1).should("have.text", "M");
   });
 });

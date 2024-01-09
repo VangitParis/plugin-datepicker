@@ -149,14 +149,14 @@ export default function DatePicker({
         <input
           ref={inputRef}
           id="date"
-          type="datetime"
+          type="text"
           placeholder="Select date"
           value={dateInput}
           onChange={(e) => handleDateChange(e.target.value)}
           onBlur={() => handleBlur}
           onKeyDown={handleKeyPress}
           style={inputStyle}
-          className={`input-date ${inputClassName}`}
+          className={`input-date ${inputClassName} focused` }
           autoFocus={showCalendar}
           data-cy="input-date"
         />
