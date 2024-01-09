@@ -22,6 +22,7 @@ export default function DatePicker({
   color,
   width,
   height,
+  calendarWidth
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
@@ -159,6 +160,7 @@ export default function DatePicker({
           className={`input-date ${inputClassName} focused` }
           autoFocus={showCalendar}
           data-cy="input-date"
+          
         />
         {/* Calendar icon for opening/closing the calendar */}
         <FontAwesomeIcon
@@ -193,7 +195,7 @@ export default function DatePicker({
           customStyles={{
             selectClass: "custom-select-class",
             calendarStyle: {
-              width: "400px",
+              width: calendarWidth || "400px",
             },
           }}
           tabIndex={0}
