@@ -2,15 +2,9 @@
     --side-padding: 20px; 
     --border-radius: 34px; 
     --accent-br: 15px; 
-    width: 400px;
+    /* width: 400px; */
 }
-.default-select-class {
-      color: #f3f4f6;
-      padding: 15px 20px;
-      font-size: 1rem;
-      font-weight: bold;
-      background-color: #284bbd;
-}
+
 .focused:focus{
   border: 2px solid orange;
 }
@@ -133,7 +127,7 @@
     margin: 3vmin;
   }
   
-  select,
+  
   button {
     border-radius: 20px;
     outline: none;
@@ -144,15 +138,15 @@
     appearance: none;
     cursor: pointer;
   }
-  
+  /*
   select {
     background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='960px' height='560px' fill='white' viewBox='0 0 960 560' enable-background='new 0 0 960 560' xml:space='preserve'%3E%3Cg id='Rounded_Rectangle_33_copy_4_1_'%3E%3Cpath d='M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937 c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937 c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z'/%3E%3C/g%3E%3C/svg%3E");
     background-size: 24px;
     background-repeat: no-repeat;
 background-position: calc(100% - var(--side-padding)) center;
 
-    }
-    
+    } */
+  
 
 .btn{
   background-color:#284bbd;
@@ -178,6 +172,71 @@ background-position: calc(100% - var(--side-padding)) center;
   .calendar__date.selected::before{
     background-color: #284bbd;
   }
-  
+
 
   
+ /* styles Dropdown */
+
+ .default-month-select-class, .default-year-select-class {
+  color: #f3f4f6;
+  font-size: 1rem;
+  border-radius: 20px;
+  outline: none;
+  border: 0;
+  padding: 15px 20px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='960px' height='560px' fill='white' viewBox='0 0 960 560' enable-background='new 0 0 960 560' xml:space='preserve'%3E%3Cg id='Rounded_Rectangle_33_copy_4_1_'%3E%3Cpath d='M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937 c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937 c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: calc(100% - var(--side-padding)) center;
+  background-color: #284bbd;
+  height: auto; 
+  overflow-y: auto;
+ 
+ }
+
+
+
+
+.dropdown-open{
+  position: relative;
+  z-index: 1;
+  border: 2px solid #ffcc00; 
+  box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+  
+}
+
+/* Styles pour le dropdown du mois */
+.month-dropdown {
+  color: #f3f4f6;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #284bbd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: 50px; /* Définissez la hauteur par défaut */
+  overflow-y: auto; /* Ajoutez une barre de défilement si nécessaire */
+}
+
+.month-dropdown.dropdown-open {
+  width: auto; /* Ajustez la largeur comme nécessaire */
+  height: auto; /* La hauteur s'ajustera automatiquement en fonction du contenu */
+}
+
+/* Styles pour le dropdown de l'année */
+.year-dropdown {
+  color: #f3f4f6;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #284bbd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: 50px; /* Définissez la hauteur par défaut */
+  overflow-y: auto; /* Ajoutez une barre de défilement si nécessaire */
+}
+
+.year-dropdown.dropdown-open {
+  width: auto; /* Ajustez la largeur comme nécessaire */
+  height: auto; /* La hauteur s'ajustera automatiquement en fonction du contenu */
+}

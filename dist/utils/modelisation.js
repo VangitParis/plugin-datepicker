@@ -27,19 +27,30 @@ const formatDate = function (date) {
 // Fonction pour convertir une chaîne de date en instance de Date
 exports.formatDate = formatDate;
 const parseDateInput = input => {
+  if (input instanceof Date) {
+    return input;
+  }
   try {
     const parts = input.split("/");
     if (parts.length === 3) {
       const day = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1;
+      const month = parseInt(parts[1], 10) - 1; // Les mois sont indexés à partir de 0
       const year = parseInt(parts[2], 10);
+
+      // Vérifier si les parties sont des nombres valides
       if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-        return new Date(year, month, day);
+        const date = new Date(year, month, day);
+
+        // Vérifier si la date résultante est valide
+        if (date.getFullYear() === year && date.getMonth() === month && date.getDate() === day) {
+          return date;
+        }
       }
     }
     return null;
   } catch (error) {
     console.error("Error in parseDateInput:", error);
+    return null;
   }
 };
 exports.parseDateInput = parseDateInput;

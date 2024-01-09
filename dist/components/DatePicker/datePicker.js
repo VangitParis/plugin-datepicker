@@ -32,7 +32,6 @@ function DatePicker(_ref) {
     width,
     height
   } = _ref;
-  console.log(language);
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = (0, _react.useState)("");
   const [dateInput, setDateInput] = (0, _react.useState)("");
@@ -59,6 +58,13 @@ function DatePicker(_ref) {
   const toggleCalendar = () => {
     if (errorMessage === null) {
       setShowCalendar(!showCalendar);
+    } else {
+      // Reset input and selected date to current date if there is an error
+      const currentDate = new Date();
+      setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
+      setSelectedDate(currentDate);
+      setShowCalendar(false);
+      setErrorMessage(null);
     }
   };
 
@@ -82,15 +88,8 @@ function DatePicker(_ref) {
     setDateInput((0, _modelisation.formatDate)(newDisplayedDate));
     setErrorMessage(null);
   };
-
-  /**
-   * Handles the change of the input date, parses the input and updates the state accordingly.
-   * @param {Event} event - The input change event.
-   */
-  const handleDateChange = inputValue => {
-    setDateInput(inputValue);
-    const newDate = (0, _modelisation.parseDateInput)(new Date(inputValue));
-    if (newDate && !isNaN(newDate.getTime())) {
+  const updateDate = newDate => {
+    if (newDate && !isNaN(newDate.getTime()) && newDate.getFullYear() >= minYear && newDate.getFullYear() <= maxYear && newDate.getMonth() >= 0 && newDate.getMonth() <= 11 && newDate.getDate() >= 1 && newDate.getDate() <= new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate()) {
       setSelectedDate(newDate);
       setShowCalendar(true);
       setErrorMessage("");
@@ -98,6 +97,16 @@ function DatePicker(_ref) {
       setShowCalendar(false);
       setErrorMessage("Invalid date format");
     }
+  };
+
+  /**
+   * Handles the change of the input date, parses the input and updates the state accordingly.
+   * @param {Event} event - The input change event.
+   */
+  const handleDateChange = inputValue => {
+    setDateInput(inputValue);
+    updateDate((0, _modelisation.parseDateInput)(inputValue));
+    setShowCalendar(false);
   };
   const handleBlur = () => {
     handleDateChange(dateInput);
@@ -109,18 +118,11 @@ function DatePicker(_ref) {
    */
   const handleKeyPress = e => {
     if (e.code === "Enter") {
-      const parsedDate = (0, _modelisation.parseDateInput)(dateInput);
-      if (parsedDate && !isNaN(parsedDate.getTime())) {
-        setSelectedDate(parsedDate);
-        setShowCalendar(true);
-        setErrorMessage("");
-      } else {
-        e.preventDefault();
-        setShowCalendar(false);
-        setErrorMessage("Invalid date format");
-      }
-    }
-    if (e.code === "Escape") {
+      updateDate((0, _modelisation.parseDateInput)(dateInput));
+    } else if (e.code === "Escape") {
+      setShowCalendar(false);
+      setErrorMessage(null);
+    } else if (e.code !== "Tab") {
       setShowCalendar(false);
     }
   };
@@ -141,14 +143,14 @@ function DatePicker(_ref) {
   }, /*#__PURE__*/_react.default.createElement("input", {
     ref: inputRef,
     id: "date",
-    type: "datetime",
+    type: "text",
     placeholder: "Select date",
     value: dateInput,
     onChange: e => handleDateChange(e.target.value),
     onBlur: () => handleBlur,
     onKeyDown: handleKeyPress,
     style: inputStyle,
-    className: "input-date ".concat(inputClassName, " ").concat(errorMessage !== null ? errorClass : ""),
+    className: "input-date ".concat(inputClassName, " focused"),
     autoFocus: showCalendar,
     "data-cy": "input-date"
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
@@ -157,9 +159,13 @@ function DatePicker(_ref) {
     "data-cy": "calendar-icon",
     onClick: toggleCalendar,
     onFocus: toggleCalendar
-  })), errorMessage !== null && errorClass !== "error-message" && /*#__PURE__*/_react.default.createElement("p", {
-    className: "error-message ".concat(errorClass)
+  })), errorMessage !== null && errorClass !== errorMessage && /*#__PURE__*/_react.default.createElement("p", {
+    className: "error-message ".concat(errorClass),
+    style: {
+      borderColor: errorMessage !== null ? "red" : ""
+    }
   }, errorMessage), showCalendar && /*#__PURE__*/_react.default.createElement(_calendar.default, {
+    "data-cy": "calendar",
     selectedDate: selectedDate,
     onSelect: handleCalendarDateClick,
     onDisplayChange: handleDisplayChange,
@@ -168,7 +174,10 @@ function DatePicker(_ref) {
     maxYear: maxYear,
     language: language,
     customStyles: {
-      selectClass: "custom-select-class"
+      selectClass: "custom-select-class",
+      calendarStyle: {
+        width: "400px"
+      }
     },
     tabIndex: 0,
     dateFormat: dateFormat

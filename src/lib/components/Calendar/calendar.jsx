@@ -379,14 +379,14 @@ export default function Calendar({
               data-cy="arrow-left"
               onClick={() => handleMonthChange(-1)}
             >
-              <FontAwesomeIcon icon={faChevronLeft} tabIndex={0} focusable />
+              <FontAwesomeIcon icon={faChevronLeft} tabIndex={0} className="icon" />
             </button>
             <button
               className="btn icon-home"
               data-cy="icon-home"
               onClick={handleHomeClick}
             >
-              <FontAwesomeIcon icon={faHome} tabIndex={0} focusable />
+              <FontAwesomeIcon icon={faHome} tabIndex={0} className="icon" />
             </button>
 
             <button
@@ -394,7 +394,7 @@ export default function Calendar({
               data-cy="arrow-right"
               onClick={() => handleMonthChange(1)}
             >
-              <FontAwesomeIcon icon={faChevronRight} tabIndex={0} focusable />
+              <FontAwesomeIcon icon={faChevronRight} tabIndex={0} className="icon" />
             </button>
           </div>
         )}

@@ -5,10 +5,11 @@
     /* width: 400px; */
 }
 
-.focused:focus{
-  border: 2px solid orange;
+
+select:focus-visible, .btn:focus-visible, .icon:focus-visible, .calendar__date:focus-visible{
+  outline: 2px solid orange;
 }
-  
+
 .calendar__opts, .calendar__buttons {
       background-color: #fff;
       display: grid;
@@ -76,7 +77,7 @@
         cursor: not-allowed;
       }
   
-  
+
   
         .calendar__date.selected {
         

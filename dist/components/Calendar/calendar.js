@@ -23,7 +23,8 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  * @property {number} maxYear - The maximum selectable year.
  * @property {string} language - The language used for month names.
  * @property {Object} customStyles - Custom styles for the component.
- *   @property {string} customStyles.selectClass - Custom class for the select elements.
+ * @property {string} customStyles.monthSelectClass - Custom class for the select month elements.
+ * @property {string} customStyles.yearSelectClass - Custom class for the select year elements.
  *
  * @param {CalendarProps} props - The component properties.
  * @returns {JSX.Element} The rendered Calendar component.
@@ -39,16 +40,14 @@ function Calendar(_ref) {
     customStyles
   } = _ref;
   const [displayed, setDisplayedMonth] = (0, _react.useState)(selectedDate || new Date());
-  const [isDropdownOpen, setDropdownOpen] = (0, _react.useState)(false);
-  const monthSelectRef = (0, _react.useRef)();
-  const yearSelectRef = (0, _react.useRef)();
+  const [isMonthDropdownOpen, setMonthDropdownOpen] = (0, _react.useState)(false);
+  const [isYearDropdownOpen, setYearDropdownOpen] = (0, _react.useState)(false);
+  const monthSelectRef = (0, _react.useRef)(null);
+  const yearSelectRef = (0, _react.useRef)(null);
   const daySelectRef = (0, _react.useRef)();
-  console.log("selectedDate=", selectedDate);
   const months = Array.from({
     length: 12
   }, (_, index) => index);
-  console.log('minYear:', minYear);
-  console.log('maxYear:', maxYear);
 
   // Interval of years based on minYear and maxYear properties
   const years = Array.from({
@@ -76,14 +75,16 @@ function Calendar(_ref) {
       const firstDayOfMonth = getFirstDayOfMonth();
       const firstDayOfWeek = firstDayOfMonth.getDay();
       const daysInMonth = new Date(displayed.getFullYear(), displayed.getMonth() + 1, 0).getDate();
-      console.log('First day of month:', firstDayOfMonth);
-      console.log('First day of week:', firstDayOfWeek);
-      console.log('Days in month:', daysInMonth);
+      console.log("First day of month:", firstDayOfMonth);
+      console.log("First day of week:", firstDayOfWeek);
+      console.log("Days in month:", daysInMonth);
+      const offset = firstDayOfWeek;
       const days = Array.from({
         length: daysInMonth
       }, (_, index) => index + 1);
+      const daysWithOffset = [...Array(offset).fill(null), ...days];
       console.log("Years:", years);
-      return days;
+      return daysWithOffset;
     } catch (error) {
       console.error("Error in getDaysInMonthWithOffset:", error);
       return [];
@@ -171,7 +172,8 @@ function Calendar(_ref) {
     monthSelectRef.current.value = selectedMonth;
 
     // Close dropdown list
-    setDropdownOpen(false);
+    setMonthDropdownOpen(false);
+    setYearDropdownOpen(false);
     yearSelectRef.current.size = 1;
     monthSelectRef.current.size = 1;
   };
@@ -190,12 +192,18 @@ function Calendar(_ref) {
     daySelectRef.current.value = selectDay;
   };
 
-  // Select class for styling select elements, using custom class if provided
-  const selectClass = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.selectClass) || "default-select-class";
+  // Sélectionnez la classe pour styliser les éléments de sélection, en utilisant la classe personnalisée si elle est fournie
+  const monthSelectClass = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.monthSelectClass) || "default-month-select-class";
+  const yearSelectClass = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.yearSelectClass) || "default-year-select-class";
+
+  // Utilisez les propriétés width et height pour les styles du calendrier
+  const calendarStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.calendarStyle) || {};
 
   // Render the Calendar component
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "calendar"
+    className: "calendar",
+    "data-cy": "calendar",
+    style: calendarStyle
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "calendar__opts"
   }, /*#__PURE__*/_react.default.createElement("select", {
@@ -211,28 +219,34 @@ function Calendar(_ref) {
         onDisplayChange(newMonth);
       }
     },
-    className: "default-select-class ".concat(selectClass),
+    className: "month-dropdown ".concat(monthSelectClass, " ").concat(isMonthDropdownOpen ? "dropdown-open" : ""),
     tabIndex: 0,
     onFocus: e => {
-      if (!isDropdownOpen) {
-        e.preventDefault(); // Disabled dropdown default
-        e.target.classList.add("focused");
+      e.preventDefault();
+      e.stopPropagation();
+      e.target.classList.add("focused");
 
-        // Open dropdown
-        setDropdownOpen(true);
-        monthSelectRef.current.size = 6;
+      // Assurez-vous que monthSelectRef.current est défini avant de l'utiliser
+      if (monthSelectRef.current) {
+        setMonthDropdownOpen(true);
+        monthSelectRef.current.size = 4;
       }
     },
     onBlur: e => {
       e.target.classList.remove("focused");
+      // Fermer la dropdown du mois si elle est ouverte
+      if (isMonthDropdownOpen && monthSelectRef.current) {
+        setMonthDropdownOpen(false);
+        monthSelectRef.current.size = 1;
+      }
     },
     onKeyDown: e => {
       console.log("key code:", e.code);
-      if (e.code === "Enter" && !isDropdownOpen) {
+      if (e.code === "Enter" && !isMonthDropdownOpen) {
         e.preventDefault();
-        setDropdownOpen(true);
+        setMonthDropdownOpen(true);
         monthSelectRef.current.size = 2;
-      } else if (e.code === "Enter" && isDropdownOpen) {
+      } else if (e.code === "Enter" && isMonthDropdownOpen) {
         e.preventDefault();
 
         // Get month select value
@@ -263,18 +277,24 @@ function Calendar(_ref) {
         onDisplayChange(newYear);
       }
     },
-    className: "default-select-class ".concat(selectClass),
+    className: "year-dropdown ".concat(yearSelectClass, " ").concat(isYearDropdownOpen ? "dropdown-open" : ""),
     tabIndex: 0,
     onFocus: e => {
-      if (!isDropdownOpen) {
-        e.preventDefault();
-        e.target.classList.add("focused");
-        setDropdownOpen(true);
-        yearSelectRef.current.size = 6;
+      e.preventDefault();
+      e.stopPropagation();
+      e.target.classList.add("focused");
+      if (yearSelectRef.current) {
+        setYearDropdownOpen(true);
+        yearSelectRef.current.size = 4;
       }
     },
     onBlur: e => {
       e.target.classList.remove("focused");
+      // Fermez la dropdown de l'année si elle est ouverte
+      if (isYearDropdownOpen && yearSelectRef.current) {
+        setYearDropdownOpen(false);
+        yearSelectRef.current.size = 1;
+      }
     },
     onKeyDown: e => {
       console.log("key code:", e.code);
@@ -301,23 +321,27 @@ function Calendar(_ref) {
     onClick: () => handleMonthChange(-1)
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faChevronLeft,
-    tabIndex: 0
+    tabIndex: 0,
+    focusable: true
   })), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn icon-home",
     "data-cy": "icon-home",
     onClick: handleHomeClick
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faHome,
-    tabIndex: 0
+    tabIndex: 0,
+    focusable: true
   })), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn arrow-right",
     "data-cy": "arrow-right",
     onClick: () => handleMonthChange(1)
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faChevronRight,
-    tabIndex: 0
+    tabIndex: 0,
+    focusable: true
   }))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "calendar__days"
+    className: "calendar__days",
+    "data-cy": "calendar__days"
   }, /*#__PURE__*/_react.default.createElement("div", null, "S"), /*#__PURE__*/_react.default.createElement("div", null, "M"), /*#__PURE__*/_react.default.createElement("div", null, "T"), /*#__PURE__*/_react.default.createElement("div", null, "W"), /*#__PURE__*/_react.default.createElement("div", null, "T"), /*#__PURE__*/_react.default.createElement("div", null, "F"), /*#__PURE__*/_react.default.createElement("div", null, "S")), /*#__PURE__*/_react.default.createElement("div", {
     className: "calendar__dates"
   }, getDaysInMonthWithOffset().map((day, index) => /*#__PURE__*/_react.default.createElement("div", {
@@ -335,6 +359,7 @@ function Calendar(_ref) {
       }
     }
   }, /*#__PURE__*/_react.default.createElement("span", {
+    ref: daySelectRef,
     className: "calendar-day",
     "data-cy": "calendar-day"
   }, day))))));
