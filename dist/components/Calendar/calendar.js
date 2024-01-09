@@ -322,7 +322,7 @@ function Calendar(_ref) {
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faChevronLeft,
     tabIndex: 0,
-    focusable: true
+    className: "icon"
   })), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn icon-home",
     "data-cy": "icon-home",
@@ -330,7 +330,7 @@ function Calendar(_ref) {
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faHome,
     tabIndex: 0,
-    focusable: true
+    className: "icon"
   })), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn arrow-right",
     "data-cy": "arrow-right",
@@ -338,7 +338,7 @@ function Calendar(_ref) {
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faChevronRight,
     tabIndex: 0,
-    focusable: true
+    className: "icon"
   }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "calendar__days",
     "data-cy": "calendar__days"
