@@ -223,24 +223,19 @@ function Calendar(
   };
 
   // Select class for customize
-  const monthSelectClass =
-    customStyles?.monthSelectClass || "default-month-select-class";
-  const yearSelectClass =
-    customStyles?.yearSelectClass || "default-year-select-class";
+  const monthSelectClass = customStyles?.monthSelectClass || {};
+  const yearSelectClass = customStyles?.yearSelectClass || {};
 
   // Use properties width and height
   const calendarStyle = customStyles?.calendarStyle || {};
   const buttonStyle = customStyles?.buttonStyle || {};
   const dateStyle = customStyles?.dateStyle || {};
 
-
   // Render the Calendar component
   return (
     <div
       id="calendar"
-      className={`calendar ${
-        calendarStyle ? "custom-calendar-style" : ""
-      }`}
+      className={`calendar ${calendarStyle ? "custom-calendar-style" : ""}`}
       data-cy="calendar"
       style={calendarStyle}
     >
@@ -258,9 +253,9 @@ function Calendar(
               onDisplayChange(newMonth);
             }
           }}
-          className={`month-dropdown ${monthSelectClass} ${
-            isMonthDropdownOpen ? "dropdown-open" : ""
-          }`}
+          className={`month-dropdown ${
+            monthSelectClass ? "custom-month-select-style" : ""
+          } ${isMonthDropdownOpen ? "dropdown-open" : ""}`}
           tabIndex={0}
           onFocus={(e) => {
             e.preventDefault();
@@ -282,7 +277,6 @@ function Calendar(
             }
           }}
           onKeyDown={(e) => {
-            console.log("key code:", e.code);
             if (e.code === "Enter" && !isMonthDropdownOpen) {
               e.preventDefault();
 
@@ -333,9 +327,9 @@ function Calendar(
               onDisplayChange(newYear);
             }
           }}
-          className={`year-dropdown ${yearSelectClass} ${
-            isYearDropdownOpen ? "dropdown-open" : ""
-          }`}
+          className={`year-dropdown ${
+            yearSelectClass ? "custom-year-select-style" : ""
+          } ${isYearDropdownOpen ? "dropdown-open" : ""}`}
           tabIndex={0}
           onFocus={(e) => {
             e.preventDefault();
@@ -445,10 +439,9 @@ function Calendar(
             <div
               ref={daySelectRef}
               key={index}
-              
-                className={`calendar__date ${
-                  isSelectedDate(day) ? "selected" : ""
-                } ${dateStyle ? "custom-date-style" : ""}`}
+              className={`calendar__date ${
+                isSelectedDate(day) ? "selected" : ""
+              } ${dateStyle ? "custom-date-style" : ""}`}
               style={dateStyle}
               onClick={() => handleDateSelection(day)}
               data-cy="calendar-date"

@@ -194,8 +194,8 @@ function Calendar(_ref, ref) {
   };
 
   // Select class for customize
-  const monthSelectClass = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.monthSelectClass) || "default-month-select-class";
-  const yearSelectClass = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.yearSelectClass) || "default-year-select-class";
+  const monthSelectClass = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.monthSelectClass) || {};
+  const yearSelectClass = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.yearSelectClass) || {};
 
   // Use properties width and height
   const calendarStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.calendarStyle) || {};
@@ -223,7 +223,7 @@ function Calendar(_ref, ref) {
         onDisplayChange(newMonth);
       }
     },
-    className: "month-dropdown ".concat(monthSelectClass, " ").concat(isMonthDropdownOpen ? "dropdown-open" : ""),
+    className: "month-dropdown ".concat(monthSelectClass ? "custom-month-select-style" : "", " ").concat(isMonthDropdownOpen ? "dropdown-open" : ""),
     tabIndex: 0,
     onFocus: e => {
       e.preventDefault();
@@ -245,7 +245,6 @@ function Calendar(_ref, ref) {
       }
     },
     onKeyDown: e => {
-      console.log("key code:", e.code);
       if (e.code === "Enter" && !isMonthDropdownOpen) {
         e.preventDefault();
         setMonthDropdownOpen(true);
@@ -281,7 +280,7 @@ function Calendar(_ref, ref) {
         onDisplayChange(newYear);
       }
     },
-    className: "year-dropdown ".concat(yearSelectClass, " ").concat(isYearDropdownOpen ? "dropdown-open" : ""),
+    className: "year-dropdown ".concat(yearSelectClass ? "custom-year-select-style" : "", " ").concat(isYearDropdownOpen ? "dropdown-open" : ""),
     tabIndex: 0,
     onFocus: e => {
       e.preventDefault();

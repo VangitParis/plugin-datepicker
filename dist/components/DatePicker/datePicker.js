@@ -22,21 +22,23 @@ function DatePicker(_ref) {
   let {
     minYear,
     maxYear,
-    inputClassName,
     dateFormat,
     language,
-    font,
-    fontSize,
+    // font,
+    // fontSize,
     errorClass,
-    backgroundColor,
-    color,
-    width,
-    height,
-    calendarStyle,
-    buttonStyle,
+    // backgroundColor,
+    // color,
+    // width,
+    // height,
     monthSelectClass,
     yearSelectClass,
-    dateStyle
+    customStyles: {
+      inputStyle,
+      calendarStyle,
+      buttonStyle,
+      dateStyle
+    } = {}
   } = _ref;
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = (0, _react.useState)("");
@@ -166,14 +168,14 @@ function DatePicker(_ref) {
   };
 
   // Style for the input element
-  const inputStyle = {
-    fontFamily: font,
-    fontSize: fontSize,
-    backgroundColor: backgroundColor,
-    width,
-    color,
-    height
-  };
+  // const inputStyle = {
+  //   fontFamily: font,
+  //   fontSize: fontSize,
+  //   backgroundColor: backgroundColor,
+  //   width,
+  //   color,
+  //   height,
+  // };
 
   // JSX for rendering the component
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
@@ -188,7 +190,7 @@ function DatePicker(_ref) {
     onBlur: () => handleBlur,
     onKeyDown: handleKeyPress,
     style: inputStyle,
-    className: "input-date ".concat(inputClassName, " focused"),
+    className: "input-date ".concat(inputStyle ? "custom-input-style" : "", " focused"),
     autoFocus: showCalendar,
     "data-cy": "input-date",
     onMouseDown: toggleCalendar
@@ -197,9 +199,10 @@ function DatePicker(_ref) {
     className: "calendar-icon",
     "data-cy": "calendar-icon",
     onClick: toggleCalendar,
-    onFocus: toggleCalendar
+    onFocus: toggleCalendar,
+    tabIndex: 0
   })), errorMessage !== null && errorClass !== errorMessage && /*#__PURE__*/_react.default.createElement("p", {
-    className: "error-message ".concat(errorClass),
+    className: "error-message ".concat(errorClass ? "custom-error-message" : ""),
     style: {
       borderColor: errorMessage !== null ? "red" : ""
     }
@@ -214,17 +217,11 @@ function DatePicker(_ref) {
     maxYear: maxYear,
     language: language,
     customStyles: {
-      monthSelectClass: monthSelectClass || "default-month-select-class",
-      yearSelectClass: yearSelectClass || "default-year-select-class",
-      calendarStyle: {
-        calendarStyle
-      },
-      buttonStyle: {
-        buttonStyle
-      },
-      dateStyle: {
-        dateStyle
-      }
+      monthSelectClass,
+      yearSelectClass,
+      calendarStyle,
+      buttonStyle,
+      dateStyle
     },
     tabIndex: 0,
     dateFormat: dateFormat

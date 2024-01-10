@@ -3,9 +3,8 @@ import DatePicker from "./lib/components/DatePicker/datePicker.jsx";
 import "./App.css";
 
 function App({ customClass }) {
-  console.log("Custom Class in App:", customClass);
   return (
-    <main className={`main ${customClass}`}>
+    <main className={`main ${customClass ? "custom-main-class":""}`}>
       <div className="form">
         {/* Label for the date input */}
         <label htmlFor="date" aria-label="date" className="label-date">
@@ -18,11 +17,6 @@ function App({ customClass }) {
           language={"en-EN"}
           font="Roboto, sans-serif"
           fontSize="16px"
-          errorClass={"error-message"}
-          buttonBackgroundColor="#284bbd"
-          buttonColor="#fff"
-          monthSelectClass="default-month-select-class"
-          yearSelectClass="default-year-select-class"
         />
       </div>
     </main>

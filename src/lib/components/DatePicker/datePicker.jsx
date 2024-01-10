@@ -13,21 +13,19 @@ import "./datePicker.css";
 export default function DatePicker({
   minYear,
   maxYear,
-  inputClassName,
   dateFormat,
   language,
-  font,
-  fontSize,
+  // font,
+  // fontSize,
   errorClass,
-  backgroundColor,
-  color,
-  width,
-  height,
-  calendarStyle,
-  buttonStyle,
+  // backgroundColor,
+  // color,
+  // width,
+  // height,
   monthSelectClass,
   yearSelectClass,
-  dateStyle
+  customStyles: { inputStyle, calendarStyle, buttonStyle, dateStyle } = {}
+
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
@@ -175,14 +173,15 @@ export default function DatePicker({
   };
 
   // Style for the input element
-  const inputStyle = {
-    fontFamily: font,
-    fontSize: fontSize,
-    backgroundColor: backgroundColor,
-    width,
-    color,
-    height,
-  };
+  // const inputStyle = {
+  //   fontFamily: font,
+  //   fontSize: fontSize,
+  //   backgroundColor: backgroundColor,
+  //   width,
+  //   color,
+  //   height,
+  // };
+
 
   // JSX for rendering the component
   return (
@@ -199,7 +198,9 @@ export default function DatePicker({
           onBlur={() => handleBlur}
           onKeyDown={handleKeyPress}
           style={inputStyle}
-          className={`input-date ${inputClassName} focused`}
+          className={`input-date ${
+            inputStyle ? "custom-input-style" : ""
+          } focused`}
           autoFocus={showCalendar}
           data-cy="input-date"
           onMouseDown={toggleCalendar}
@@ -211,12 +212,13 @@ export default function DatePicker({
           data-cy={"calendar-icon"}
           onClick={toggleCalendar}
           onFocus={toggleCalendar}
+          tabIndex={0}
         ></FontAwesomeIcon>
       </div>
       {/* Display error message if there is an error */}
       {errorMessage !== null && errorClass !== errorMessage && (
         <p
-          className={`error-message ${errorClass}`}
+          className={`error-message ${errorClass ? "custom-error-message" : ""}`}
           style={{ borderColor: errorMessage !== null ? "red" : "" }}
         >
           {errorMessage}
@@ -236,13 +238,11 @@ export default function DatePicker({
           maxYear={maxYear}
           language={language}
           customStyles={{
-            monthSelectClass: monthSelectClass || "default-month-select-class",
-            yearSelectClass: yearSelectClass || "default-year-select-class",
-            calendarStyle: {
-              calendarStyle,
-            },
-            buttonStyle: { buttonStyle },
-            dateStyle : {dateStyle},
+            monthSelectClass ,
+            yearSelectClass ,
+            calendarStyle,
+            buttonStyle,
+            dateStyle,
           }}
           tabIndex={0}
           dateFormat={dateFormat}

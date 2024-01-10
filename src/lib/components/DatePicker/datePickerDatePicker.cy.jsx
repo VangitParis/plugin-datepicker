@@ -230,8 +230,8 @@ describe("Calendar", () => {
           height: "30px",
           borderRadius: "10px",
         }}
-        monthSelectClass="custom-month-select-class"
-        yearSelectClass="custom-year-select-class"
+        monthSelectClass="custom-month-select-style"
+        yearSelectClass="custom-year-select-style"
       />
     );
   
@@ -242,27 +242,27 @@ describe("Calendar", () => {
     cy.get("#calendar").should("be.visible");
   
     // Apply custom styles to the month select element
-    cy.get("select#calendar__month").invoke("attr", "style", "width: 100px; height: 30px; background-color: white; color: black; border-radius: 0;");
+    cy.get("select#calendar__month").invoke("attr", "style", "width: 150px; height: 150px; background-color: black; color: white; border-radius: 5px;");
   
     // Apply custom styles to the year select element
-    cy.get("select#calendar__year").invoke("attr", "style", "width: 100px; height: 30px; background-color: white; color: black; border-radius: 0;");
+    cy.get("select#calendar__year").invoke("attr", "style", "width: 150px; height: 150px; background-color: black; color: white; border-radius: 5px;");
   
     // Check if the month select element has the custom class and styles
     cy.get("select#calendar__month")
-      .should("have.class", "custom-month-select-class")
-      .and("have.css", "width", "100px")
-      .and("have.css", "height", "30px")
-      .and("have.css", "background-color", "rgb(255, 255, 255)")
-      .and("have.css", "color", "rgb(0, 0, 0)")
+      .should("have.class", "custom-month-select-style")
+      .and("have.css", "width", "150px")
+      .and("have.css", "height", "150px")
+      .and("have.css", "background-color", "rgb(0, 0, 0)")
+      .and("have.css", "color", "rgb(255, 255, 255)")
       .and("have.css", "border-radius");
   
     // Check if the year select element has the custom class and styles
     cy.get("select#calendar__year")
-      .should("have.class", "custom-year-select-class")
-      .and("have.css", "width", "100px")
-      .and("have.css", "height", "30px")
-      .and("have.css", "background-color", "rgb(255, 255, 255)")
-      .and("have.css", "color", "rgb(0, 0, 0)")
+      .should("have.class", "custom-year-select-style")
+      .and("have.css", "width", "150px")
+      .and("have.css", "height", "150px")
+      .and("have.css", "background-color", "rgb(0, 0, 0)")
+      .and("have.css", "color", "rgb(255, 255, 255)")
       .and("have.css", "border-radius");
     
     
