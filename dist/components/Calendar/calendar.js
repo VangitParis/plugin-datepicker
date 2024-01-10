@@ -318,7 +318,7 @@ function Calendar(_ref, ref) {
   }, displayed && /*#__PURE__*/_react.default.createElement("div", {
     className: "flex-between-center"
   }, /*#__PURE__*/_react.default.createElement("button", {
-    className: "btn arrow-left",
+    className: "btn arrow-left ".concat(buttonStyle ? "custom-button-style" : ""),
     style: buttonStyle,
     "data-cy": "arrow-left",
     onClick: () => handleMonthChange(-1)
@@ -327,7 +327,7 @@ function Calendar(_ref, ref) {
     tabIndex: 0,
     className: "icon"
   })), /*#__PURE__*/_react.default.createElement("button", {
-    className: "btn icon-home",
+    className: "btn icon-home ".concat(buttonStyle ? "custom-button-style" : ""),
     style: buttonStyle,
     "data-cy": "icon-home",
     onClick: handleHomeClick
@@ -336,7 +336,7 @@ function Calendar(_ref, ref) {
     tabIndex: 0,
     className: "icon"
   })), /*#__PURE__*/_react.default.createElement("button", {
-    className: "btn arrow-right",
+    className: "btn arrow-right ".concat(buttonStyle ? "custom-button-style" : ""),
     style: buttonStyle,
     "data-cy": "arrow-right",
     onClick: () => handleMonthChange(1)

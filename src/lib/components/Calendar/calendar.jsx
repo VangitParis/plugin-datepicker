@@ -345,7 +345,7 @@ function Calendar(
           }}
           onBlur={(e) => {
             e.target.classList.remove("focused");
-           
+
             if (isYearDropdownOpen && yearSelectRef.current) {
               setYearDropdownOpen(false);
               yearSelectRef.current.size = 1;
@@ -385,7 +385,9 @@ function Calendar(
         {displayed && (
           <div className="flex-between-center">
             <button
-              className="btn arrow-left"
+              className={`btn arrow-left ${
+                buttonStyle ? "custom-button-style" : ""
+              }`}
               style={buttonStyle}
               data-cy="arrow-left"
               onClick={() => handleMonthChange(-1)}
@@ -397,7 +399,9 @@ function Calendar(
               />
             </button>
             <button
-              className="btn icon-home"
+              className={`btn icon-home ${
+                buttonStyle ? "custom-button-style" : ""
+              }`}
               style={buttonStyle}
               data-cy="icon-home"
               onClick={handleHomeClick}
@@ -406,7 +410,9 @@ function Calendar(
             </button>
 
             <button
-              className="btn arrow-right"
+              className={`btn arrow-right ${
+                buttonStyle ? "custom-button-style" : ""
+              }`}
               style={buttonStyle}
               data-cy="arrow-right"
               onClick={() => handleMonthChange(1)}

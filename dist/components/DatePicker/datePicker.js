@@ -16,8 +16,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
 /**
  * React component for a date picker.
  * @param {{minYear : number, maxYear: number, customClass: string, dateFormat:string, dateFormat:string, language:string,font:string, fontSize:string,
- * errorClass:string, backgroundColor:string,color:string,width:number,height:number,calendarWidth:number,calendarHeight:number,buttonBackgroundColor:string,
- * buttonColor:string,monthSelectClass:string,yearSelectClass:string }}
+ * errorClass:string, backgroundColor:string,color:string,width:number,height:number,calendarWidth:number,calendarHeight:number,buttonStyle:string,monthSelectClass:string,yearSelectClass:string }}
  */
 function DatePicker(_ref) {
   let {
@@ -35,8 +34,7 @@ function DatePicker(_ref) {
     height,
     calendarWidth,
     calendarHeight,
-    buttonBackgroundColor,
-    buttonColor,
+    buttonStyle,
     monthSelectClass,
     yearSelectClass
   } = _ref;
@@ -223,8 +221,7 @@ function DatePicker(_ref) {
         height: calendarHeight || "auto"
       },
       buttonStyle: {
-        backgroundColor: "#284bbd" || buttonBackgroundColor,
-        color: "#fff" || buttonColor
+        buttonStyle
       }
     },
     tabIndex: 0,

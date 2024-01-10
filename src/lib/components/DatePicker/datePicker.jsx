@@ -8,8 +8,7 @@ import "./datePicker.css";
 /**
  * React component for a date picker.
  * @param {{minYear : number, maxYear: number, customClass: string, dateFormat:string, dateFormat:string, language:string,font:string, fontSize:string,
- * errorClass:string, backgroundColor:string,color:string,width:number,height:number,calendarWidth:number,calendarHeight:number,buttonBackgroundColor:string,
- * buttonColor:string,monthSelectClass:string,yearSelectClass:string }}
+ * errorClass:string, backgroundColor:string,color:string,width:number,height:number,calendarWidth:number,calendarHeight:number,buttonStyle:string,monthSelectClass:string,yearSelectClass:string }}
  */
 export default function DatePicker({
   minYear,
@@ -26,8 +25,7 @@ export default function DatePicker({
   height,
   calendarWidth,
   calendarHeight,
-  buttonBackgroundColor,
-  buttonColor,
+  buttonStyle,
   monthSelectClass,
   yearSelectClass,
 
@@ -247,11 +245,8 @@ export default function DatePicker({
               width: calendarWidth || "400px",
               height: calendarHeight || "auto",
             },
-
-            buttonStyle: {
-              backgroundColor: "#284bbd" || buttonBackgroundColor ,
-              color: "#fff" || buttonColor,
-            },
+            buttonStyle: {buttonStyle},
+      
           }}
           tabIndex={0}
           dateFormat={dateFormat}

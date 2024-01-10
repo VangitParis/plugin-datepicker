@@ -223,8 +223,13 @@ describe("Calendar", () => {
         language="en-EN"
         calendarWidth="400px"
         calendarHeight="300px"
-        buttonBackgroundColor="#284bbd"
-        buttonColor="#fff"
+        buttonStyle={{
+          backgroundColor: "white",
+          color: "black",
+          width: "100px",
+          height: "30px",
+          borderRadius: "10px",
+        }}
         monthSelectClass="custom-month-select-class"
         yearSelectClass="custom-year-select-class"
       />
@@ -262,13 +267,13 @@ describe("Calendar", () => {
     
     
      // Apply custom styles to the previous month button
-  cy.get(".btn.arrow-left").invoke("attr", "style", "width: 100px; height: 30px; background-color: white; color: black; border-radius: 0;");
+  cy.get(".btn.arrow-left").invoke("attr", "style", "width: 100px; height: 30px; background-color: white; color: black; border-radius: 10px;");
 
   // Apply custom styles to the home button
-  cy.get(".btn.icon-home").invoke("attr", "style", "width: 100px; height: 30px; background-color: white; color: black; border-radius: 0;");
+  cy.get(".btn.icon-home").invoke("attr", "style", "width: 100px; height: 30px; background-color: white; color: black; border-radius: 10px;");
 
   // Apply custom styles to the next month button
-  cy.get(".btn.arrow-right").invoke("attr", "style", "width: 100px; height: 30px; background-color: white; color: black; border-radius: 0;");
+  cy.get(".btn.arrow-right").invoke("attr", "style", "width: 100px; height: 30px; background-color: white; color: black; border-radius: 10px;");
 
   // Check if the previous month button has the custom styles
   cy.get(".btn.arrow-left")
@@ -276,7 +281,7 @@ describe("Calendar", () => {
     .and("have.css", "height", "30px")
     .and("have.css", "background-color", "rgb(255, 255, 255)")
     .and("have.css", "color", "rgb(0, 0, 0)")
-    .and("not.have.css", "border-radius");
+    .and("have.css", "border-radius", "10px");
 
   // Check if the home button has the custom styles
   cy.get(".btn.icon-home")
@@ -284,7 +289,7 @@ describe("Calendar", () => {
     .and("have.css", "height", "30px")
     .and("have.css", "background-color", "rgb(255, 255, 255)")
     .and("have.css", "color", "rgb(0, 0, 0)")
-    .and("not.have.css", "border-radius");
+    .and("have.css", "border-radius", "10px");
 
   // Check if the next month button has the custom styles
   cy.get(".btn.arrow-right")
@@ -292,7 +297,7 @@ describe("Calendar", () => {
     .and("have.css", "height", "30px")
     .and("have.css", "background-color", "rgb(255, 255, 255)")
     .and("have.css", "color", "rgb(0, 0, 0)")
-    .and("not.have.css", "border-radius");
+    .and("have.css", "border-radius", "10px");
 });
   });
 
