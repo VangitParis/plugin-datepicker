@@ -31,16 +31,23 @@ function DatePicker(_ref) {
     color,
     width,
     height,
-    calendarWidth
+    calendarWidth,
+    calendarHeight,
+    buttonBackgroundColor,
+    buttonColor,
+    monthSelectClass,
+    yearSelectClass
   } = _ref;
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = (0, _react.useState)("");
   const [dateInput, setDateInput] = (0, _react.useState)("");
   const [showCalendar, setShowCalendar] = (0, _react.useState)(false);
   const [errorMessage, setErrorMessage] = (0, _react.useState)(null);
+  const [clickInsideCalendar, setClickInsideCalendar] = (0, _react.useState)(false);
 
   // Reference to the input element
   const inputRef = (0, _react.useRef)(null);
+  const calendarRef = (0, _react.useRef)(null);
 
   /**
    * useEffect to initialize the date with the current date if selectedDate is empty.
@@ -51,7 +58,19 @@ function DatePicker(_ref) {
       setSelectedDate(currentDate);
       setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
     }
-  }, [dateFormat, selectedDate]);
+    const handleClick = event => {
+      if (event.target.closest("#calendar")) {
+        handleCalendarClick();
+        setSelectedDate((0, _modelisation.parseDateInput)(dateInput));
+      } else {
+        handleClickOutside();
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, [dateFormat, selectedDate, showCalendar, clickInsideCalendar, dateInput]);
 
   /**
    * Toggles the calendar visibility, opens only if errorMessage is null.
@@ -66,6 +85,21 @@ function DatePicker(_ref) {
       setSelectedDate(currentDate);
       setShowCalendar(false);
       setErrorMessage(null);
+    }
+  };
+  const handleClickOutside = () => {
+    if (showCalendar && !clickInsideCalendar) {
+      // Ferme le calendrier et conserve la date
+      setShowCalendar(false);
+      setSelectedDate((0, _modelisation.parseDateInput)(dateInput));
+    }
+    setClickInsideCalendar(false);
+    calendarRef.current = showCalendar;
+  };
+  const handleCalendarClick = () => {
+    if (!showCalendar) {
+      setClickInsideCalendar(true);
+      setDateInput(dateInput);
     }
   };
 
@@ -121,7 +155,10 @@ function DatePicker(_ref) {
     if (e.code === "Enter") {
       updateDate((0, _modelisation.parseDateInput)(dateInput));
     } else if (e.code === "Escape") {
-      setShowCalendar(false);
+      if (!clickInsideCalendar) {
+        setShowCalendar(false);
+        setSelectedDate((0, _modelisation.parseDateInput)(dateInput));
+      }
       setErrorMessage(null);
     } else if (e.code !== "Tab") {
       setShowCalendar(false);
@@ -153,7 +190,8 @@ function DatePicker(_ref) {
     style: inputStyle,
     className: "input-date ".concat(inputClassName, " focused"),
     autoFocus: showCalendar,
-    "data-cy": "input-date"
+    "data-cy": "input-date",
+    onMouseDown: toggleCalendar
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",
@@ -166,6 +204,7 @@ function DatePicker(_ref) {
       borderColor: errorMessage !== null ? "red" : ""
     }
   }, errorMessage), showCalendar && /*#__PURE__*/_react.default.createElement(_calendar.default, {
+    ref: calendarRef,
     "data-cy": "calendar",
     selectedDate: selectedDate,
     onSelect: handleCalendarDateClick,
@@ -175,11 +214,19 @@ function DatePicker(_ref) {
     maxYear: maxYear,
     language: language,
     customStyles: {
-      selectClass: "custom-select-class",
+      monthSelectClass: monthSelectClass || "default-month-select-class",
+      yearSelectClass: yearSelectClass || "default-year-select-class",
       calendarStyle: {
-        width: calendarWidth || "400px"
+        width: calendarWidth || "400px",
+        height: calendarHeight || "auto"
+      },
+      buttonStyle: {
+        backgroundColor: "#284bbd" || buttonBackgroundColor,
+        color: "#fff" || buttonColor
       }
-    },
+    }
+    // onClickInside={() => setClickInsideCalendar(true)}
+    ,
     tabIndex: 0,
     dateFormat: dateFormat
   }));

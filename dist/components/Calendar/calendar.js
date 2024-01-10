@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = Calendar;
+exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
@@ -29,7 +29,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  * @param {CalendarProps} props - The component properties.
  * @returns {JSX.Element} The rendered Calendar component.
  */
-function Calendar(_ref) {
+function Calendar(_ref, ref) {
   let {
     onSelect,
     selectedDate,
@@ -45,6 +45,7 @@ function Calendar(_ref) {
   const monthSelectRef = (0, _react.useRef)(null);
   const yearSelectRef = (0, _react.useRef)(null);
   const daySelectRef = (0, _react.useRef)();
+  console.log("Ref:", ref);
   const months = Array.from({
     length: 12
   }, (_, index) => index);
@@ -198,9 +199,11 @@ function Calendar(_ref) {
 
   // Utilisez les propriétés width et height pour les styles du calendrier
   const calendarStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.calendarStyle) || {};
+  const buttonStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.buttonStyle) || {};
 
   // Render the Calendar component
   return /*#__PURE__*/_react.default.createElement("div", {
+    id: "calendar",
     className: "calendar",
     "data-cy": "calendar",
     style: calendarStyle
@@ -317,6 +320,7 @@ function Calendar(_ref) {
     className: "flex-between-center"
   }, /*#__PURE__*/_react.default.createElement("button", {
     className: "btn arrow-left",
+    style: buttonStyle,
     "data-cy": "arrow-left",
     onClick: () => handleMonthChange(-1)
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
@@ -325,6 +329,7 @@ function Calendar(_ref) {
     className: "icon"
   })), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn icon-home",
+    style: buttonStyle,
     "data-cy": "icon-home",
     onClick: handleHomeClick
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
@@ -333,6 +338,7 @@ function Calendar(_ref) {
     className: "icon"
   })), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn arrow-right",
+    style: buttonStyle,
     "data-cy": "arrow-right",
     onClick: () => handleMonthChange(1)
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
@@ -364,3 +370,4 @@ function Calendar(_ref) {
     "data-cy": "calendar-day"
   }, day))))));
 }
+var _default = exports.default = /*#__PURE__*/(0, _react.forwardRef)(Calendar);
