@@ -22,16 +22,25 @@ export default function DatePicker({
   color,
   width,
   height,
-  calendarWidth
+  calendarWidth,
+  calendarHeight,
+  buttonBackgroundColor,
+  buttonColor,
+  monthSelectClass,
+  yearSelectClass,
+
+  
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
   const [dateInput, setDateInput] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [clickInsideCalendar, setClickInsideCalendar] = useState(false);
 
   // Reference to the input element
   const inputRef = useRef(null);
+  const calendarRef = useRef(null);
 
   /**
    * useEffect to initialize the date with the current date if selectedDate is empty.
@@ -39,11 +48,25 @@ export default function DatePicker({
   useEffect(() => {
     if (!selectedDate) {
       const currentDate = new Date();
-
       setSelectedDate(currentDate);
       setDateInput(formatDate(currentDate, dateFormat));
     }
-  }, [dateFormat, selectedDate]);
+
+    const handleClick = (event) => {
+      if (event.target.closest("#calendar")) {
+        handleCalendarClick();
+        setSelectedDate(parseDateInput(dateInput));
+      } else {
+        handleClickOutside();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, [dateFormat, selectedDate, showCalendar, clickInsideCalendar, dateInput]);
 
   /**
    * Toggles the calendar visibility, opens only if errorMessage is null.
@@ -58,6 +81,24 @@ export default function DatePicker({
       setSelectedDate(currentDate);
       setShowCalendar(false);
       setErrorMessage(null);
+    }
+  };
+
+  const handleClickOutside = () => {
+    if (showCalendar && !clickInsideCalendar) {
+      // Ferme le calendrier et conserve la date
+      setShowCalendar(false);
+      setSelectedDate(parseDateInput(dateInput));
+    }
+
+    setClickInsideCalendar(false);
+    calendarRef.current = showCalendar;
+  };
+
+  const handleCalendarClick = () => {
+    if (!showCalendar) {
+      setClickInsideCalendar(true);
+      setDateInput(dateInput);
     }
   };
 
@@ -125,12 +166,16 @@ export default function DatePicker({
     if (e.code === "Enter") {
       updateDate(parseDateInput(dateInput));
     } else if (e.code === "Escape") {
-      setShowCalendar(false);
+      if (!clickInsideCalendar) {
+        setShowCalendar(false);
+        setSelectedDate(parseDateInput(dateInput));
+      }
       setErrorMessage(null);
     } else if (e.code !== "Tab") {
       setShowCalendar(false);
     }
   };
+  
 
   // Style for the input element
   const inputStyle = {
@@ -157,10 +202,10 @@ export default function DatePicker({
           onBlur={() => handleBlur}
           onKeyDown={handleKeyPress}
           style={inputStyle}
-          className={`input-date ${inputClassName} focused` }
+          className={`input-date ${inputClassName} focused`}
           autoFocus={showCalendar}
           data-cy="input-date"
-          
+          onMouseDown={toggleCalendar}
         />
         {/* Calendar icon for opening/closing the calendar */}
         <FontAwesomeIcon
@@ -184,7 +229,8 @@ export default function DatePicker({
       {/* Custom calendar component */}
       {showCalendar && (
         <Calendar
-          data-cy={"calendar"}
+          ref={calendarRef}
+          data-cy="calendar"
           selectedDate={selectedDate}
           onSelect={handleCalendarDateClick}
           onDisplayChange={handleDisplayChange}
@@ -193,11 +239,19 @@ export default function DatePicker({
           maxYear={maxYear}
           language={language}
           customStyles={{
-            selectClass: "custom-select-class",
+            monthSelectClass: monthSelectClass || "default-month-select-class",
+            yearSelectClass: yearSelectClass || "default-year-select-class",
             calendarStyle: {
               width: calendarWidth || "400px",
+              height: calendarHeight || "auto",
+            },
+
+            buttonStyle: {
+              backgroundColor: "#284bbd" || buttonBackgroundColor ,
+              color: "#fff" || buttonColor,
             },
           }}
+          // onClickInside={() => setClickInsideCalendar(true)}
           tabIndex={0}
           dateFormat={dateFormat}
         />

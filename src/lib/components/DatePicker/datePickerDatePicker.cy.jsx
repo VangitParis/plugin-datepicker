@@ -7,11 +7,10 @@ import Calendar from "../Calendar/calendar";
 describe("<DatePicker />", () => {
   it("renders and selects a date", () => {
     // Ensure the DatePicker component is rendered correctly
-    // eslint-disable-next-line no-undef
     cy.mount(<DatePicker />);
   });
 
-  it("click and select date value", () => {
+  it("clicks and selects date value", () => {
     // Mount the DatePicker component with the specified date format
     cy.mount(
       <DatePicker
@@ -35,8 +34,8 @@ describe("<DatePicker />", () => {
         const formattedDate = formatDate(new Date(), "dd/MM/yyyy");
         console.log("Selected Date:", formattedDate);
 
-        // Check the month in the expected format
-        const month = formattedDate.split("/")[1]; // Assuming the output format of formatDate is 'DD/MM/YYYY'
+        // Check the month in the expected format : the output format of formatDate is 'DD/MM/YYYY
+        const month = formattedDate.split("/")[1]; 
         cy.log(`Month: ${month}`);
         cy.get("select#calendar__month option:selected").should(
           "have.text",
@@ -76,10 +75,10 @@ describe("<DatePicker />", () => {
       },
     };
     cy.mount(<DatePicker />);
-    // Cliquez pour ouvrir le calendrier
+    // Click to open the calendar
     cy.get(".calendar-icon").click();
 
-    // Montez le composant DatePicker avec les propriétés personnalisées
+    // Mount the DatePicker component with custom styles
     cy.mount(
       <Calendar
         minYear={2000}
@@ -94,20 +93,21 @@ describe("<DatePicker />", () => {
       />
     );
 
-    // Vérifiez que la largeur du calendrier est correcte
+    // Check if the calendar width is correct
     cy.get('[data-cy="calendar"]').should(
       "have.css",
       "width",
       customStyles.calendarStyle.width
     );
 
-    // Vérifiez que la hauteur du calendrier est correcte
+    // Check if the calendar height is correct
     cy.get('[data-cy="calendar"]').should(
       "have.css",
       "height",
       customStyles.calendarStyle.height
     );
   });
+
   it("displays error message for invalid date", () => {
     cy.mount(
       <DatePicker
@@ -121,7 +121,7 @@ describe("<DatePicker />", () => {
     // Clear initial date of input
     cy.get('[data-cy="input-date"]').clear();
 
-    // Test with invalidate date day
+    // Test with invalid date day
     cy.get('[data-cy="input-date"]').type("39/09/2020{enter}");
 
     // Error message should be visible
@@ -132,7 +132,7 @@ describe("<DatePicker />", () => {
     // Clear initial date of input
     cy.get('[data-cy="input-date"]').clear();
 
-    // Test with invalidate date month
+    // Test with invalid date month
     cy.get('[data-cy="input-date"]').type("01/49/2020{enter}");
 
     // Error message should be visible
@@ -143,7 +143,7 @@ describe("<DatePicker />", () => {
     // Clear initial date of input
     cy.get('[data-cy="input-date"]').clear();
 
-    // Test with invalidate date year
+    // Test with invalid date year
     cy.get('[data-cy="input-date"]').type("01/01/2090{enter}");
 
     // Error message should be visible
@@ -151,6 +151,7 @@ describe("<DatePicker />", () => {
       .should("be.visible")
       .and("have.text", "Invalid date format");
   });
+
   it("verifies autofocus on input", () => {
     cy.mount(
       <DatePicker
@@ -165,11 +166,12 @@ describe("<DatePicker />", () => {
     cy.get("input").should("have.class", "focused");
   });
 });
+
 describe("Calendar", () => {
   it("verifies that 01/01/2024 is a Monday", () => {
-    const dateToCheck = new Date(2024, 0, 1); // Le mois commence à 0, donc janvier est 0
+    const dateToCheck = new Date(2024, 0, 1); // Month starts from 0, so January is 0
 
-    // Montez le composant Calendar avec la date spécifiée
+    // Mount the Calendar component with the specified date
     cy.mount(
       <Calendar
         onSelect={() => {}}
@@ -190,7 +192,25 @@ describe("Calendar", () => {
       />
     );
 
-    // Vérifiez si le premier jour du mois dans le calendrier est un lundi
+    // Check if the first day of the month in the calendar is a Monday
     cy.get('[data-cy="calendar__days"] div').eq(1).should("have.text", "M");
+  });
+
+  it("should close calendar on outside click", () => {
+    cy.mount(<DatePicker minYear={2000} maxYear={2030} language="en-EN" />);
+
+    // Click to open the calendar
+    cy.get(".calendar-icon").click();
+
+    // Check if the calendar is open
+    cy.get("#calendar").should("be.visible");
+
+    // Click outside of Calendar
+    cy.get("body").click(0, 50);
+
+    cy.wait(500);
+
+    // Check if id=calendar is not present in the body
+    cy.get('body').should('not.have.id', 'calendar');
   });
 });

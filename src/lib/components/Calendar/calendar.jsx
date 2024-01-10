@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, forwardRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -26,15 +26,18 @@ import "./calendar.css";
  * @param {CalendarProps} props - The component properties.
  * @returns {JSX.Element} The rendered Calendar component.
  */
-export default function Calendar({
-  onSelect,
-  selectedDate,
-  onDisplayChange,
-  minYear,
-  maxYear,
-  language,
-  customStyles,
-}) {
+function Calendar(
+  {
+    onSelect,
+    selectedDate,
+    onDisplayChange,
+    minYear,
+    maxYear,
+    language,
+    customStyles,
+  },
+  ref
+) {
   const [displayed, setDisplayedMonth] = useState(selectedDate || new Date());
   const [isMonthDropdownOpen, setMonthDropdownOpen] = useState(false);
   const [isYearDropdownOpen, setYearDropdownOpen] = useState(false);
@@ -42,6 +45,7 @@ export default function Calendar({
   const monthSelectRef = useRef(null);
   const yearSelectRef = useRef(null);
   const daySelectRef = useRef();
+  console.log("Ref:", ref);
 
   const months = Array.from({ length: 12 }, (_, index) => index);
 
@@ -226,10 +230,16 @@ export default function Calendar({
 
   // Utilisez les propriétés width et height pour les styles du calendrier
   const calendarStyle = customStyles?.calendarStyle || {};
+  const buttonStyle = customStyles?.buttonStyle || {};
 
   // Render the Calendar component
   return (
-    <div className="calendar" data-cy="calendar" style={calendarStyle}>
+    <div
+      id="calendar"
+      className="calendar"
+      data-cy="calendar"
+      style={calendarStyle}
+    >
       <div className="calendar__opts">
         <select
           ref={monthSelectRef}
@@ -376,13 +386,19 @@ export default function Calendar({
           <div className="flex-between-center">
             <button
               className="btn arrow-left"
+              style={buttonStyle}
               data-cy="arrow-left"
               onClick={() => handleMonthChange(-1)}
             >
-              <FontAwesomeIcon icon={faChevronLeft} tabIndex={0} className="icon" />
+              <FontAwesomeIcon
+                icon={faChevronLeft}
+                tabIndex={0}
+                className="icon"
+              />
             </button>
             <button
               className="btn icon-home"
+              style={buttonStyle}
               data-cy="icon-home"
               onClick={handleHomeClick}
             >
@@ -391,10 +407,15 @@ export default function Calendar({
 
             <button
               className="btn arrow-right"
+              style={buttonStyle}
               data-cy="arrow-right"
               onClick={() => handleMonthChange(1)}
             >
-              <FontAwesomeIcon icon={faChevronRight} tabIndex={0} className="icon" />
+              <FontAwesomeIcon
+                icon={faChevronRight}
+                tabIndex={0}
+                className="icon"
+              />
             </button>
           </div>
         )}
@@ -443,3 +464,4 @@ export default function Calendar({
     </div>
   );
 }
+export default forwardRef(Calendar);
