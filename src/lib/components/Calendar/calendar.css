@@ -2,12 +2,9 @@
     --side-padding: 20px; 
     --border-radius: 34px; 
     --accent-br: 15px; 
-    /* width: 400px; */
+    width: 400px;
 }
-.calendar {
-  position: relative;
-  z-index: 1000; /* Ajustez la valeur selon les besoins */
-}
+
 
 select:focus-visible, .btn:focus-visible, .icon:focus-visible, .calendar__date:focus-visible{
   outline: 2px solid orange;
@@ -86,10 +83,11 @@ select:focus-visible, .btn:focus-visible, .icon:focus-visible, .calendar__date:f
         
           color: white;
         }
+        
         .calendar__date.selected:hover{
         
           color: black;
-        }
+        } 
       
   
       span {
