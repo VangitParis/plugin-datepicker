@@ -15,7 +15,9 @@ function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return 
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
 /**
  * React component for a date picker.
- * @param {{minYear : number, maxYear: number, customClass: string, dateFormat:string, dateFormat:string, language:string,font:string, fontSize:string }}
+ * @param {{minYear : number, maxYear: number, customClass: string, dateFormat:string, dateFormat:string, language:string,font:string, fontSize:string,
+ * errorClass:string, backgroundColor:string,color:string,width:number,height:number,calendarWidth:number,calendarHeight:number,buttonBackgroundColor:string,
+ * buttonColor:string,monthSelectClass:string,yearSelectClass:string }}
  */
 function DatePicker(_ref) {
   let {
@@ -89,7 +91,7 @@ function DatePicker(_ref) {
   };
   const handleClickOutside = () => {
     if (showCalendar && !clickInsideCalendar) {
-      // Ferme le calendrier et conserve la date
+      // Close calendar and select value of input
       setShowCalendar(false);
       setSelectedDate((0, _modelisation.parseDateInput)(dateInput));
     }
@@ -224,9 +226,7 @@ function DatePicker(_ref) {
         backgroundColor: "#284bbd" || buttonBackgroundColor,
         color: "#fff" || buttonColor
       }
-    }
-    // onClickInside={() => setClickInsideCalendar(true)}
-    ,
+    },
     tabIndex: 0,
     dateFormat: dateFormat
   }));

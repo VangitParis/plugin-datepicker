@@ -222,13 +222,13 @@ function Calendar(
     daySelectRef.current.value = selectDay;
   };
 
-  // Sélectionnez la classe pour styliser les éléments de sélection, en utilisant la classe personnalisée si elle est fournie
+  // Select class for customize
   const monthSelectClass =
     customStyles?.monthSelectClass || "default-month-select-class";
   const yearSelectClass =
     customStyles?.yearSelectClass || "default-year-select-class";
 
-  // Utilisez les propriétés width et height pour les styles du calendrier
+  // Use properties width and height
   const calendarStyle = customStyles?.calendarStyle || {};
   const buttonStyle = customStyles?.buttonStyle || {};
 
@@ -263,7 +263,7 @@ function Calendar(
             e.stopPropagation();
             e.target.classList.add("focused");
 
-            // Assurez-vous que monthSelectRef.current est défini avant de l'utiliser
+            // Is monthSelectRef.current  defined
             if (monthSelectRef.current) {
               setMonthDropdownOpen(true);
               monthSelectRef.current.size = 4;
@@ -271,7 +271,7 @@ function Calendar(
           }}
           onBlur={(e) => {
             e.target.classList.remove("focused");
-            // Fermer la dropdown du mois si elle est ouverte
+            // close dropdown if is open
             if (isMonthDropdownOpen && monthSelectRef.current) {
               setMonthDropdownOpen(false);
               monthSelectRef.current.size = 1;
@@ -345,7 +345,7 @@ function Calendar(
           }}
           onBlur={(e) => {
             e.target.classList.remove("focused");
-            // Fermez la dropdown de l'année si elle est ouverte
+           
             if (isYearDropdownOpen && yearSelectRef.current) {
               setYearDropdownOpen(false);
               yearSelectRef.current.size = 1;

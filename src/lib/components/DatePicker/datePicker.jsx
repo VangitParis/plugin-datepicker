@@ -7,7 +7,9 @@ import "./datePicker.css";
 
 /**
  * React component for a date picker.
- * @param {{minYear : number, maxYear: number, customClass: string, dateFormat:string, dateFormat:string, language:string,font:string, fontSize:string }}
+ * @param {{minYear : number, maxYear: number, customClass: string, dateFormat:string, dateFormat:string, language:string,font:string, fontSize:string,
+ * errorClass:string, backgroundColor:string,color:string,width:number,height:number,calendarWidth:number,calendarHeight:number,buttonBackgroundColor:string,
+ * buttonColor:string,monthSelectClass:string,yearSelectClass:string }}
  */
 export default function DatePicker({
   minYear,
@@ -86,7 +88,7 @@ export default function DatePicker({
 
   const handleClickOutside = () => {
     if (showCalendar && !clickInsideCalendar) {
-      // Ferme le calendrier et conserve la date
+      // Close calendar and select value of input
       setShowCalendar(false);
       setSelectedDate(parseDateInput(dateInput));
     }
@@ -251,7 +253,6 @@ export default function DatePicker({
               color: "#fff" || buttonColor,
             },
           }}
-          // onClickInside={() => setClickInsideCalendar(true)}
           tabIndex={0}
           dateFormat={dateFormat}
         />
