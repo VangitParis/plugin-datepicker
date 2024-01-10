@@ -15,6 +15,7 @@ export default function DatePicker({
   maxYear,
   dateFormat,
   language,
+  inputStyle,
   // font,
   // fontSize,
   errorClass,
@@ -24,7 +25,7 @@ export default function DatePicker({
   // height,
   monthSelectClass,
   yearSelectClass,
-  customStyles: { inputStyle, calendarStyle, buttonStyle, dateStyle } = {}
+  customStyles: { calendarStyle, buttonStyle, dateStyle } = {}
 
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message

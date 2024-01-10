@@ -24,6 +24,7 @@ function DatePicker(_ref) {
     maxYear,
     dateFormat,
     language,
+    inputStyle,
     // font,
     // fontSize,
     errorClass,
@@ -34,7 +35,6 @@ function DatePicker(_ref) {
     monthSelectClass,
     yearSelectClass,
     customStyles: {
-      inputStyle,
       calendarStyle,
       buttonStyle,
       dateStyle
