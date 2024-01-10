@@ -231,12 +231,16 @@ function Calendar(
   // Use properties width and height
   const calendarStyle = customStyles?.calendarStyle || {};
   const buttonStyle = customStyles?.buttonStyle || {};
+  const dateStyle = customStyles?.dateStyle || {};
+
 
   // Render the Calendar component
   return (
     <div
       id="calendar"
-      className="calendar"
+      className={`calendar ${
+        calendarStyle ? "custom-calendar-style" : ""
+      }`}
       data-cy="calendar"
       style={calendarStyle}
     >
@@ -441,9 +445,11 @@ function Calendar(
             <div
               ref={daySelectRef}
               key={index}
-              className={`calendar__date ${
-                isSelectedDate(day) ? "selected" : ""
-              }`}
+              
+                className={`calendar__date ${
+                  isSelectedDate(day) ? "selected" : ""
+                } ${dateStyle ? "custom-date-style" : ""}`}
+              style={dateStyle}
               onClick={() => handleDateSelection(day)}
               data-cy="calendar-date"
               tabIndex={0}

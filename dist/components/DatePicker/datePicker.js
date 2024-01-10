@@ -32,11 +32,11 @@ function DatePicker(_ref) {
     color,
     width,
     height,
-    calendarWidth,
-    calendarHeight,
+    calendarStyle,
     buttonStyle,
     monthSelectClass,
-    yearSelectClass
+    yearSelectClass,
+    dateStyle
   } = _ref;
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = (0, _react.useState)("");
@@ -217,11 +217,13 @@ function DatePicker(_ref) {
       monthSelectClass: monthSelectClass || "default-month-select-class",
       yearSelectClass: yearSelectClass || "default-year-select-class",
       calendarStyle: {
-        width: calendarWidth || "400px",
-        height: calendarHeight || "auto"
+        calendarStyle
       },
       buttonStyle: {
         buttonStyle
+      },
+      dateStyle: {
+        dateStyle
       }
     },
     tabIndex: 0,

@@ -23,13 +23,11 @@ export default function DatePicker({
   color,
   width,
   height,
-  calendarWidth,
-  calendarHeight,
+  calendarStyle,
   buttonStyle,
   monthSelectClass,
   yearSelectClass,
-
-  
+  dateStyle
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
@@ -175,7 +173,6 @@ export default function DatePicker({
       setShowCalendar(false);
     }
   };
-  
 
   // Style for the input element
   const inputStyle = {
@@ -242,11 +239,10 @@ export default function DatePicker({
             monthSelectClass: monthSelectClass || "default-month-select-class",
             yearSelectClass: yearSelectClass || "default-year-select-class",
             calendarStyle: {
-              width: calendarWidth || "400px",
-              height: calendarHeight || "auto",
+              calendarStyle,
             },
-            buttonStyle: {buttonStyle},
-      
+            buttonStyle: { buttonStyle },
+            dateStyle : {dateStyle},
           }}
           tabIndex={0}
           dateFormat={dateFormat}

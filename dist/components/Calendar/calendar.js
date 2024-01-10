@@ -200,11 +200,12 @@ function Calendar(_ref, ref) {
   // Use properties width and height
   const calendarStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.calendarStyle) || {};
   const buttonStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.buttonStyle) || {};
+  const dateStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.dateStyle) || {};
 
   // Render the Calendar component
   return /*#__PURE__*/_react.default.createElement("div", {
     id: "calendar",
-    className: "calendar",
+    className: "calendar ".concat(calendarStyle ? "custom-calendar-style" : ""),
     "data-cy": "calendar",
     style: calendarStyle
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -352,7 +353,8 @@ function Calendar(_ref, ref) {
   }, getDaysInMonthWithOffset().map((day, index) => /*#__PURE__*/_react.default.createElement("div", {
     ref: daySelectRef,
     key: index,
-    className: "calendar__date ".concat(isSelectedDate(day) ? "selected" : ""),
+    className: "calendar__date ".concat(isSelectedDate(day) ? "selected" : "", " ").concat(dateStyle ? "custom-date-style" : ""),
+    style: dateStyle,
     onClick: () => handleDateSelection(day),
     "data-cy": "calendar-date",
     tabIndex: 0,
