@@ -173,15 +173,6 @@ export default function DatePicker({
     }
   };
 
-//  // Style for the input element
-//   const inputStyle = {
-//     fontFamily: font,
-//     fontSize: fontSize,
-//     backgroundColor: backgroundColor,
-//     width,
-//     color,
-//     height,
-//   };
 
 
   // JSX for rendering the component
@@ -198,7 +189,7 @@ export default function DatePicker({
           onChange={(e) => handleDateChange(e.target.value)}
           onBlur={() => handleBlur}
           onKeyDown={handleKeyPress}
-          className={`input-date ${customInputClass ? customInputClass : ""} focused`}
+          className={`input-date ${customInputClass ? "custom-input-class" : ""} focused`}
           autoFocus={showCalendar}
           data-cy="input-date"
           onMouseDown={toggleCalendar}

@@ -167,16 +167,6 @@ function DatePicker(_ref) {
     }
   };
 
-  //  // Style for the input element
-  //   const inputStyle = {
-  //     fontFamily: font,
-  //     fontSize: fontSize,
-  //     backgroundColor: backgroundColor,
-  //     width,
-  //     color,
-  //     height,
-  //   };
-
   // JSX for rendering the component
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "input-container"
@@ -189,7 +179,7 @@ function DatePicker(_ref) {
     onChange: e => handleDateChange(e.target.value),
     onBlur: () => handleBlur,
     onKeyDown: handleKeyPress,
-    className: "input-date ".concat(customInputClass ? customInputClass : "", " focused"),
+    className: "input-date ".concat(customInputClass ? "custom-input-class" : "", " focused"),
     autoFocus: showCalendar,
     "data-cy": "input-date",
     onMouseDown: toggleCalendar
