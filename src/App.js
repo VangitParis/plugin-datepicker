@@ -17,7 +17,6 @@ function App({ customClass }) {
           language={"en-EN"}
           font="Roboto, sans-serif"
           fontSize="16px"
-          inputStyle="custom-input-style"
         />
       </div>
     </main>

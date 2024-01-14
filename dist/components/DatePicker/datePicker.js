@@ -24,7 +24,7 @@ function DatePicker(_ref) {
     maxYear,
     dateFormat,
     language,
-    inputStyle,
+    customInputClass,
     // font,
     // fontSize,
     errorClass,
@@ -167,15 +167,15 @@ function DatePicker(_ref) {
     }
   };
 
-  // Style for the input element
-  // const inputStyle = {
-  //   fontFamily: font,
-  //   fontSize: fontSize,
-  //   backgroundColor: backgroundColor,
-  //   width,
-  //   color,
-  //   height,
-  // };
+  //  // Style for the input element
+  //   const inputStyle = {
+  //     fontFamily: font,
+  //     fontSize: fontSize,
+  //     backgroundColor: backgroundColor,
+  //     width,
+  //     color,
+  //     height,
+  //   };
 
   // JSX for rendering the component
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
@@ -189,7 +189,7 @@ function DatePicker(_ref) {
     onChange: e => handleDateChange(e.target.value),
     onBlur: () => handleBlur,
     onKeyDown: handleKeyPress,
-    className: "input-date ".concat(inputStyle ? "custom-input-style" : "", " focused"),
+    className: "input-date ".concat(customInputClass ? customInputClass : "", " focused"),
     autoFocus: showCalendar,
     "data-cy": "input-date",
     onMouseDown: toggleCalendar
