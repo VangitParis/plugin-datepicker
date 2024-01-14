@@ -198,7 +198,6 @@ export default function DatePicker({
           onChange={(e) => handleDateChange(e.target.value)}
           onBlur={() => handleBlur}
           onKeyDown={handleKeyPress}
-          style={inputStyle}
           className={`input-date ${
             inputStyle ? "custom-input-style" : ""
           } focused`}

@@ -189,7 +189,6 @@ function DatePicker(_ref) {
     onChange: e => handleDateChange(e.target.value),
     onBlur: () => handleBlur,
     onKeyDown: handleKeyPress,
-    style: inputStyle,
     className: "input-date ".concat(inputStyle ? "custom-input-style" : "", " focused"),
     autoFocus: showCalendar,
     "data-cy": "input-date",
