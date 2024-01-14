@@ -17,7 +17,7 @@ function App({ customClass }) {
           language={"en-EN"}
           font="Roboto, sans-serif"
           fontSize="16px"
-          customInputClass
+          customInputClass={{ className: "custom-input-class" }}
         />
       </div>
     </main>
