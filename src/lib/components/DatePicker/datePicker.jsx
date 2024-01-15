@@ -6,9 +6,25 @@ import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import "./datePicker.css";
 
 /**
- * React component for a date picker.
- * @param {{minYear : number, maxYear: number, customClass: string, dateFormat:string, dateFormat:string, language:string,font:string, fontSize:string,
- * errorClass:string, backgroundColor:string,color:string,width:number,height:number,calendarWidth:number,calendarHeight:number,buttonStyle:string,monthSelectClass:string,yearSelectClass:string }}
+ * DatePicker Component
+ *
+ * @param {{
+ *   minYear: number,
+ *   maxYear: number,
+ *   customInputClass: string,
+ *   dateFormat: string,
+ *   language: string,
+ *   errorClass: string,
+ *   customStyles: {
+ *     calendarStyle: Object,
+ *     monthSelectClass: Object,
+ *     yearSelectClass: Object,
+ *     buttonStyle: Object,
+ *     dateStyle: Object,
+ *   },
+ * }} props - The component properties.
+ *
+ * @returns {JSX.Element} The rendered DatePicker component.
  */
 export default function DatePicker({
   minYear,
@@ -16,17 +32,15 @@ export default function DatePicker({
   dateFormat,
   language,
   customInputClass,
-  // font,
-  // fontSize,
   errorClass,
-  // backgroundColor,
-  // color,
-  // width,
-  // height,
-  monthSelectClass,
-  yearSelectClass,
-  customStyles: { calendarStyle, buttonStyle, dateStyle } = {}
 
+  customStyles: {
+    calendarStyle,
+    monthSelectClass,
+    yearSelectClass,
+    buttonStyle,
+    dateStyle,
+  } = {},
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
@@ -81,6 +95,9 @@ export default function DatePicker({
     }
   };
 
+  /**
+   * Handles click outside of the calendar, closes the calendar and selects the input value.
+   */
   const handleClickOutside = () => {
     if (showCalendar && !clickInsideCalendar) {
       // Close calendar and select value of input
@@ -92,6 +109,9 @@ export default function DatePicker({
     calendarRef.current = showCalendar;
   };
 
+  /**
+   * Handles click inside the calendar, sets clickInsideCalendar to true.
+   */
   const handleCalendarClick = () => {
     if (!showCalendar) {
       setClickInsideCalendar(true);
@@ -120,6 +140,10 @@ export default function DatePicker({
     setErrorMessage(null);
   };
 
+  /**
+   * Updates the selected date if the new date is valid, otherwise sets an error message.
+   * @param {Date} newDate - The new date.
+   */
   const updateDate = (newDate) => {
     if (
       newDate &&
@@ -143,7 +167,7 @@ export default function DatePicker({
 
   /**
    * Handles the change of the input date, parses the input and updates the state accordingly.
-   * @param {Event} event - The input change event.
+   * @param {string} inputValue - The input value.
    */
   const handleDateChange = (inputValue) => {
     setDateInput(inputValue);
@@ -151,13 +175,16 @@ export default function DatePicker({
     setShowCalendar(false);
   };
 
+  /**
+   * Handles blur event, updates the date based on the input value.
+   */
   const handleBlur = () => {
     handleDateChange(dateInput);
   };
 
   /**
    * Handles key press events, opens the calendar and displays the entered date on 'Enter'.
-   * @param {Event} event - The key press event.
+   * @param {Event} e - The key press event.
    */
   const handleKeyPress = (e) => {
     if (e.code === "Enter") {
@@ -173,8 +200,6 @@ export default function DatePicker({
     }
   };
 
-
-
   // JSX for rendering the component
   return (
     <>
@@ -189,7 +214,9 @@ export default function DatePicker({
           onChange={(e) => handleDateChange(e.target.value)}
           onBlur={() => handleBlur}
           // onKeyDown={handleKeyPress}
-          className={`input-date ${customInputClass ? customInputClass.className : ""} focused`}
+          className={`input-date ${
+            customInputClass ? customInputClass.className : ""
+          } focused`}
           autoFocus={showCalendar}
           data-cy="input-date"
           onMouseDown={toggleCalendar}
@@ -208,7 +235,9 @@ export default function DatePicker({
       {/* Display error message if there is an error */}
       {errorMessage !== null && errorClass !== errorMessage && (
         <p
-          className={`error-message ${errorClass ? "custom-error-message" : ""}`}
+          className={`error-message ${
+            errorClass ? "custom-error-message" : ""
+          }`}
           style={{ borderColor: errorMessage !== null ? "red" : "" }}
         >
           {errorMessage}
@@ -228,8 +257,8 @@ export default function DatePicker({
           maxYear={maxYear}
           language={language}
           customStyles={{
-            monthSelectClass ,
-            yearSelectClass ,
+            monthSelectClass,
+            yearSelectClass,
             calendarStyle,
             buttonStyle,
             dateStyle,

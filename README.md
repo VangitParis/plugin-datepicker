@@ -2,9 +2,44 @@
 
 A flexible and customizable React DatePicker component with a built-in calendar for easy date selection.
 
+## Example of DatePicker Component Usage
+
+### Initial Input:
+Location: ./screenshots/input/Input_initial.png
+Description: Screenshot showcasing the initial appearance of the DatePicker input.
+
+![Input initial](./screenshots/input/Input_initial.png)
+
+
+### Opened Calendar:
+Location: ./screenshots/calendar/calendar_opened.png
+Description: Screenshot illustrating the opened calendar for date selection.
+
+![Calendar opened](./screenshots/calendar/calendar_opened.png)
+
+### Month and Year Selection:
+Location: ./screenshots/calendar/month_year_selected.png
+Description: Screenshot displaying the selection of the month and year in the calendar.
+
+![Select month and year](./screenshots/calendar/month_year_selected.png)
+
+
+### Day Selection:
+Location: ./screenshots/calendar/day_selected.png
+Description: Screenshot illustrating the selection of a specific day in the calendar.
+
+![Select Day](./screenshots/calendar/day_selected.png)
+
+### Rendered Input with Selected Date:
+Location: ./screenshots/input/input_rendered.png
+Description: Screenshot showing the final appearance of the input after date selection.
+
+![Input rendered](./screenshots/input/input_rendered.png)
+
+
 ## Installation
 
-To install the DatePicker component, use npm or yarn:
+To install the DatePicker component, use npm :
 
 ```bash
 npm install plugin-datepicker --save
@@ -25,11 +60,16 @@ function App() {
       <DatePicker
         minYear={2000}
         maxYear={2030}
-        customClass="custom-datepicker"
+        customInputClass="custom-datepicker"
         dateFormat="yyyy-MM-dd"
         language="en"
-        font="Arial, sans-serif"
-        fontSize="16px"
+        errorClass="custom-error-message"
+        customStyles={{
+          calendarStyle: {},
+          monthSelectClass: {},
+          yearSelectClass: {},
+          buttonStyle: {},
+          dateStyle: {},
       />
     </div>
   );
@@ -41,11 +81,17 @@ export default App;
 ## Props
 - minYear (number, optional): The minimum allowed year for date selection.
 - maxYear (number, optional): The maximum allowed year for date selection.
-- customClass (string, optional): Additional custom class for styling.
+- customInputClass (string, optional): Additional custom class for styling.
 - dateFormat (string, optional): The format in which the date should be displayed. Defaults to "yyyy/MM/dd".
 - language (string, optional): The language for the date picker. Defaults to "en".
-- font (string, optional): The font style for the input.
-- fontSize (string, optional): The font size for the input.
+- errorClass (string, optional): Additional custom class for styling error messages.
+- customStyles (object, optional): Custom styles for various elements.
+  - calendarStyle (object): Styles for the calendar container.
+  - monthSelectClass (object): Styles for the month select dropdown.
+  - yearSelectClass (object): Styles for the year select dropdown.
+  - buttonStyle (object): Styles for navigation buttons.
+  - dateStyle (object): Styles for individual dates.
+
 
 ## Features
 - Easy date selection with a built-in calendar.
@@ -71,5 +117,16 @@ npm install
 npm start
 ```
 
+# Testing with Cypress 
+To run Cypress tests, use the following command:
+```bash
+npm run cypress:open
+```
+This will open the Cypress Test Runner, allowing you to run and interact with the tests.
 
+# EsLint
+This project uses ESLint for code linting. To run ESLint, use the following command:
+```bash
+npm run lint
+```
 

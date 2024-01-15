@@ -177,7 +177,7 @@ describe("Calendar", () => {
     cy.wait(500);
 
     // Check if id=calendar is not present in the body
-    cy.get('body').should('not.have.id', 'calendar');
+    cy.get("body").should("not.have.id", "calendar");
   });
   it("customize buttons and selects elements of Calendar", () => {
     // Mount the DatePicker component

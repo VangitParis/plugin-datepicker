@@ -16,6 +16,7 @@ cypress.config.js
 
 # production
 /build
+/screenshots
 
 
 # misc

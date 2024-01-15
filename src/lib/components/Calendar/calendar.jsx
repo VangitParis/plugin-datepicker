@@ -10,20 +10,23 @@ import "./calendar.css";
 /**
  * Calendar Component
  *
- * @component
- * @typedef {Object} CalendarProps
- * @property {Function} onSelect - Callback function when a date is selected.
- * @property {Date} selectedDate - The currently selected date.
- * @property {Function} onDisplayChange - Callback function when the displayed month changes.
- * @property {Function} onKeyPress - Callback function when a key is pressed.
- * @property {number} minYear - The minimum selectable year.
- * @property {number} maxYear - The maximum selectable year.
- * @property {string} language - The language used for month names.
- * @property {Object} customStyles - Custom styles for the component.
- * @property {string} customStyles.monthSelectClass - Custom class for the select month elements.
- * @property {string} customStyles.yearSelectClass - Custom class for the select year elements.
- *
- * @param {CalendarProps} props - The component properties.
+ * @param {{
+ *   onSelect: Function,
+ *   selectedDate: Date,
+ *   onDisplayChange: Function,
+ *   onKeyPress: Function,
+ *   minYear: number,
+ *   maxYear: number,
+ *   language: string,
+ *   customStyles: {
+ *     monthSelectClass: string,
+ *     yearSelectClass: string,
+ *     calendarStyle: Object,
+ *     buttonStyle: Object,
+ *     dateStyle: Object,
+ *   },
+ * }} props - Component properties.
+ * @param {React.Ref} ref - Forwarded ref.
  * @returns {JSX.Element} The rendered Calendar component.
  */
 function Calendar(
@@ -42,12 +45,13 @@ function Calendar(
   const [isMonthDropdownOpen, setMonthDropdownOpen] = useState(false);
   const [isYearDropdownOpen, setYearDropdownOpen] = useState(false);
 
+  // References to DOM elements for various parts of the calendar.
   const monthSelectRef = useRef(null);
   const yearSelectRef = useRef(null);
   const daySelectRef = useRef();
   const homeButtonRef = useRef();
 
-
+  // Array of month indices
   const months = Array.from({ length: 12 }, (_, index) => index);
 
   // Interval of years based on minYear and maxYear properties
@@ -85,27 +89,10 @@ function Calendar(
         0
       ).getDate();
 
-      // console.log("First day of month:", firstDayOfMonth);
-      // console.log("First day of week:", firstDayOfWeek);
-      // console.log("Days in month:", daysInMonth);
-
       const offset = firstDayOfWeek;
 
       const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
       const daysWithOffset = [...Array(offset).fill(null), ...days];
-      // console.log("Years:", years);
-
-      // Store the reference to the element of the first day
-      // if (days.length > 0) {
-      //   const firstDayElementId = `calendar-day-${days[0]}`;
-      //   daySelectRef.current = document.getElementById(firstDayElementId);
-      //   console.log(firstDayElementId);
-      // }
-      // if (days.length > 0) {
-      //   const lastDayElementId = `calendar-day-${days[days.length - 1]}`;
-      //   daySelectRef.current = document.getElementById(lastDayElementId);
-      // }
-   
 
       return daysWithOffset;
     } catch (error) {
@@ -190,6 +177,7 @@ function Calendar(
   const isSelectedDate = (day) => {
     return displayed && day === displayed.getDate();
   };
+
   /**
    * Handle dropdown click for the year and month selection.
    *
@@ -220,7 +208,7 @@ function Calendar(
    *
    * @param {number} selectDay - The selected day.
    */
-  const handleDayKeyPress = (e,selectDay) => {
+  const handleDayKeyPress = (e, selectDay) => {
     if (daySelectRef.current) {
       const newDate = new Date(
         displayed.getFullYear(),
@@ -234,15 +222,14 @@ function Calendar(
       }
 
       daySelectRef.current.value = selectDay;
-    } 
     }
-  
+  };
 
   // Select class for customize
   const monthSelectClass = customStyles?.monthSelectClass || {};
   const yearSelectClass = customStyles?.yearSelectClass || {};
 
-  // Use properties width and height
+  // Custom styles
   const calendarStyle = customStyles?.calendarStyle || {};
   const buttonStyle = customStyles?.buttonStyle || {};
   const dateStyle = customStyles?.dateStyle || {};
@@ -255,7 +242,6 @@ function Calendar(
       data-cy="calendar"
       style={calendarStyle}
       ref={ref}
-   
     >
       <div className="calendar__opts">
         <select
@@ -412,8 +398,7 @@ function Calendar(
               <FontAwesomeIcon icon={faChevronLeft} className="icon" />
             </button>
             <button
-                ref={homeButtonRef}
-
+              ref={homeButtonRef}
               className={`btn icon-home ${
                 buttonStyle ? "custom-button-style" : ""
               }`}
@@ -438,7 +423,7 @@ function Calendar(
             </button>
           </div>
         )}
-
+        {/* Days of the Week */}
         <div className="calendar__days" data-cy="calendar__days">
           <div>S</div>
           <div>M</div>
@@ -449,34 +434,32 @@ function Calendar(
           <div>S</div>
         </div>
 
+        {/* Calendar Dates */}
         <div className="calendar__dates">
           {getDaysInMonthWithOffset().map((day, index) => (
             <div
               ref={daySelectRef}
               key={index}
-              className={`calendar__date ${ isSelectedDate(day) ? "selected" : ""
-                } ${ dateStyle ? "custom-date-style" : "" } ${ day > 0 ? "current-month" : "other-month"
-                }`}
+              className={`calendar__date ${
+                isSelectedDate(day) ? "selected" : ""
+              } ${dateStyle ? "custom-date-style" : ""} ${
+                day > 0 ? "current-month" : "other-month"
+              }`}
               style={dateStyle}
               onClick={() => handleDateSelection(day)}
               data-cy="calendar-date"
               tabIndex={day > 0 ? 0 : -1}
-              // onKeyDown={(e) => {
-              //   if (e.code === "Enter") {
-              //     e.preventDefault();
-
-              //     handleDayKeyPress(day);
-              //     handleDateSelection(day);
-              //   }
-             
-              // }}
               onKeyDown={(e) => {
                 if (e.code === "Enter") {
                   e.preventDefault();
                   handleDayKeyPress(day);
                   handleDateSelection(day);
-                }else if (e.code === "Tab" && !e.shiftKey && day === getDaysInMonthWithOffset().slice(-1)[0]) {
-                  // Si la touche Tab est pressée sans la touche Shift sur le dernier jour, déplacez le focus vers le bouton Home
+                } else if (
+                  e.code === "Tab" &&
+                  !e.shiftKey &&
+                  day === getDaysInMonthWithOffset().slice(-1)[0]
+                ) {
+                  // If the Tab key is pressed without the Shift key on the last day, move focus to the Home button.
                   if (homeButtonRef.current) {
                     e.preventDefault();
                     homeButtonRef.current.focus();

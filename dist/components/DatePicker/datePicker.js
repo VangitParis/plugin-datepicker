@@ -14,9 +14,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
 /**
- * React component for a date picker.
- * @param {{minYear : number, maxYear: number, customClass: string, dateFormat:string, dateFormat:string, language:string,font:string, fontSize:string,
- * errorClass:string, backgroundColor:string,color:string,width:number,height:number,calendarWidth:number,calendarHeight:number,buttonStyle:string,monthSelectClass:string,yearSelectClass:string }}
+ * DatePicker Component
+ *
+ * @param {{
+ *   minYear: number,
+ *   maxYear: number,
+ *   customInputClass: string,
+ *   dateFormat: string,
+ *   language: string,
+ *   errorClass: string,
+ *   customStyles: {
+ *     calendarStyle: Object,
+ *     monthSelectClass: Object,
+ *     yearSelectClass: Object,
+ *     buttonStyle: Object,
+ *     dateStyle: Object,
+ *   },
+ * }} props - The component properties.
+ *
+ * @returns {JSX.Element} The rendered DatePicker component.
  */
 function DatePicker(_ref) {
   let {
@@ -25,17 +41,11 @@ function DatePicker(_ref) {
     dateFormat,
     language,
     customInputClass,
-    // font,
-    // fontSize,
     errorClass,
-    // backgroundColor,
-    // color,
-    // width,
-    // height,
-    monthSelectClass,
-    yearSelectClass,
     customStyles: {
       calendarStyle,
+      monthSelectClass,
+      yearSelectClass,
       buttonStyle,
       dateStyle
     } = {}
@@ -89,6 +99,10 @@ function DatePicker(_ref) {
       setErrorMessage(null);
     }
   };
+
+  /**
+   * Handles click outside of the calendar, closes the calendar and selects the input value.
+   */
   const handleClickOutside = () => {
     if (showCalendar && !clickInsideCalendar) {
       // Close calendar and select value of input
@@ -98,6 +112,10 @@ function DatePicker(_ref) {
     setClickInsideCalendar(false);
     calendarRef.current = showCalendar;
   };
+
+  /**
+   * Handles click inside the calendar, sets clickInsideCalendar to true.
+   */
   const handleCalendarClick = () => {
     if (!showCalendar) {
       setClickInsideCalendar(true);
@@ -125,6 +143,11 @@ function DatePicker(_ref) {
     setDateInput((0, _modelisation.formatDate)(newDisplayedDate));
     setErrorMessage(null);
   };
+
+  /**
+   * Updates the selected date if the new date is valid, otherwise sets an error message.
+   * @param {Date} newDate - The new date.
+   */
   const updateDate = newDate => {
     if (newDate && !isNaN(newDate.getTime()) && newDate.getFullYear() >= minYear && newDate.getFullYear() <= maxYear && newDate.getMonth() >= 0 && newDate.getMonth() <= 11 && newDate.getDate() >= 1 && newDate.getDate() <= new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate()) {
       setSelectedDate(newDate);
@@ -138,20 +161,24 @@ function DatePicker(_ref) {
 
   /**
    * Handles the change of the input date, parses the input and updates the state accordingly.
-   * @param {Event} event - The input change event.
+   * @param {string} inputValue - The input value.
    */
   const handleDateChange = inputValue => {
     setDateInput(inputValue);
     updateDate((0, _modelisation.parseDateInput)(inputValue));
     setShowCalendar(false);
   };
+
+  /**
+   * Handles blur event, updates the date based on the input value.
+   */
   const handleBlur = () => {
     handleDateChange(dateInput);
   };
 
   /**
    * Handles key press events, opens the calendar and displays the entered date on 'Enter'.
-   * @param {Event} event - The key press event.
+   * @param {Event} e - The key press event.
    */
   const handleKeyPress = e => {
     if (e.code === "Enter") {
