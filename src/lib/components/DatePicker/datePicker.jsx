@@ -188,7 +188,7 @@ export default function DatePicker({
           value={dateInput}
           onChange={(e) => handleDateChange(e.target.value)}
           onBlur={() => handleBlur}
-          onKeyDown={handleKeyPress}
+          // onKeyDown={handleKeyPress}
           className={`input-date ${customInputClass ? customInputClass.className : ""} focused`}
           autoFocus={showCalendar}
           data-cy="input-date"
@@ -202,6 +202,7 @@ export default function DatePicker({
           onClick={toggleCalendar}
           onFocus={toggleCalendar}
           tabIndex={0}
+          onKeyDown={handleKeyPress}
         ></FontAwesomeIcon>
       </div>
       {/* Display error message if there is an error */}

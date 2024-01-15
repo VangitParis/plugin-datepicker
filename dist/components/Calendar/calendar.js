@@ -45,7 +45,7 @@ function Calendar(_ref, ref) {
   const monthSelectRef = (0, _react.useRef)(null);
   const yearSelectRef = (0, _react.useRef)(null);
   const daySelectRef = (0, _react.useRef)();
-  console.log("Ref:", ref);
+  const homeButtonRef = (0, _react.useRef)();
   const months = Array.from({
     length: 12
   }, (_, index) => index);
@@ -76,15 +76,29 @@ function Calendar(_ref, ref) {
       const firstDayOfMonth = getFirstDayOfMonth();
       const firstDayOfWeek = firstDayOfMonth.getDay();
       const daysInMonth = new Date(displayed.getFullYear(), displayed.getMonth() + 1, 0).getDate();
-      console.log("First day of month:", firstDayOfMonth);
-      console.log("First day of week:", firstDayOfWeek);
-      console.log("Days in month:", daysInMonth);
+
+      // console.log("First day of month:", firstDayOfMonth);
+      // console.log("First day of week:", firstDayOfWeek);
+      // console.log("Days in month:", daysInMonth);
+
       const offset = firstDayOfWeek;
       const days = Array.from({
         length: daysInMonth
       }, (_, index) => index + 1);
       const daysWithOffset = [...Array(offset).fill(null), ...days];
-      console.log("Years:", years);
+      // console.log("Years:", years);
+
+      // Store the reference to the element of the first day
+      // if (days.length > 0) {
+      //   const firstDayElementId = `calendar-day-${days[0]}`;
+      //   daySelectRef.current = document.getElementById(firstDayElementId);
+      //   console.log(firstDayElementId);
+      // }
+      // if (days.length > 0) {
+      //   const lastDayElementId = `calendar-day-${days[days.length - 1]}`;
+      //   daySelectRef.current = document.getElementById(lastDayElementId);
+      // }
+
       return daysWithOffset;
     } catch (error) {
       console.error("Error in getDaysInMonthWithOffset:", error);
@@ -184,13 +198,15 @@ function Calendar(_ref, ref) {
    *
    * @param {number} selectDay - The selected day.
    */
-  const handleDayKeyPress = selectDay => {
-    const newDate = new Date(displayed.getFullYear(), displayed.getMonth(), selectDay);
-    setDisplayedMonth(newDate);
-    if (onDisplayChange) {
-      onDisplayChange(newDate);
+  const handleDayKeyPress = (e, selectDay) => {
+    if (daySelectRef.current) {
+      const newDate = new Date(displayed.getFullYear(), displayed.getMonth(), selectDay);
+      setDisplayedMonth(newDate);
+      if (onDisplayChange) {
+        onDisplayChange(newDate);
+      }
+      daySelectRef.current.value = selectDay;
     }
-    daySelectRef.current.value = selectDay;
   };
 
   // Select class for customize
@@ -207,7 +223,8 @@ function Calendar(_ref, ref) {
     id: "calendar",
     className: "calendar ".concat(calendarStyle ? "custom-calendar-style" : ""),
     "data-cy": "calendar",
-    style: calendarStyle
+    style: calendarStyle,
+    ref: ref
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "calendar__opts"
   }, /*#__PURE__*/_react.default.createElement("select", {
@@ -321,28 +338,29 @@ function Calendar(_ref, ref) {
     className: "btn arrow-left ".concat(buttonStyle ? "custom-button-style" : ""),
     style: buttonStyle,
     "data-cy": "arrow-left",
+    tabIndex: 0,
     onClick: () => handleMonthChange(-1)
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faChevronLeft,
-    tabIndex: 0,
     className: "icon"
   })), /*#__PURE__*/_react.default.createElement("button", {
+    ref: homeButtonRef,
     className: "btn icon-home ".concat(buttonStyle ? "custom-button-style" : ""),
     style: buttonStyle,
     "data-cy": "icon-home",
+    tabIndex: 0,
     onClick: handleHomeClick
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faHome,
-    tabIndex: 0,
     className: "icon"
   })), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn arrow-right ".concat(buttonStyle ? "custom-button-style" : ""),
     style: buttonStyle,
     "data-cy": "arrow-right",
+    tabIndex: 0,
     onClick: () => handleMonthChange(1)
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faChevronRight,
-    tabIndex: 0,
     className: "icon"
   }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "calendar__days",
@@ -352,22 +370,37 @@ function Calendar(_ref, ref) {
   }, getDaysInMonthWithOffset().map((day, index) => /*#__PURE__*/_react.default.createElement("div", {
     ref: daySelectRef,
     key: index,
-    className: "calendar__date ".concat(isSelectedDate(day) ? "selected" : "", " ").concat(dateStyle ? "custom-date-style" : ""),
+    className: "calendar__date ".concat(isSelectedDate(day) ? "selected" : "", " ").concat(dateStyle ? "custom-date-style" : "", " ").concat(day > 0 ? "current-month" : "other-month"),
     style: dateStyle,
     onClick: () => handleDateSelection(day),
     "data-cy": "calendar-date",
-    tabIndex: 0,
+    tabIndex: day > 0 ? 0 : -1
+    // onKeyDown={(e) => {
+    //   if (e.code === "Enter") {
+    //     e.preventDefault();
+
+    //     handleDayKeyPress(day);
+    //     handleDateSelection(day);
+    //   }
+
+    // }}
+    ,
     onKeyDown: e => {
       if (e.code === "Enter") {
         e.preventDefault();
         handleDayKeyPress(day);
         handleDateSelection(day);
+      } else if (e.code === "Tab" && !e.shiftKey && day === getDaysInMonthWithOffset().slice(-1)[0]) {
+        // Si la touche Tab est pressée sans la touche Shift sur le dernier jour, déplacez le focus vers le bouton Home
+        if (homeButtonRef.current) {
+          e.preventDefault();
+          homeButtonRef.current.focus();
+        }
       }
     }
   }, /*#__PURE__*/_react.default.createElement("span", {
-    ref: daySelectRef,
     className: "calendar-day",
     "data-cy": "calendar-day"
-  }, day))))));
+  }, day > 0 ? day : ""))))));
 }
 var _default = exports.default = /*#__PURE__*/(0, _react.forwardRef)(Calendar);

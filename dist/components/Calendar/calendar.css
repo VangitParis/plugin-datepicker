@@ -72,9 +72,18 @@ body {
         transition: background-color 0.3s ease;
       }
   
-      .calendar__date:not(.calendar__date--selected):not(.calendar__date--grey):hover::before {
+.calendar__date:not(.calendar__date--selected):not(.calendar__date--grey):not(.other-month):hover::before {
         background-color: #ededed;
-      }
+}
+      
+.other-month {
+  cursor: none;
+}
+
+.other-month:hover::before {
+  background-color: transparent !important;
+  transition: none !important; 
+}     
   
 /* .calendar__date--grey {
   color: #c5c8ca;
@@ -196,4 +205,8 @@ button:hover{
 
 select:focus-visible, .btn:focus-visible, .icon:focus-visible, .calendar__date:focus-visible{
   outline: 2px solid orange;
+}
+.other-month:focus-visible {
+  outline: none;
+
 }

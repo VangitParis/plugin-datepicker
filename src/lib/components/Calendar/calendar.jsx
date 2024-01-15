@@ -45,7 +45,8 @@ function Calendar(
   const monthSelectRef = useRef(null);
   const yearSelectRef = useRef(null);
   const daySelectRef = useRef();
-  console.log("Ref:", ref);
+  const homeButtonRef = useRef();
+
 
   const months = Array.from({ length: 12 }, (_, index) => index);
 
@@ -84,15 +85,27 @@ function Calendar(
         0
       ).getDate();
 
-      console.log("First day of month:", firstDayOfMonth);
-      console.log("First day of week:", firstDayOfWeek);
-      console.log("Days in month:", daysInMonth);
+      // console.log("First day of month:", firstDayOfMonth);
+      // console.log("First day of week:", firstDayOfWeek);
+      // console.log("Days in month:", daysInMonth);
 
       const offset = firstDayOfWeek;
 
       const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
       const daysWithOffset = [...Array(offset).fill(null), ...days];
-      console.log("Years:", years);
+      // console.log("Years:", years);
+
+      // Store the reference to the element of the first day
+      // if (days.length > 0) {
+      //   const firstDayElementId = `calendar-day-${days[0]}`;
+      //   daySelectRef.current = document.getElementById(firstDayElementId);
+      //   console.log(firstDayElementId);
+      // }
+      // if (days.length > 0) {
+      //   const lastDayElementId = `calendar-day-${days[days.length - 1]}`;
+      //   daySelectRef.current = document.getElementById(lastDayElementId);
+      // }
+   
 
       return daysWithOffset;
     } catch (error) {
@@ -207,20 +220,23 @@ function Calendar(
    *
    * @param {number} selectDay - The selected day.
    */
-  const handleDayKeyPress = (selectDay) => {
-    const newDate = new Date(
-      displayed.getFullYear(),
-      displayed.getMonth(),
-      selectDay
-    );
-    setDisplayedMonth(newDate);
+  const handleDayKeyPress = (e,selectDay) => {
+    if (daySelectRef.current) {
+      const newDate = new Date(
+        displayed.getFullYear(),
+        displayed.getMonth(),
+        selectDay
+      );
+      setDisplayedMonth(newDate);
 
-    if (onDisplayChange) {
-      onDisplayChange(newDate);
+      if (onDisplayChange) {
+        onDisplayChange(newDate);
+      }
+
+      daySelectRef.current.value = selectDay;
+    } 
     }
-
-    daySelectRef.current.value = selectDay;
-  };
+  
 
   // Select class for customize
   const monthSelectClass = customStyles?.monthSelectClass || {};
@@ -238,6 +254,8 @@ function Calendar(
       className={`calendar ${calendarStyle ? "custom-calendar-style" : ""}`}
       data-cy="calendar"
       style={calendarStyle}
+      ref={ref}
+   
     >
       <div className="calendar__opts">
         <select
@@ -388,23 +406,23 @@ function Calendar(
               }`}
               style={buttonStyle}
               data-cy="arrow-left"
+              tabIndex={0}
               onClick={() => handleMonthChange(-1)}
             >
-              <FontAwesomeIcon
-                icon={faChevronLeft}
-                tabIndex={0}
-                className="icon"
-              />
+              <FontAwesomeIcon icon={faChevronLeft} className="icon" />
             </button>
             <button
+                ref={homeButtonRef}
+
               className={`btn icon-home ${
                 buttonStyle ? "custom-button-style" : ""
               }`}
               style={buttonStyle}
               data-cy="icon-home"
+              tabIndex={0}
               onClick={handleHomeClick}
             >
-              <FontAwesomeIcon icon={faHome} tabIndex={0} className="icon" />
+              <FontAwesomeIcon icon={faHome} className="icon" />
             </button>
 
             <button
@@ -413,13 +431,10 @@ function Calendar(
               }`}
               style={buttonStyle}
               data-cy="arrow-right"
+              tabIndex={0}
               onClick={() => handleMonthChange(1)}
             >
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                tabIndex={0}
-                className="icon"
-              />
+              <FontAwesomeIcon icon={faChevronRight} className="icon" />
             </button>
           </div>
         )}
@@ -439,28 +454,38 @@ function Calendar(
             <div
               ref={daySelectRef}
               key={index}
-              className={`calendar__date ${
-                isSelectedDate(day) ? "selected" : ""
-              } ${dateStyle ? "custom-date-style" : ""}`}
+              className={`calendar__date ${ isSelectedDate(day) ? "selected" : ""
+                } ${ dateStyle ? "custom-date-style" : "" } ${ day > 0 ? "current-month" : "other-month"
+                }`}
               style={dateStyle}
               onClick={() => handleDateSelection(day)}
               data-cy="calendar-date"
-              tabIndex={0}
+              tabIndex={day > 0 ? 0 : -1}
+              // onKeyDown={(e) => {
+              //   if (e.code === "Enter") {
+              //     e.preventDefault();
+
+              //     handleDayKeyPress(day);
+              //     handleDateSelection(day);
+              //   }
+             
+              // }}
               onKeyDown={(e) => {
                 if (e.code === "Enter") {
                   e.preventDefault();
-
                   handleDayKeyPress(day);
                   handleDateSelection(day);
+                }else if (e.code === "Tab" && !e.shiftKey && day === getDaysInMonthWithOffset().slice(-1)[0]) {
+                  // Si la touche Tab est pressée sans la touche Shift sur le dernier jour, déplacez le focus vers le bouton Home
+                  if (homeButtonRef.current) {
+                    e.preventDefault();
+                    homeButtonRef.current.focus();
+                  }
                 }
               }}
             >
-              <span
-                ref={daySelectRef}
-                className="calendar-day"
-                data-cy="calendar-day"
-              >
-                {day}
+              <span className="calendar-day" data-cy="calendar-day">
+                {day > 0 ? day : ""}
               </span>
             </div>
           ))}

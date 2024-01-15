@@ -177,8 +177,9 @@ function DatePicker(_ref) {
     placeholder: "Select date",
     value: dateInput,
     onChange: e => handleDateChange(e.target.value),
-    onBlur: () => handleBlur,
-    onKeyDown: handleKeyPress,
+    onBlur: () => handleBlur
+    // onKeyDown={handleKeyPress}
+    ,
     className: "input-date ".concat(customInputClass ? customInputClass.className : "", " focused"),
     autoFocus: showCalendar,
     "data-cy": "input-date",
@@ -189,7 +190,8 @@ function DatePicker(_ref) {
     "data-cy": "calendar-icon",
     onClick: toggleCalendar,
     onFocus: toggleCalendar,
-    tabIndex: 0
+    tabIndex: 0,
+    onKeyDown: handleKeyPress
   })), errorMessage !== null && errorClass !== errorMessage && /*#__PURE__*/_react.default.createElement("p", {
     className: "error-message ".concat(errorClass ? "custom-error-message" : ""),
     style: {
