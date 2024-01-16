@@ -24,15 +24,7 @@
     "type": "git",
     "url": "git+https://github.com/VangitParis/plugin-datepicker.git"
   },
-  "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.5.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "eslintrc": "^1.0.6",
-    "web-vitals": "^2.1.4"
-  },
+
   "scripts": {
     "start": "react-scripts start",
     "build-examples": "react-scripts build",
@@ -43,17 +35,15 @@
     "publish": "npm publish",
     "lint": "eslint src/"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  
+  "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "eslintrc": "^1.0.6",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.4",
@@ -72,5 +62,17 @@
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "rimraf": "^5.0.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

@@ -33,7 +33,7 @@ export default function DatePicker({
   language,
   customInputClass,
   errorClass,
-
+  id,
   customStyles: {
     calendarStyle,
     monthSelectClass,
@@ -207,7 +207,7 @@ export default function DatePicker({
         {/* Input element for date selection */}
         <input
           ref={inputRef}
-          id="date"
+          id={id}
           type="text"
           placeholder="Select date"
           value={dateInput}

@@ -7,7 +7,7 @@ function App({ customClass }) {
     <main className={`main ${customClass ? "custom-main-class":""}`}>
       <div className="form">
         {/* Label for the date input */}
-        <label htmlFor="date" aria-label="date" className="label-date">
+        <label htmlFor="inputDate" aria-label="inputDate" className="label-date">
           Select your favorite date
         </label>
         <DatePicker
@@ -18,6 +18,7 @@ function App({ customClass }) {
           font="Roboto, sans-serif"
           fontSize="16px"
           customInputClass={{ className: "custom-input-class" }}
+          id="inputDate"
         />
       </div>
     </main>

@@ -42,6 +42,7 @@ function DatePicker(_ref) {
     language,
     customInputClass,
     errorClass,
+    id,
     customStyles: {
       calendarStyle,
       monthSelectClass,
@@ -199,7 +200,7 @@ function DatePicker(_ref) {
     className: "input-container"
   }, /*#__PURE__*/_react.default.createElement("input", {
     ref: inputRef,
-    id: "date",
+    id: id,
     type: "text",
     placeholder: "Select date",
     value: dateInput,
