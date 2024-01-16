@@ -1,6 +1,6 @@
 {
   "name": "plugin-datepicker",
-  "version": "1.1.19",
+  "version": "1.1.20",
   "description": "A versatile and customizable React DatePicker component with an integrated calendar for easy date selection.",
   "main": "dist/components/DatePicker/datePicker.js",
   "module": "dist/components/DatePicker/datePicker.js",
@@ -24,7 +24,6 @@
     "type": "git",
     "url": "git+https://github.com/VangitParis/plugin-datepicker.git"
   },
-
   "scripts": {
     "start": "react-scripts start",
     "build-examples": "react-scripts build",
@@ -35,7 +34,6 @@
     "publish": "npm publish",
     "lint": "eslint src/"
   },
-  
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
