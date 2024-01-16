@@ -209,7 +209,10 @@ function DatePicker(_ref) {
     className: "input-date ".concat(customInputClass ? customInputClass.className : "", " focused"),
     autoFocus: showCalendar,
     "data-cy": "input-date",
-    onMouseDown: toggleCalendar
+    onMouseDown: e => {
+      e.preventDefault();
+      toggleCalendar();
+    }
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",

@@ -219,7 +219,10 @@ export default function DatePicker({
           } focused`}
           autoFocus={showCalendar}
           data-cy="input-date"
-          onMouseDown={toggleCalendar}
+          onMouseDown={(e) => {
+            e.preventDefault(); 
+            toggleCalendar();
+          }}
         />
         {/* Calendar icon for opening/closing the calendar */}
         <FontAwesomeIcon
