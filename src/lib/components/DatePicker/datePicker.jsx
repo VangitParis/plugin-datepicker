@@ -219,17 +219,16 @@ export default function DatePicker({
           } focused`}
           autoFocus={showCalendar}
           data-cy="input-date"
-          onMouseDown={(e) => {
-            e.preventDefault(); 
-            toggleCalendar();
-          }}
+          onMouseDown={toggleCalendar}
         />
         {/* Calendar icon for opening/closing the calendar */}
         <FontAwesomeIcon
           icon={faCalendarDay}
           className="calendar-icon"
           data-cy={"calendar-icon"}
-          onClick={toggleCalendar}
+          onClick={(e) => {
+          e.preventDefault()
+          toggleCalendar()}}
           onFocus={toggleCalendar}
           tabIndex={0}
           onKeyDown={handleKeyPress}
