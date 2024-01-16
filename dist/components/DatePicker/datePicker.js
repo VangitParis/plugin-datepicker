@@ -215,10 +215,7 @@ function DatePicker(_ref) {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",
     "data-cy": "calendar-icon",
-    onClick: e => {
-      e.preventDefault();
-      toggleCalendar();
-    },
+    onClick: toggleCalendar,
     onFocus: toggleCalendar,
     tabIndex: 0,
     onKeyDown: handleKeyPress
