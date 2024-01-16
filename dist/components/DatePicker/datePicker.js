@@ -120,7 +120,7 @@ function DatePicker(_ref) {
    */
   const handleCalendarClick = () => {
     if (!showCalendar) {
-      setClickInsideCalendar(true);
+      setClickInsideCalendar(false);
       setDateInput(dateInput);
     }
   };
@@ -206,8 +206,10 @@ function DatePicker(_ref) {
     placeholder: "Select date",
     value: dateInput,
     onChange: e => handleDateChange(e.target.value),
-    onBlur: handleBlur,
-    onKeyDown: handleKeyPress,
+    autoFocus: showCalendar,
+    onBlur: handleBlur
+    // onKeyDown={handleKeyPress}
+    ,
     className: "input-date ".concat(customInputClass ? customInputClass.className : "", " focused"),
     "data-cy": "input-date",
     onMouseDown: toggleCalendar
@@ -215,8 +217,9 @@ function DatePicker(_ref) {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",
     "data-cy": "calendar-icon",
-    onClick: toggleCalendar,
-    onFocus: toggleCalendar,
+    onClick: toggleCalendar
+    // onFocus={toggleCalendar}
+    ,
     tabIndex: 0,
     onKeyDown: handleKeyPress
   })), errorMessage !== null && errorClass !== errorMessage && /*#__PURE__*/_react.default.createElement("p", {

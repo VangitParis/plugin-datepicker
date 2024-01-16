@@ -115,7 +115,7 @@ export default function DatePicker({
    */
   const handleCalendarClick = () => {
     if (!showCalendar) {
-      setClickInsideCalendar(true);
+      setClickInsideCalendar(false);
       setDateInput(dateInput);
     }
   };
@@ -190,6 +190,8 @@ export default function DatePicker({
   const handleKeyPress = (e) => {
     if (e.code === "Enter") {
       updateDate(parseDateInput(dateInput));
+
+      
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
         setShowCalendar(false);
@@ -213,9 +215,9 @@ export default function DatePicker({
           placeholder="Select date"
           value={dateInput}
           onChange={(e) => handleDateChange(e.target.value)}
-         
+          autoFocus={showCalendar}
           onBlur={handleBlur}
-          onKeyDown={handleKeyPress}
+          // onKeyDown={handleKeyPress}
           className={`input-date ${
             customInputClass ? customInputClass.className : ""
           } focused`}
@@ -228,7 +230,7 @@ export default function DatePicker({
           className="calendar-icon"
           data-cy={"calendar-icon"}
           onClick={toggleCalendar}
-          onFocus={toggleCalendar}
+          // onFocus={toggleCalendar}
           tabIndex={0}
           onKeyDown={handleKeyPress}
         ></FontAwesomeIcon>

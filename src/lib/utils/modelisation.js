@@ -20,12 +20,12 @@ export const formatDate = (date, format = "dd/MM/yyyy") => {
 
 // Fonction pour convertir une chaîne de date en instance de Date
 
-export const parseDateInput = (input) => {
-  if (input instanceof Date) {
-    return input;
+export const parseDateInput = (date) => {
+  if (date instanceof Date) {
+    return date;
   }
   try {
-    const parts = input.split("/");
+    const parts = date.split("/");
     
     if (parts.length === 3) {
       const day = parseInt(parts[0], 10);
@@ -53,17 +53,7 @@ export const parseDateInput = (input) => {
   }
 };
       
-export const formatDateWithoutTime = (date) => {
-  if (!(date instanceof Date) || isNaN(date.getTime())) {
-    return "";
-  }
 
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-};
 
 
 

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.parseDateInput = exports.formatDateWithoutTime = exports.formatDate = void 0;
+exports.parseDateInput = exports.formatDate = void 0;
 /**
  * Format a date according to the specified format.
  * Default format is 'dd/MM/yyyy'.
@@ -26,12 +26,12 @@ const formatDate = function (date) {
 
 // Fonction pour convertir une chaîne de date en instance de Date
 exports.formatDate = formatDate;
-const parseDateInput = input => {
-  if (input instanceof Date) {
-    return input;
+const parseDateInput = date => {
+  if (date instanceof Date) {
+    return date;
   }
   try {
-    const parts = input.split("/");
+    const parts = date.split("/");
     if (parts.length === 3) {
       const day = parseInt(parts[0], 10);
       const month = parseInt(parts[1], 10) - 1; // Les mois sont indexés à partir de 0
@@ -54,13 +54,3 @@ const parseDateInput = input => {
   }
 };
 exports.parseDateInput = parseDateInput;
-const formatDateWithoutTime = date => {
-  if (!(date instanceof Date) || isNaN(date.getTime())) {
-    return "";
-  }
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  return "".concat(year, "-").concat(month.toString().padStart(2, '0'), "-").concat(day.toString().padStart(2, '0'));
-};
-exports.formatDateWithoutTime = formatDateWithoutTime;

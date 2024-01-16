@@ -3,9 +3,10 @@ import DatePicker from "./lib/components/DatePicker/datePicker.jsx";
 import "./App.css";
 
 function App({ customClass }) {
+ 
   return (
     <main className={`main ${customClass ? "custom-main-class" : ""}`}>
-      <form className="form">
+      <div className="form">
         {/* Label for the date input */}
         <label
           htmlFor="inputDate"
@@ -24,8 +25,9 @@ function App({ customClass }) {
           fontSize="16px"
           customInputClass={{ className: "custom-input-class" }}
           id="inputDate"
+      
         />
-      </form>
+      </div>
     </main>
   );
 }

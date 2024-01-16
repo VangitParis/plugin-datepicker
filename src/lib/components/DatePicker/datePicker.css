@@ -11,7 +11,7 @@
 .input-container{
     position: relative;
     display: inline-block;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 /* Style for the calendar icon */
@@ -34,7 +34,4 @@
 
 .input-date:focus-visible, .calendar-icon:focus-visible{
     outline: 2px solid orange;
-}
-.calendar-icon:focus{
-    outline: inherit;
 }
