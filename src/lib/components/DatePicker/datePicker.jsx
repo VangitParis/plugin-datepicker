@@ -34,6 +34,7 @@ export default function DatePicker({
   customInputClass,
   errorClass,
   id,
+  type,
   customStyles: {
     calendarStyle,
     monthSelectClass,
@@ -44,7 +45,7 @@ export default function DatePicker({
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
-  const [dateInput, setDateInput] = useState("");
+  const [dateInput, setDateInput] = useState("")
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [clickInsideCalendar, setClickInsideCalendar] = useState(false);
@@ -208,10 +209,11 @@ export default function DatePicker({
         <input
           ref={inputRef}
           id={id}
-          type="text"
+          type={type}
           placeholder="Select date"
           value={dateInput}
           onChange={(e) => handleDateChange(e.target.value)}
+         
           onBlur={handleBlur}
           onKeyDown={handleKeyPress}
           className={`input-date ${

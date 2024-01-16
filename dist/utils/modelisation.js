@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.parseDateInput = exports.formatDate = void 0;
+exports.parseDateInput = exports.formatDateWithoutTime = exports.formatDate = void 0;
 /**
  * Format a date according to the specified format.
  * Default format is 'dd/MM/yyyy'.
@@ -54,3 +54,13 @@ const parseDateInput = input => {
   }
 };
 exports.parseDateInput = parseDateInput;
+const formatDateWithoutTime = date => {
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    return "";
+  }
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return "".concat(year, "-").concat(month.toString().padStart(2, '0'), "-").concat(day.toString().padStart(2, '0'));
+};
+exports.formatDateWithoutTime = formatDateWithoutTime;
