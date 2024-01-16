@@ -208,7 +208,6 @@ function DatePicker(_ref) {
     onBlur: handleBlur,
     onKeyDown: handleKeyPress,
     className: "input-date ".concat(customInputClass ? customInputClass.className : "", " focused"),
-    autoFocus: true,
     "data-cy": "input-date",
     onMouseDown: toggleCalendar
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
