@@ -217,7 +217,7 @@ export default function DatePicker({
           className={`input-date ${
             customInputClass ? customInputClass.className : ""
           } focused`}
-          autoFocus={showCalendar}
+          autoFocus
           data-cy="input-date"
           onMouseDown={toggleCalendar}
         />

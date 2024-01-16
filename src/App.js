@@ -5,7 +5,7 @@ import "./App.css";
 function App({ customClass }) {
   return (
     <main className={`main ${customClass ? "custom-main-class":""}`}>
-      <div className="form">
+      <form className="form">
         {/* Label for the date input */}
         <label htmlFor="inputDate" aria-label="inputDate" className="label-date">
           Select your favorite date
@@ -20,7 +20,7 @@ function App({ customClass }) {
           customInputClass={{ className: "custom-input-class" }}
           id="inputDate"
         />
-      </div>
+      </form>
     </main>
   );
 }
