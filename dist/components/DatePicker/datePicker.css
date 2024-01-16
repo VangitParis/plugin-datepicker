@@ -34,4 +34,7 @@
 
 .input-date:focus-visible, .calendar-icon:focus-visible{
     outline: 2px solid orange;
-  }
+}
+.calendar-icon:focus{
+    outline: inherit;
+}
