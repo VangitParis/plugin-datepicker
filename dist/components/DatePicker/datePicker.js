@@ -47,6 +47,7 @@ function DatePicker(_ref) {
     errorMessage: externalErrorMessage,
     id,
     type,
+    onChange,
     customStyles: {
       calendarStyle,
       monthSelectClass,
@@ -169,9 +170,13 @@ function DatePicker(_ref) {
    * @param {string} inputValue - The input value.
    */
   const handleDateChange = inputValue => {
+    console.log("New date value:", inputValue);
     setDateInput(inputValue);
     updateDate((0, _modelisation.parseDateInput)(inputValue));
     setShowCalendar(false);
+    if (onChange) {
+      onChange((0, _modelisation.parseDateInput)(inputValue));
+    }
   };
 
   /**
