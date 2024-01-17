@@ -1,5 +1,6 @@
 import React, { useState, useRef, forwardRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { formatDate } from "../../utils/modelisation";
 import {
   faChevronLeft,
   faChevronRight,
@@ -32,6 +33,7 @@ import "./calendar.css";
 function Calendar(
   {
     onSelect,
+    onChange,
     selectedDate,
     onDisplayChange,
     minYear,
@@ -132,6 +134,7 @@ function Calendar(
     if (onDisplayChange) {
       onDisplayChange(newDisplayedMonth);
     }
+
   };
 
   /**
@@ -165,6 +168,10 @@ function Calendar(
 
     if (onDisplayChange) {
       onDisplayChange(newDate);
+    }
+
+    if (onChange) {
+      onChange(formatDate(newDate))
     }
   };
 

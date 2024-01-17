@@ -260,6 +260,7 @@ export default function DatePicker({
           selectedDate={selectedDate}
           onSelect={handleCalendarDateClick}
           onDisplayChange={handleDisplayChange}
+          onChange={handleDateChange}
           onKeyPress={handleKeyPress}
           minYear={minYear}
           maxYear={maxYear}

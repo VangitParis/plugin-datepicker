@@ -238,6 +238,7 @@ function DatePicker(_ref) {
     selectedDate: selectedDate,
     onSelect: handleCalendarDateClick,
     onDisplayChange: handleDisplayChange,
+    onChange: handleDateChange,
     onKeyPress: handleKeyPress,
     minYear: minYear,
     maxYear: maxYear,

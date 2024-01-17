@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 var _reactFontawesome = require("@fortawesome/react-fontawesome");
+var _modelisation = require("../../utils/modelisation");
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
 require("./calendar.css");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
@@ -35,6 +36,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
 function Calendar(_ref, ref) {
   let {
     onSelect,
+    onChange,
     selectedDate,
     onDisplayChange,
     minYear,
@@ -146,6 +148,9 @@ function Calendar(_ref, ref) {
     }
     if (onDisplayChange) {
       onDisplayChange(newDate);
+    }
+    if (onChange) {
+      onChange((0, _modelisation.formatDate)(newDate));
     }
   };
 
