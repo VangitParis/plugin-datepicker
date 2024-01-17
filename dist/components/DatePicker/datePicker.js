@@ -37,6 +37,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 function DatePicker(_ref) {
   let {
+    showCurrentDateOnMount = true,
     minYear,
     maxYear,
     dateFormat,
@@ -69,7 +70,7 @@ function DatePicker(_ref) {
    * useEffect to initialize the date with the current date if selectedDate is empty.
    */
   (0, _react.useEffect)(() => {
-    if (!selectedDate) {
+    if (showCurrentDateOnMount && !selectedDate) {
       const currentDate = new Date();
       setSelectedDate(currentDate);
       setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));

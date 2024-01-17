@@ -28,6 +28,7 @@ import "./datePicker.css";
  * @returns {JSX.Element} The rendered DatePicker component.
  */
 export default function DatePicker({
+  showCurrentDateOnMount = true,
   minYear,
   maxYear,
   dateFormat,
@@ -60,7 +61,7 @@ export default function DatePicker({
    * useEffect to initialize the date with the current date if selectedDate is empty.
    */
   useEffect(() => {
-    if (!selectedDate) {
+    if (showCurrentDateOnMount && !selectedDate) {
       const currentDate = new Date();
       setSelectedDate(currentDate);
       setDateInput(formatDate(currentDate, dateFormat));
