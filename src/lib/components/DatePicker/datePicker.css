@@ -1,5 +1,12 @@
 
 /* Style for the input element */
+
+.input-container{
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
 .input-date {
     background-image: linear-gradient(to bottom, #f3f4f6, #fff);
     font-size: 1.5rem;
@@ -7,12 +14,11 @@
     border-radius: 5px;
 }
 
-
-.input-container{
-    position: relative;
-    display: inline-block;
-    margin-bottom: 5px;
+.input-date:focus-visible, .calendar-icon:focus-visible{
+    outline: 2px solid orange;
 }
+
+
 
 /* Style for the calendar icon */
 .calendar-icon{
@@ -25,13 +31,15 @@
     font-size: 1.3rem;
 }
 
+
+
 /* Style for the error message */
-.error-message {
-    color: red; 
+.custom-error-message {
+    color: red;
     font-size: 16px;
+    border-color: red;
   }
 
-
-.input-date:focus-visible, .calendar-icon:focus-visible{
-    outline: 2px solid orange;
+.error-border{
+    border: 2px solid red;
 }

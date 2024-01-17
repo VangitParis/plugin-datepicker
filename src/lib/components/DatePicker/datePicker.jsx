@@ -15,6 +15,7 @@ import "./datePicker.css";
  *   dateFormat: string,
  *   language: string,
  *   errorClass: string,
+ *   errorMessage : string,
  *   customStyles: {
  *     calendarStyle: Object,
  *     monthSelectClass: Object,
@@ -32,7 +33,8 @@ export default function DatePicker({
   dateFormat,
   language,
   customInputClass,
-  errorClass,
+  errorClass: externalErrorClass,
+  errorMessage: externalErrorMessage,
   id,
   type,
   customStyles: {
@@ -45,7 +47,7 @@ export default function DatePicker({
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message
   const [selectedDate, setSelectedDate] = useState("");
-  const [dateInput, setDateInput] = useState("")
+  const [dateInput, setDateInput] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [clickInsideCalendar, setClickInsideCalendar] = useState(false);
@@ -159,7 +161,7 @@ export default function DatePicker({
     ) {
       setSelectedDate(newDate);
       setShowCalendar(true);
-      setErrorMessage("");
+      setErrorMessage(null);
     } else {
       setShowCalendar(false);
       setErrorMessage("Invalid date format");
@@ -190,8 +192,6 @@ export default function DatePicker({
   const handleKeyPress = (e) => {
     if (e.code === "Enter") {
       updateDate(parseDateInput(dateInput));
-
-      
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
         setShowCalendar(false);
@@ -219,8 +219,8 @@ export default function DatePicker({
           onBlur={handleBlur}
           // onKeyDown={handleKeyPress}
           className={`input-date ${
-            customInputClass ? customInputClass.className : ""
-          } focused`}
+            externalErrorClass || errorMessage !== null ? "error-border" : ""
+          } ${customInputClass ? customInputClass.className : ""} focused`}
           data-cy="input-date"
           onMouseDown={toggleCalendar}
         />
@@ -235,15 +235,14 @@ export default function DatePicker({
           onKeyDown={handleKeyPress}
         ></FontAwesomeIcon>
       </div>
+
       {/* Display error message if there is an error */}
-      {errorMessage !== null && errorClass !== errorMessage && (
+      {errorMessage !== null && (
         <p
-          className={`error-message ${
-            errorClass ? "custom-error-message" : ""
-          }`}
-          style={{ borderColor: errorMessage !== null ? "red" : "" }}
+          className={`error-message ${externalErrorClass || "custom-error-message"}`}
+          
         >
-          {errorMessage}
+          {externalErrorMessage || errorMessage}
         </p>
       )}
 

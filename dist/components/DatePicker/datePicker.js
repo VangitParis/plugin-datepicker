@@ -23,6 +23,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  *   dateFormat: string,
  *   language: string,
  *   errorClass: string,
+ *   errorMessage : string,
  *   customStyles: {
  *     calendarStyle: Object,
  *     monthSelectClass: Object,
@@ -41,7 +42,8 @@ function DatePicker(_ref) {
     dateFormat,
     language,
     customInputClass,
-    errorClass,
+    errorClass: externalErrorClass,
+    errorMessage: externalErrorMessage,
     id,
     type,
     customStyles: {
@@ -154,7 +156,7 @@ function DatePicker(_ref) {
     if (newDate && !isNaN(newDate.getTime()) && newDate.getFullYear() >= minYear && newDate.getFullYear() <= maxYear && newDate.getMonth() >= 0 && newDate.getMonth() <= 11 && newDate.getDate() >= 1 && newDate.getDate() <= new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate()) {
       setSelectedDate(newDate);
       setShowCalendar(true);
-      setErrorMessage("");
+      setErrorMessage(null);
     } else {
       setShowCalendar(false);
       setErrorMessage("Invalid date format");
@@ -210,7 +212,7 @@ function DatePicker(_ref) {
     onBlur: handleBlur
     // onKeyDown={handleKeyPress}
     ,
-    className: "input-date ".concat(customInputClass ? customInputClass.className : "", " focused"),
+    className: "input-date ".concat(externalErrorClass || errorMessage !== null ? "error-border" : "", " ").concat(customInputClass ? customInputClass.className : "", " focused"),
     "data-cy": "input-date",
     onMouseDown: toggleCalendar
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
@@ -222,12 +224,9 @@ function DatePicker(_ref) {
     ,
     tabIndex: 0,
     onKeyDown: handleKeyPress
-  })), errorMessage !== null && errorClass !== errorMessage && /*#__PURE__*/_react.default.createElement("p", {
-    className: "error-message ".concat(errorClass ? "custom-error-message" : ""),
-    style: {
-      borderColor: errorMessage !== null ? "red" : ""
-    }
-  }, errorMessage), showCalendar && /*#__PURE__*/_react.default.createElement(_calendar.default, {
+  })), errorMessage !== null && /*#__PURE__*/_react.default.createElement("p", {
+    className: "error-message ".concat(externalErrorClass || "custom-error-message")
+  }, externalErrorMessage || errorMessage), showCalendar && /*#__PURE__*/_react.default.createElement(_calendar.default, {
     ref: calendarRef,
     "data-cy": "calendar",
     selectedDate: selectedDate,
