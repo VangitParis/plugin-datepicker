@@ -97,7 +97,9 @@ export default function DatePicker({
       setSelectedDate(currentDate);
       setShowCalendar(false);
       setErrorMessage(null);
+      handleDateChange(formatDate(currentDate, dateFormat))
     }
+   
   };
 
   /**
@@ -121,6 +123,7 @@ export default function DatePicker({
     if (!showCalendar) {
       setClickInsideCalendar(false);
       setDateInput(dateInput);
+     
     }
   };
 
@@ -130,9 +133,11 @@ export default function DatePicker({
    */
   const handleCalendarDateClick = (date) => {
     setSelectedDate(date);
-    setDateInput(formatDate(date));
+    const formattedDate = formatDate(date);
+    setDateInput(formattedDate);
     setShowCalendar(false);
     setErrorMessage(null);
+
   };
 
   /**
@@ -143,6 +148,7 @@ export default function DatePicker({
     setSelectedDate(newDisplayedDate);
     setDateInput(formatDate(newDisplayedDate));
     setErrorMessage(null);
+
   };
 
   /**
@@ -175,13 +181,13 @@ export default function DatePicker({
    * @param {string} inputValue - The input value.
    */
   const handleDateChange = (inputValue) => {
-    console.log("New date value:", inputValue);
+    // Vérifier si la date est valide avant de mettre à jour les valeurs
+    console.log("Change date value", inputValue);
+    const parsedDate = parseDateInput(inputValue);
+
     setDateInput(inputValue);
-    updateDate(parseDateInput(inputValue));
+    updateDate(parsedDate);
     setShowCalendar(false);
-    if (onChange) {
-      onChange(parseDateInput(inputValue));
-    }
   };
 
   /**
@@ -236,7 +242,6 @@ export default function DatePicker({
           className="calendar-icon"
           data-cy={"calendar-icon"}
           onClick={toggleCalendar}
-          // onFocus={toggleCalendar}
           tabIndex={0}
           onKeyDown={handleKeyPress}
         ></FontAwesomeIcon>
@@ -245,8 +250,9 @@ export default function DatePicker({
       {/* Display error message if there is an error */}
       {errorMessage !== null && (
         <p
-          className={`error-message ${externalErrorClass || "custom-error-message"}`}
-          
+          className={`error-message ${
+            externalErrorClass || "custom-error-message"
+          }`}
         >
           {externalErrorMessage || errorMessage}
         </p>

@@ -103,6 +103,7 @@ function DatePicker(_ref) {
       setSelectedDate(currentDate);
       setShowCalendar(false);
       setErrorMessage(null);
+      handleDateChange((0, _modelisation.formatDate)(currentDate, dateFormat));
     }
   };
 
@@ -135,7 +136,8 @@ function DatePicker(_ref) {
    */
   const handleCalendarDateClick = date => {
     setSelectedDate(date);
-    setDateInput((0, _modelisation.formatDate)(date));
+    const formattedDate = (0, _modelisation.formatDate)(date);
+    setDateInput(formattedDate);
     setShowCalendar(false);
     setErrorMessage(null);
   };
@@ -170,13 +172,12 @@ function DatePicker(_ref) {
    * @param {string} inputValue - The input value.
    */
   const handleDateChange = inputValue => {
-    console.log("New date value:", inputValue);
+    // Vérifier si la date est valide avant de mettre à jour les valeurs
+    console.log("Change date value", inputValue);
+    const parsedDate = (0, _modelisation.parseDateInput)(inputValue);
     setDateInput(inputValue);
-    updateDate((0, _modelisation.parseDateInput)(inputValue));
+    updateDate(parsedDate);
     setShowCalendar(false);
-    if (onChange) {
-      onChange((0, _modelisation.parseDateInput)(inputValue));
-    }
   };
 
   /**
@@ -225,9 +226,7 @@ function DatePicker(_ref) {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",
     "data-cy": "calendar-icon",
-    onClick: toggleCalendar
-    // onFocus={toggleCalendar}
-    ,
+    onClick: toggleCalendar,
     tabIndex: 0,
     onKeyDown: handleKeyPress
   })), errorMessage !== null && /*#__PURE__*/_react.default.createElement("p", {
