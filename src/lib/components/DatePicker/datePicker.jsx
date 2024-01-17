@@ -213,7 +213,7 @@ export default function DatePicker({
           ref={inputRef}
           id={id}
           type={type}
-          placeholder="Select date"
+          placeholder="dd/mm/yyyy"
           value={dateInput}
           onChange={(e) => handleDateChange(e.target.value)}
           autoFocus={showCalendar}
