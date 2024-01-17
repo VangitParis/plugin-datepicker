@@ -178,6 +178,9 @@ function DatePicker(_ref) {
     setDateInput(inputValue);
     updateDate(parsedDate);
     setShowCalendar(false);
+    if (onChange) {
+      onChange(parsedDate);
+    }
   };
 
   /**

@@ -188,6 +188,9 @@ export default function DatePicker({
     setDateInput(inputValue);
     updateDate(parsedDate);
     setShowCalendar(false);
+    if (onChange) {
+      onChange(parsedDate)
+    }
   };
 
   /**
