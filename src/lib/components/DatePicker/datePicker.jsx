@@ -88,19 +88,34 @@ export default function DatePicker({
    * Toggles the calendar visibility, opens only if errorMessage is null.
    */
   const toggleCalendar = () => {
-    if (errorMessage === null) {
-      setShowCalendar(!showCalendar);
+    if (!showCalendar) {
+      // Si le calendrier n'est pas ouvert, ouvrez-le directement
+      setShowCalendar(true);
+      
+      // Si une date est sélectionnée, mettez à jour le champ et la date actuelle
+      if (selectedDate) {
+        setDateInput(formatDate(selectedDate, dateFormat));
+      } else {
+        // Sinon, utilisez la date actuelle et mettez à jour le champ
+        const currentDate = new Date();
+        setDateInput(formatDate(currentDate, dateFormat));
+        setSelectedDate(currentDate);
+        handleDateChange(formatDate(currentDate, dateFormat));
+      }
+    } else if (errorMessage === null) {
+      // Si le calendrier est déjà ouvert et aucune erreur, ne changez pas la date sélectionnée
+      setShowCalendar(true);
     } else {
-      // Reset input and selected date to current date if there is an error
+      // Si une erreur est présente, videz le champ et utilisez la date actuelle
       const currentDate = new Date();
-      setDateInput(formatDate(currentDate, dateFormat));
+      setDateInput("");
       setSelectedDate(currentDate);
-      setShowCalendar(false);
-      setErrorMessage(null);
-      handleDateChange(formatDate(currentDate, dateFormat))
+      handleDateChange(formatDate(currentDate, dateFormat));
     }
-   
   };
+  
+  
+  
 
   /**
    * Handles click outside of the calendar, closes the calendar and selects the input value.
@@ -206,7 +221,7 @@ export default function DatePicker({
    */
   const handleKeyPress = (e) => {
     if (e.code === "Enter") {
-      updateDate(parseDateInput(dateInput));
+      toggleCalendar();
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
         setShowCalendar(false);
@@ -237,7 +252,7 @@ export default function DatePicker({
             externalErrorClass || errorMessage !== null ? "error-border" : ""
           } ${customInputClass ? customInputClass.className : ""} focused`}
           data-cy="input-date"
-          onMouseDown={toggleCalendar}
+          // onMouseDown={toggleCalendar}
         />
         {/* Calendar icon for opening/closing the calendar */}
         <FontAwesomeIcon

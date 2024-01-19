@@ -94,15 +94,28 @@ function DatePicker(_ref) {
    * Toggles the calendar visibility, opens only if errorMessage is null.
    */
   const toggleCalendar = () => {
-    if (errorMessage === null) {
-      setShowCalendar(!showCalendar);
+    if (!showCalendar) {
+      // Si le calendrier n'est pas ouvert, ouvrez-le directement
+      setShowCalendar(true);
+
+      // Si une date est sélectionnée, mettez à jour le champ et la date actuelle
+      if (selectedDate) {
+        setDateInput((0, _modelisation.formatDate)(selectedDate, dateFormat));
+      } else {
+        // Sinon, utilisez la date actuelle et mettez à jour le champ
+        const currentDate = new Date();
+        setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
+        setSelectedDate(currentDate);
+        handleDateChange((0, _modelisation.formatDate)(currentDate, dateFormat));
+      }
+    } else if (errorMessage === null) {
+      // Si le calendrier est déjà ouvert et aucune erreur, ne changez pas la date sélectionnée
+      setShowCalendar(true);
     } else {
-      // Reset input and selected date to current date if there is an error
+      // Si une erreur est présente, videz le champ et utilisez la date actuelle
       const currentDate = new Date();
-      setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
+      setDateInput("");
       setSelectedDate(currentDate);
-      setShowCalendar(false);
-      setErrorMessage(null);
       handleDateChange((0, _modelisation.formatDate)(currentDate, dateFormat));
     }
   };
@@ -196,7 +209,7 @@ function DatePicker(_ref) {
    */
   const handleKeyPress = e => {
     if (e.code === "Enter") {
-      updateDate((0, _modelisation.parseDateInput)(dateInput));
+      toggleCalendar();
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
         setShowCalendar(false);
@@ -223,8 +236,8 @@ function DatePicker(_ref) {
     // onKeyDown={handleKeyPress}
     ,
     className: "input-date ".concat(externalErrorClass || errorMessage !== null ? "error-border" : "", " ").concat(customInputClass ? customInputClass.className : "", " focused"),
-    "data-cy": "input-date",
-    onMouseDown: toggleCalendar
+    "data-cy": "input-date"
+    // onMouseDown={toggleCalendar}
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",
