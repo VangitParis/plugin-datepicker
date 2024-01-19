@@ -95,13 +95,21 @@ function DatePicker(_ref) {
    */
   const toggleCalendar = () => {
     if (!showCalendar) {
-      // Si le calendrier n'est pas ouvert, l'ouvrir directement
-      const currentDate = new Date();
-      setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
-      setSelectedDate(currentDate);
-      handleDateChange((0, _modelisation.formatDate)(selectedDate || currentDate, dateFormat));
-      setShowCalendar(true);
-
+      // Si le calendrier n'est pas ouvert, l'ouvrir directement si le champ est vide par défaut au click 
+      if (dateInput === "") {
+        console.log(dateInput);
+        const currentDate = new Date();
+        setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
+        setSelectedDate(currentDate);
+        handleDateChange((0, _modelisation.formatDate)(selectedDate || currentDate, dateFormat));
+        setShowCalendar(true);
+      } else {
+        const currentDate = new Date();
+        setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
+        setSelectedDate(currentDate);
+        handleDateChange((0, _modelisation.formatDate)(selectedDate || currentDate, dateFormat));
+        setShowCalendar(true);
+      }
       // Si une date est sélectionnée, on met à jour le champ et la date actuelle
       if (selectedDate) {
         setDateInput((0, _modelisation.formatDate)(selectedDate, dateFormat));
