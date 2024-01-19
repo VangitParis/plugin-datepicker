@@ -28,7 +28,7 @@ import "./datePicker.css";
  * @returns {JSX.Element} The rendered DatePicker component.
  */
 export default function DatePicker({
-  showCurrentDateOnMount = false,
+  showCurrentDateOnMount = true,
   minYear,
   maxYear,
   dateFormat,
@@ -45,6 +45,7 @@ export default function DatePicker({
     yearSelectClass,
     buttonStyle,
     dateStyle,
+    dropdownStyle
   } = {},
 }) {
   // State variables for managing the selected date, input value, calendar visibility, and error message
@@ -256,7 +257,9 @@ export default function DatePicker({
    */
   const handleKeyPress = (e) => {
     if (e.code === "Enter") {
-      toggleCalendar();
+      if (!clickInsideCalendar) {
+        toggleCalendar();
+      }
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
         setShowCalendar(false);
@@ -330,6 +333,7 @@ export default function DatePicker({
             calendarStyle,
             buttonStyle,
             dateStyle,
+            dropdownStyle,
           }}
           tabIndex={0}
           dateFormat={dateFormat}

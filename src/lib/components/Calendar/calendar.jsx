@@ -240,6 +240,7 @@ function Calendar(
   const calendarStyle = customStyles?.calendarStyle || {};
   const buttonStyle = customStyles?.buttonStyle || {};
   const dateStyle = customStyles?.dateStyle || {};
+  const dropdownStyle = customStyles?.dropdownStyle || {};
 
   // Render the Calendar component
   return (
@@ -266,7 +267,8 @@ function Calendar(
           }}
           className={`month-dropdown ${
             monthSelectClass ? "custom-month-select-style" : ""
-          } ${isMonthDropdownOpen ? "dropdown-open" : ""}`}
+            } ${ isMonthDropdownOpen ? "custom-dropdown-open" : "" }`}
+          style={dropdownStyle}
           tabIndex={0}
           onFocus={(e) => {
             e.preventDefault();
@@ -340,7 +342,8 @@ function Calendar(
           }}
           className={`year-dropdown ${
             yearSelectClass ? "custom-year-select-style" : ""
-          } ${isYearDropdownOpen ? "dropdown-open" : ""}`}
+            } ${ isYearDropdownOpen ? "custom-dropdown-open" : "" }`}
+          style={dropdownStyle}
           tabIndex={0}
           onFocus={(e) => {
             e.preventDefault();

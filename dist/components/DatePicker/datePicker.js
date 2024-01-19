@@ -37,7 +37,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 function DatePicker(_ref) {
   let {
-    showCurrentDateOnMount = false,
+    showCurrentDateOnMount = true,
     minYear,
     maxYear,
     dateFormat,
@@ -53,7 +53,8 @@ function DatePicker(_ref) {
       monthSelectClass,
       yearSelectClass,
       buttonStyle,
-      dateStyle
+      dateStyle,
+      dropdownStyle
     } = {}
   } = _ref;
   // State variables for managing the selected date, input value, calendar visibility, and error message
@@ -249,7 +250,9 @@ function DatePicker(_ref) {
    */
   const handleKeyPress = e => {
     if (e.code === "Enter") {
-      toggleCalendar();
+      if (!clickInsideCalendar) {
+        toggleCalendar();
+      }
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
         setShowCalendar(false);
@@ -303,7 +306,8 @@ function DatePicker(_ref) {
       yearSelectClass,
       calendarStyle,
       buttonStyle,
-      dateStyle
+      dateStyle,
+      dropdownStyle
     },
     tabIndex: 0,
     dateFormat: dateFormat

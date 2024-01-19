@@ -212,6 +212,7 @@ function Calendar(_ref, ref) {
   const calendarStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.calendarStyle) || {};
   const buttonStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.buttonStyle) || {};
   const dateStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.dateStyle) || {};
+  const dropdownStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.dropdownStyle) || {};
 
   // Render the Calendar component
   return /*#__PURE__*/_react.default.createElement("div", {
@@ -235,7 +236,8 @@ function Calendar(_ref, ref) {
         onDisplayChange(newMonth);
       }
     },
-    className: "month-dropdown ".concat(monthSelectClass ? "custom-month-select-style" : "", " ").concat(isMonthDropdownOpen ? "dropdown-open" : ""),
+    className: "month-dropdown ".concat(monthSelectClass ? "custom-month-select-style" : "", " ").concat(isMonthDropdownOpen ? "custom-dropdown-open" : ""),
+    style: dropdownStyle,
     tabIndex: 0,
     onFocus: e => {
       e.preventDefault();
@@ -292,7 +294,8 @@ function Calendar(_ref, ref) {
         onDisplayChange(newYear);
       }
     },
-    className: "year-dropdown ".concat(yearSelectClass ? "custom-year-select-style" : "", " ").concat(isYearDropdownOpen ? "dropdown-open" : ""),
+    className: "year-dropdown ".concat(yearSelectClass ? "custom-year-select-style" : "", " ").concat(isYearDropdownOpen ? "custom-dropdown-open" : ""),
+    style: dropdownStyle,
     tabIndex: 0,
     onFocus: e => {
       e.preventDefault();
