@@ -28,7 +28,7 @@ import "./datePicker.css";
  * @returns {JSX.Element} The rendered DatePicker component.
  */
 export default function DatePicker({
-  showCurrentDateOnMount = true,
+  showCurrentDateOnMount = false,
   minYear,
   maxYear,
   dateFormat,
@@ -87,34 +87,60 @@ export default function DatePicker({
   /**
    * Toggles the calendar visibility, opens only if errorMessage is null.
    */
+  // const toggleCalendar = () => {
+    
+  //   if (!showCalendar) {
+  //     // Si le calendrier n'est pas ouvert, l'ouvrir directement si le champ est vide par défaut au click 
+  //     if (showCurrentDateOnMount === false || dateInput === "") {
+  //       console.log(dateInput);
+  //       const currentDate = new Date();
+  //       setDateInput(formatDate(currentDate, dateFormat));
+  //       setSelectedDate(currentDate);
+  //       handleDateChange(formatDate(selectedDate || currentDate, dateFormat));
+  //       setShowCalendar(true);
+  //     } else {
+  //       const currentDate = new Date();
+  //       setDateInput(formatDate(currentDate, dateFormat));
+  //       setSelectedDate(currentDate);
+  //       handleDateChange(formatDate(selectedDate || currentDate, dateFormat));
+  //       setShowCalendar(true);
+  //     }
+  //     // Si une date est sélectionnée, on met à jour le champ et la date actuelle
+  //     if (selectedDate) {
+  //       setDateInput(formatDate(selectedDate, dateFormat));
+  //     } else {
+  //       // Sinon, utilisez la date actuelle et on met à jour le champ
+  //       const currentDate = new Date();
+  //       setDateInput(formatDate(currentDate, dateFormat));
+  //       setSelectedDate(currentDate);
+  //       handleDateChange(formatDate(selectedDate || currentDate, dateFormat));
+  //     }
+  //     setErrorMessage(null);
+  //   } else if (errorMessage === null) {
+  //     // Si le calendrier est déjà ouvert et aucune erreur, on ne change pas la date sélectionnée
+  //     setShowCalendar(true);
+  //   } else {
+  //     // Si une erreur est présente, vider le champ et utiliser la date actuelle
+  //     const currentDate = new Date();
+  //     setDateInput("");
+  //     setSelectedDate(currentDate);
+  //     handleDateChange(formatDate(currentDate, dateFormat));
+  //     setErrorMessage(null);
+  //   }
+  // };
   const toggleCalendar = () => {
     if (!showCalendar) {
-      // Si le calendrier n'est pas ouvert, l'ouvrir directement si le champ est vide par défaut au click 
-      if (dateInput === "") {
-        console.log(dateInput);
+      // Si le calendrier n'est pas ouvert, l'ouvrir directement si le champ est vide par défaut au clic 
+      if (showCurrentDateOnMount === false || dateInput === "") {
         const currentDate = new Date();
         setDateInput(formatDate(currentDate, dateFormat));
         setSelectedDate(currentDate);
         handleDateChange(formatDate(selectedDate || currentDate, dateFormat));
         setShowCalendar(true);
-      } else {
-        const currentDate = new Date();
-        setDateInput(formatDate(currentDate, dateFormat));
-        setSelectedDate(currentDate);
-        handleDateChange(formatDate(selectedDate || currentDate, dateFormat));
+        setErrorMessage(null);
+      } else if (errorMessage === null) {
         setShowCalendar(true);
       }
-      // Si une date est sélectionnée, on met à jour le champ et la date actuelle
-      if (selectedDate) {
-        setDateInput(formatDate(selectedDate, dateFormat));
-      } else {
-        // Sinon, utilisez la date actuelle et on met à jour le champ
-        const currentDate = new Date();
-        setDateInput(formatDate(currentDate, dateFormat));
-        setSelectedDate(currentDate);
-        handleDateChange(formatDate(selectedDate || currentDate, dateFormat));
-      }
-      setErrorMessage(null);
     } else if (errorMessage === null) {
       // Si le calendrier est déjà ouvert et aucune erreur, on ne change pas la date sélectionnée
       setShowCalendar(true);
@@ -127,7 +153,8 @@ export default function DatePicker({
       setErrorMessage(null);
     }
   };
-
+  
+  
   /**
    * Handles click outside of the calendar, closes the calendar and selects the input value.
    */

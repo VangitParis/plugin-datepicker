@@ -25,6 +25,7 @@ function App({ customClass }) {
           fontSize="16px"
           customInputClass={{ className: "custom-input-class" }}
           id="inputDate"
+          
         />
       </div>
     </main>
