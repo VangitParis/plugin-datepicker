@@ -95,28 +95,34 @@ function DatePicker(_ref) {
    */
   const toggleCalendar = () => {
     if (!showCalendar) {
-      // Si le calendrier n'est pas ouvert, ouvrez-le directement
+      // Si le calendrier n'est pas ouvert, l'ouvrir directement
+      const currentDate = new Date();
+      setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
+      setSelectedDate(currentDate);
+      handleDateChange((0, _modelisation.formatDate)(selectedDate || currentDate, dateFormat));
       setShowCalendar(true);
 
-      // Si une date est sélectionnée, mettez à jour le champ et la date actuelle
+      // Si une date est sélectionnée, on met à jour le champ et la date actuelle
       if (selectedDate) {
         setDateInput((0, _modelisation.formatDate)(selectedDate, dateFormat));
       } else {
-        // Sinon, utilisez la date actuelle et mettez à jour le champ
+        // Sinon, utilisez la date actuelle et on met à jour le champ
         const currentDate = new Date();
         setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
         setSelectedDate(currentDate);
-        handleDateChange((0, _modelisation.formatDate)(currentDate, dateFormat));
+        handleDateChange((0, _modelisation.formatDate)(selectedDate || currentDate, dateFormat));
       }
+      setErrorMessage(null);
     } else if (errorMessage === null) {
-      // Si le calendrier est déjà ouvert et aucune erreur, ne changez pas la date sélectionnée
+      // Si le calendrier est déjà ouvert et aucune erreur, on ne change pas la date sélectionnée
       setShowCalendar(true);
     } else {
-      // Si une erreur est présente, videz le champ et utilisez la date actuelle
+      // Si une erreur est présente, vider le champ et utiliser la date actuelle
       const currentDate = new Date();
       setDateInput("");
       setSelectedDate(currentDate);
       handleDateChange((0, _modelisation.formatDate)(currentDate, dateFormat));
+      setErrorMessage(null);
     }
   };
 
