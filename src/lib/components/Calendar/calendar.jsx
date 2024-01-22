@@ -234,6 +234,7 @@ function Calendar(
   };
 
   
+  
 
   // Select class for customize
   const monthSelectClass = customStyles?.monthSelectClass || {};
@@ -406,7 +407,7 @@ function Calendar(
               data-cy="arrow-left"
               tabIndex={0}
               onClick={() => handleMonthChange(-1)}
-             
+              
             >
               <FontAwesomeIcon icon={faChevronLeft} className="icon" />
             </button>
@@ -419,7 +420,18 @@ function Calendar(
               data-cy="icon-home"
               tabIndex={0}
               onClick={handleHomeClick}
-             
+              onFocus={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                e.target.classList.add("focused");
+    
+              }}
+              onKeyDown={(e) => {
+                if (e.code === "Enter") {
+                  e.preventDefault();
+                  handleHomeClick();
+                }
+              }}
             >
               <FontAwesomeIcon icon={faHome} className="icon" />
             </button>

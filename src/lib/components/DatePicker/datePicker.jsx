@@ -261,7 +261,6 @@ export default function DatePicker({
             externalErrorClass || errorMessage !== null ? "error-border" : ""
           } ${customInputClass ? customInputClass.className : ""} focused`}
           data-cy="input-date"
-          onKeyDown={handleKeyPress}
         />
         {/* Calendar icon for opening/closing the calendar */}
         <FontAwesomeIcon

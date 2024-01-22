@@ -346,7 +346,18 @@ function Calendar(_ref, ref) {
     style: buttonStyle,
     "data-cy": "icon-home",
     tabIndex: 0,
-    onClick: handleHomeClick
+    onClick: handleHomeClick,
+    onFocus: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.target.classList.add("focused");
+    },
+    onKeyDown: e => {
+      if (e.code === "Enter") {
+        e.preventDefault();
+        handleHomeClick();
+      }
+    }
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faHome,
     className: "icon"

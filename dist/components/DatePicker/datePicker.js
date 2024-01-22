@@ -249,8 +249,7 @@ function DatePicker(_ref) {
     autoFocus: showCalendar,
     onBlur: handleBlur,
     className: "input-date ".concat(externalErrorClass || errorMessage !== null ? "error-border" : "", " ").concat(customInputClass ? customInputClass.className : "", " focused"),
-    "data-cy": "input-date",
-    onKeyDown: handleKeyPress
+    "data-cy": "input-date"
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",
