@@ -36,6 +36,7 @@ function Calendar(
     onChange,
     selectedDate,
     onDisplayChange,
+    // showCurrentDateOnMount,
     minYear,
     maxYear,
     language,
@@ -46,6 +47,7 @@ function Calendar(
   const [displayed, setDisplayedMonth] = useState(selectedDate || new Date());
   const [isMonthDropdownOpen, setMonthDropdownOpen] = useState(false);
   const [isYearDropdownOpen, setYearDropdownOpen] = useState(false);
+  
 
   // References to DOM elements for various parts of the calendar.
   const monthSelectRef = useRef(null);
@@ -106,7 +108,7 @@ function Calendar(
   /**
    * Handle month change based on the given offset.
    *
-   * @param {number} offset - The offset to change the month.
+   * @param {number} offset - The offset to change the month with button prev or next.
    */
   const handleMonthChange = (offset) => {
     const newDisplayedMonth = new Date(displayed);
@@ -142,11 +144,10 @@ function Calendar(
   const handleHomeClick = () => {
     const initialDate = new Date();
     setDisplayedMonth(initialDate);
-   
+
     if (onDisplayChange) {
       onDisplayChange(initialDate);
     }
-    
   };
 
   /**
@@ -160,7 +161,7 @@ function Calendar(
       displayed.getMonth(),
       day
     );
-
+console.log(newDate);
     setDisplayedMonth(newDate);
 
     if (onSelect) {
@@ -174,7 +175,7 @@ function Calendar(
     if (onChange) {
       onChange(formatDate(newDate));
     }
-  };
+   };
 
   /**
    * Check if the given day is the currently displayed and selected date.
@@ -192,24 +193,27 @@ function Calendar(
    * @param {number} selectedYear - The selected year.
    * @param {number} selectedMonth - The selected month.
    */
-  const handleDropdownClick = (selectedYear, selectedMonth) => {
-    const newDate = new Date(selectedYear, selectedMonth, displayed.getDate());
-    setDisplayedMonth(newDate);
+  const handleDropdownSelected = (selectedYear, selectedMonth) => {
+   
+      const newDate = new Date(selectedYear, selectedMonth, displayed.getDate());
+    
+      setDisplayedMonth(newDate);
 
-    if (onDisplayChange) {
-      onDisplayChange(newDate);
-    }
+      if (onDisplayChange) {
+        onDisplayChange(newDate);
+     
+      }
 
-    // Update year and month of the input
-    yearSelectRef.current.value = selectedYear;
-    monthSelectRef.current.value = selectedMonth;
+      // Update year and month of the input 
+      yearSelectRef.current.value = selectedYear;
+      monthSelectRef.current.value = selectedMonth;
 
-    // Close dropdown list
-    setMonthDropdownOpen(false);
-    setYearDropdownOpen(false);
-    yearSelectRef.current.size = 1;
-    monthSelectRef.current.size = 1;
-  };
+      // Close dropdown list
+      setMonthDropdownOpen(false);
+      setYearDropdownOpen(false);
+      yearSelectRef.current.size = 1;
+      monthSelectRef.current.size = 1;
+    };
 
   /**
    * Handle key press for the selected day.
@@ -232,9 +236,6 @@ function Calendar(
       daySelectRef.current.value = selectDay;
     }
   };
-
-  
-  
 
   // Select class for customize
   const monthSelectClass = customStyles?.monthSelectClass || {};
@@ -306,7 +307,7 @@ function Calendar(
               // Get month select value
               const selectedMonth = parseInt(monthSelectRef.current.value, 10);
               // Update date with function handleDropdownClick
-              handleDropdownClick(displayed.getFullYear(), selectedMonth);
+              handleDropdownSelected(displayed.getFullYear(), selectedMonth);
             }
           }}
         >
@@ -317,7 +318,7 @@ function Calendar(
               data-cy="calendar-month-option"
               tabIndex={index + 1}
               onClick={() =>
-                handleDropdownClick(
+                handleDropdownSelected(
                   displayed.getFullYear(),
                   month,
                   displayed.getDate()
@@ -337,12 +338,14 @@ function Calendar(
           value={displayed.getFullYear()}
           onChange={(e) => {
             e.stopPropagation();
-            const newYear = new Date(displayed);
+             const newYear = new Date(displayed);
             newYear.setFullYear(parseInt(e.target.value, 10));
             setDisplayedMonth(newYear);
             if (onDisplayChange) {
               onDisplayChange(newYear);
             }
+         
+           
           }}
           className={`year-dropdown ${
             yearSelectClass ? "custom-year-select-style" : ""
@@ -373,7 +376,7 @@ function Calendar(
 
               // Select Option
               const selectedYear = parseInt(e.target.value, 10);
-              handleDropdownClick(selectedYear, displayed.getMonth());
+              handleDropdownSelected(selectedYear, displayed.getMonth());
             }
           }}
         >
@@ -383,7 +386,7 @@ function Calendar(
               value={year}
               tabIndex={index + 1}
               onClick={() =>
-                handleDropdownClick(
+                handleDropdownSelected(
                   year,
                   displayed.getMonth(),
                   displayed.getDate()
@@ -411,15 +414,13 @@ function Calendar(
                 e.preventDefault();
                 e.stopPropagation();
                 e.target.classList.add("focused");
-    
               }}
               onKeyDown={(e) => {
                 if (e.code === "Enter") {
                   e.preventDefault();
-                  handleMonthChange(-1)
+                  handleMonthChange(-1);
                 }
               }}
-              
             >
               <FontAwesomeIcon icon={faChevronLeft} className="icon" />
             </button>
@@ -436,7 +437,6 @@ function Calendar(
                 e.preventDefault();
                 e.stopPropagation();
                 e.target.classList.add("focused");
-    
               }}
               onKeyDown={(e) => {
                 if (e.code === "Enter") {
@@ -460,12 +460,11 @@ function Calendar(
                 e.preventDefault();
                 e.stopPropagation();
                 e.target.classList.add("focused");
-    
               }}
               onKeyDown={(e) => {
                 if (e.code === "Enter") {
                   e.preventDefault();
-                  handleMonthChange(1)
+                  handleMonthChange(1);
                 }
               }}
             >

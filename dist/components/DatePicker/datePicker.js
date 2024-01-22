@@ -37,7 +37,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 function DatePicker(_ref) {
   let {
-    showCurrentDateOnMount = false,
+    showCurrentDateOnMount = true,
     minYear,
     maxYear,
     dateFormat,
@@ -98,33 +98,45 @@ function DatePicker(_ref) {
    */
   const toggleCalendar = () => {
     if (!showCalendar) {
-      // Si le calendrier n'est pas ouvert, l'ouvrir directement si le champ est vide par défaut au clic
       if (showCurrentDateOnMount === false || dateInput === "") {
-        const currentDate = new Date();
-        setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
-        setSelectedDate(currentDate);
-        handleDateChange((0, _modelisation.formatDate)(selectedDate || currentDate, dateFormat));
+        // Logique spécifique si showCurrentDateOnMount est false ou dateInput est vide
+        if (errorMessage === null) {
+          setDateInput("");
+          handleDateChange(dateInput, dateFormat);
+          setShowCalendar(true);
+          setErrorMessage(null);
+        } else if (errorMessage !== null) {
+          setDateInput("");
+          setSelectedDate("");
+          // handleDateChange(dateInput, dateFormat);
+          setShowCalendar(true);
+          setErrorMessage(null);
+        }
+      } else {
+        // Logique spécifique si showCurrentDateOnMount est true
+        if (errorMessage === null) {
+          setShowCalendar(true);
+        } else {
+          const currentDate = new Date();
+          setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
+          setSelectedDate(currentDate);
+          handleDateChange((0, _modelisation.formatDate)(selectedDate || currentDate, dateFormat));
+          setErrorMessage(null);
+          setShowCalendar(true);
+          console.log("showCurrentDateOnMount", showCurrentDateOnMount);
+        }
+      }
+    } else {
+      // Logique pour le cas où le calendrier est déjà ouvert
+      if (errorMessage === null) {
         setShowCalendar(true);
         setErrorMessage(null);
-      } else if (errorMessage === null) {
-        setShowCalendar(true);
       } else {
-        const currentDate = new Date();
-        setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
-        setSelectedDate(currentDate);
-        handleDateChange((0, _modelisation.formatDate)(selectedDate || currentDate, dateFormat));
+        setDateInput("");
+        setSelectedDate("");
         setShowCalendar(true);
+        setErrorMessage(null);
       }
-    } else if (errorMessage === null) {
-      // Si le calendrier est déjà ouvert et aucune erreur, on ne change pas la date sélectionnée
-      setShowCalendar(true);
-    } else {
-      // Si une erreur est présente, vider le champ et utiliser la date actuelle
-      const currentDate = new Date();
-      setDateInput("");
-      setSelectedDate(currentDate);
-      handleDateChange((0, _modelisation.formatDate)(currentDate, dateFormat));
-      setErrorMessage(null);
     }
   };
 
@@ -168,9 +180,11 @@ function DatePicker(_ref) {
    * @param {Date} newDisplayedDate - The newly displayed date.
    */
   const handleDisplayChange = newDisplayedDate => {
-    setSelectedDate(newDisplayedDate);
-    setDateInput((0, _modelisation.formatDate)(newDisplayedDate));
-    setErrorMessage(null);
+    if (showCurrentDateOnMount === true) {
+      setSelectedDate(newDisplayedDate);
+      setDateInput((0, _modelisation.formatDate)(newDisplayedDate));
+      setErrorMessage(null);
+    }
   };
 
   /**
@@ -184,9 +198,9 @@ function DatePicker(_ref) {
       setErrorMessage(null);
     } else {
       setShowCalendar(false);
-      if (dateInput === "") {
+      if (dateInput === "" && showCurrentDateOnMount === true) {
         setErrorMessage("Please select date");
-      } else {
+      } else if (dateInput !== "") {
         setErrorMessage("Invalid date format");
       }
     }
@@ -224,7 +238,6 @@ function DatePicker(_ref) {
     if (e.code === "Enter") {
       if (!clickInsideCalendar) {
         toggleCalendar();
-        e.stopPropagation();
       }
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
@@ -266,6 +279,7 @@ function DatePicker(_ref) {
     "data-cy": "calendar",
     selectedDate: selectedDate,
     onSelect: handleCalendarDateClick,
+    showCurrentDateOnMount: showCurrentDateOnMount,
     onDisplayChange: handleDisplayChange,
     onChange: handleDateChange,
     onKeyPress: handleKeyPress,

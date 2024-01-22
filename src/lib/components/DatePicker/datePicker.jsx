@@ -28,7 +28,7 @@ import "./datePicker.css";
  * @returns {JSX.Element} The rendered DatePicker component.
  */
 export default function DatePicker({
-  showCurrentDateOnMount = false,
+  showCurrentDateOnMount = true,
   minYear,
   maxYear,
   dateFormat,
@@ -92,35 +92,50 @@ export default function DatePicker({
    */
   const toggleCalendar = () => {
     if (!showCalendar) {
-      // Si le calendrier n'est pas ouvert, l'ouvrir directement si le champ est vide par défaut au clic
       if (showCurrentDateOnMount === false || dateInput === "") {
-        const currentDate = new Date();
+        // Logique spécifique si showCurrentDateOnMount est false ou dateInput est vide
+        if (errorMessage === null) {
+          setDateInput("");
+          handleDateChange(dateInput, dateFormat);
+          setShowCalendar(true);
+          setErrorMessage(null);
+       
+        } else if(errorMessage !== null){
+          setDateInput("");
+          setSelectedDate("");
+          // handleDateChange(dateInput, dateFormat);
+          setShowCalendar(true)
+          setErrorMessage(null)
+        }
+      } else {
+        // Logique spécifique si showCurrentDateOnMount est true
+        if (errorMessage === null) {
+          setShowCalendar(true);
+        } else {
+          const currentDate = new Date();
         setDateInput(formatDate(currentDate, dateFormat));
         setSelectedDate(currentDate);
         handleDateChange(formatDate(selectedDate || currentDate, dateFormat));
+        setErrorMessage(null);
+        setShowCalendar(true);
+        console.log("showCurrentDateOnMount", showCurrentDateOnMount);
+        }
+      }
+    } else {
+      // Logique pour le cas où le calendrier est déjà ouvert
+      if (errorMessage === null) {
         setShowCalendar(true);
         setErrorMessage(null);
-      } else if (errorMessage === null) {
-        setShowCalendar(true);
       } else {
-        const currentDate = new Date();
-        setDateInput(formatDate(currentDate, dateFormat));
-        setSelectedDate(currentDate);
-        handleDateChange(formatDate(selectedDate || currentDate, dateFormat));
-        setShowCalendar(true);
+        setDateInput("");
+          setSelectedDate("");
+          setShowCalendar(true);
+          setErrorMessage(null);
+          
       }
-    } else if (errorMessage === null) {
-      // Si le calendrier est déjà ouvert et aucune erreur, on ne change pas la date sélectionnée
-      setShowCalendar(true);
-    } else {
-      // Si une erreur est présente, vider le champ et utiliser la date actuelle
-      const currentDate = new Date();
-      setDateInput("");
-      setSelectedDate(currentDate);
-      handleDateChange(formatDate(currentDate, dateFormat));
-      setErrorMessage(null);
     }
   };
+  
 
   /**
    * Handles click outside of the calendar, closes the calendar and selects the input value.
@@ -163,9 +178,11 @@ export default function DatePicker({
    * @param {Date} newDisplayedDate - The newly displayed date.
    */
   const handleDisplayChange = (newDisplayedDate) => {
-    setSelectedDate(newDisplayedDate);
-    setDateInput(formatDate(newDisplayedDate));
-    setErrorMessage(null);
+    if (showCurrentDateOnMount === true) {
+      setSelectedDate(newDisplayedDate);
+      setDateInput(formatDate(newDisplayedDate));
+      setErrorMessage(null);
+    }
   };
 
   /**
@@ -182,20 +199,21 @@ export default function DatePicker({
       newDate.getMonth() <= 11 &&
       newDate.getDate() >= 1 &&
       newDate.getDate() <=
-        new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate()
+      new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate()
     ) {
       setSelectedDate(newDate);
       setShowCalendar(true);
       setErrorMessage(null);
     } else {
       setShowCalendar(false);
-      if (dateInput === "") {
+
+      if (dateInput === "" && showCurrentDateOnMount === true) {
         setErrorMessage("Please select date");
-      } else {
+      } else if(dateInput !== ""){
         setErrorMessage("Invalid date format");
       }
     }
-  };
+  }
 
   /**
    * Handles the change of the input date, parses the input and updates the state accordingly.
@@ -212,7 +230,6 @@ export default function DatePicker({
     if (onChange) {
       onChange(parsedDate);
     }
-   
   };
 
   /**
@@ -229,16 +246,14 @@ export default function DatePicker({
   const handleKeyPress = (e) => {
     console.log("code===", e.code);
     if (e.code === "Enter") {
-  
       if (!clickInsideCalendar) {
         toggleCalendar();
-        e.stopPropagation();
       }
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
         setShowCalendar(false);
         setSelectedDate(parseDateInput(dateInput));
-      } 
+      }
       setErrorMessage(null);
       e.stopPropagation();
     } else if (e.code !== "Tab") {
@@ -294,6 +309,7 @@ export default function DatePicker({
           data-cy="calendar"
           selectedDate={selectedDate}
           onSelect={handleCalendarDateClick}
+          showCurrentDateOnMount={showCurrentDateOnMount}
           onDisplayChange={handleDisplayChange}
           onChange={handleDateChange}
           onKeyPress={handleKeyPress}

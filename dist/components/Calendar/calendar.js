@@ -39,6 +39,7 @@ function Calendar(_ref, ref) {
     onChange,
     selectedDate,
     onDisplayChange,
+    // showCurrentDateOnMount,
     minYear,
     maxYear,
     language,
@@ -100,7 +101,7 @@ function Calendar(_ref, ref) {
   /**
    * Handle month change based on the given offset.
    *
-   * @param {number} offset - The offset to change the month.
+   * @param {number} offset - The offset to change the month with button prev or next.
    */
   const handleMonthChange = offset => {
     const newDisplayedMonth = new Date(displayed);
@@ -142,6 +143,7 @@ function Calendar(_ref, ref) {
    */
   const handleDateSelection = day => {
     const newDate = new Date(displayed.getFullYear(), displayed.getMonth(), day);
+    console.log(newDate);
     setDisplayedMonth(newDate);
     if (onSelect) {
       onSelect(newDate);
@@ -170,14 +172,14 @@ function Calendar(_ref, ref) {
    * @param {number} selectedYear - The selected year.
    * @param {number} selectedMonth - The selected month.
    */
-  const handleDropdownClick = (selectedYear, selectedMonth) => {
+  const handleDropdownSelected = (selectedYear, selectedMonth) => {
     const newDate = new Date(selectedYear, selectedMonth, displayed.getDate());
     setDisplayedMonth(newDate);
     if (onDisplayChange) {
       onDisplayChange(newDate);
     }
 
-    // Update year and month of the input
+    // Update year and month of the input 
     yearSelectRef.current.value = selectedYear;
     monthSelectRef.current.value = selectedMonth;
 
@@ -269,7 +271,7 @@ function Calendar(_ref, ref) {
         // Get month select value
         const selectedMonth = parseInt(monthSelectRef.current.value, 10);
         // Update date with function handleDropdownClick
-        handleDropdownClick(displayed.getFullYear(), selectedMonth);
+        handleDropdownSelected(displayed.getFullYear(), selectedMonth);
       }
     }
   }, months.map((month, index) => /*#__PURE__*/_react.default.createElement("option", {
@@ -277,7 +279,7 @@ function Calendar(_ref, ref) {
     value: month,
     "data-cy": "calendar-month-option",
     tabIndex: index + 1,
-    onClick: () => handleDropdownClick(displayed.getFullYear(), month, displayed.getDate())
+    onClick: () => handleDropdownSelected(displayed.getFullYear(), month, displayed.getDate())
   }, new Date(2000, month, 1).toLocaleDateString(language, {
     month: "long"
   })))), /*#__PURE__*/_react.default.createElement("select", {
@@ -319,14 +321,14 @@ function Calendar(_ref, ref) {
 
         // Select Option
         const selectedYear = parseInt(e.target.value, 10);
-        handleDropdownClick(selectedYear, displayed.getMonth());
+        handleDropdownSelected(selectedYear, displayed.getMonth());
       }
     }
   }, years.map((year, index) => /*#__PURE__*/_react.default.createElement("option", {
     key: year,
     value: year,
     tabIndex: index + 1,
-    onClick: () => handleDropdownClick(year, displayed.getMonth(), displayed.getDate())
+    onClick: () => handleDropdownSelected(year, displayed.getMonth(), displayed.getDate())
   }, year)))), /*#__PURE__*/_react.default.createElement("div", {
     className: "calendar__body"
   }, displayed && /*#__PURE__*/_react.default.createElement("div", {
