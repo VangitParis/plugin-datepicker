@@ -48,6 +48,7 @@ function DatePicker(_ref) {
     showError = true,
     id,
     type,
+    placeholder,
     onChange,
     customStyles: {
       calendarStyle,
@@ -196,8 +197,8 @@ function DatePicker(_ref) {
    * @param {string} inputValue - The input value.
    */
   const handleDateChange = inputValue => {
-    // Vérifier si la date est valide avant de mettre à jour les valeurs
-    console.log("Change date value", inputValue);
+    // Check is date valid before validation
+    console.log("change date value====", inputValue);
     const parsedDate = (0, _modelisation.parseDateInput)(inputValue);
     setDateInput(inputValue);
     updateDate(parsedDate);
@@ -222,6 +223,7 @@ function DatePicker(_ref) {
     if (e.code === "Enter") {
       if (!clickInsideCalendar) {
         toggleCalendar();
+        e.stopPropagation();
       }
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
@@ -241,16 +243,14 @@ function DatePicker(_ref) {
     ref: inputRef,
     id: id,
     type: type,
-    placeholder: "dd/mm/yyyy",
+    placeholder: placeholder,
     value: dateInput,
     onChange: e => handleDateChange(e.target.value),
     autoFocus: showCalendar,
-    onBlur: handleBlur
-    // onKeyDown={handleKeyPress}
-    ,
+    onBlur: handleBlur,
     className: "input-date ".concat(externalErrorClass || errorMessage !== null ? "error-border" : "", " ").concat(customInputClass ? customInputClass.className : "", " focused"),
-    "data-cy": "input-date"
-    // onMouseDown={toggleCalendar}
+    "data-cy": "input-date",
+    onKeyDown: handleKeyPress
   }), /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faCalendarDay,
     className: "calendar-icon",

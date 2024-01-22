@@ -39,6 +39,7 @@ export default function DatePicker({
   showError = true,
   id,
   type,
+  placeholder,
   onChange,
   customStyles: {
     calendarStyle,
@@ -201,8 +202,8 @@ export default function DatePicker({
    * @param {string} inputValue - The input value.
    */
   const handleDateChange = (inputValue) => {
-    // Vérifier si la date est valide avant de mettre à jour les valeurs
-    console.log("Change date value", inputValue);
+    // Check is date valid before validation
+    console.log("change date value====", inputValue);
     const parsedDate = parseDateInput(inputValue);
 
     setDateInput(inputValue);
@@ -211,6 +212,7 @@ export default function DatePicker({
     if (onChange) {
       onChange(parsedDate);
     }
+   
   };
 
   /**
@@ -228,12 +230,13 @@ export default function DatePicker({
     if (e.code === "Enter") {
       if (!clickInsideCalendar) {
         toggleCalendar();
+        e.stopPropagation();
       }
     } else if (e.code === "Escape") {
       if (!clickInsideCalendar) {
         setShowCalendar(false);
         setSelectedDate(parseDateInput(dateInput));
-      }
+      } 
       setErrorMessage(null);
     } else if (e.code !== "Tab") {
       setShowCalendar(false);
@@ -249,17 +252,16 @@ export default function DatePicker({
           ref={inputRef}
           id={id}
           type={type}
-          placeholder="dd/mm/yyyy"
+          placeholder={placeholder}
           value={dateInput}
           onChange={(e) => handleDateChange(e.target.value)}
           autoFocus={showCalendar}
           onBlur={handleBlur}
-          // onKeyDown={handleKeyPress}
           className={`input-date ${
             externalErrorClass || errorMessage !== null ? "error-border" : ""
           } ${customInputClass ? customInputClass.className : ""} focused`}
           data-cy="input-date"
-          // onMouseDown={toggleCalendar}
+          onKeyDown={handleKeyPress}
         />
         {/* Calendar icon for opening/closing the calendar */}
         <FontAwesomeIcon

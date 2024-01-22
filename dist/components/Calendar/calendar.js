@@ -130,8 +130,8 @@ function Calendar(_ref, ref) {
   const handleHomeClick = () => {
     const initialDate = new Date();
     setDisplayedMonth(initialDate);
-    if (onSelect) {
-      onSelect(initialDate);
+    if (onDisplayChange) {
+      onDisplayChange(initialDate);
     }
   };
 
@@ -214,7 +214,7 @@ function Calendar(_ref, ref) {
   const dateStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.dateStyle) || {};
   const dropdownStyle = (customStyles === null || customStyles === void 0 ? void 0 : customStyles.dropdownStyle) || {};
 
-  // Render the Calendar component
+  // Render the JSX Calendar Component
   return /*#__PURE__*/_react.default.createElement("div", {
     id: "calendar",
     className: "calendar ".concat(calendarStyle ? "custom-calendar-style" : ""),
@@ -314,7 +314,6 @@ function Calendar(_ref, ref) {
       }
     },
     onKeyDown: e => {
-      console.log("key code:", e.code);
       if (e.code === "Enter") {
         e.preventDefault();
 

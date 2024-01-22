@@ -134,7 +134,6 @@ function Calendar(
     if (onDisplayChange) {
       onDisplayChange(newDisplayedMonth);
     }
-
   };
 
   /**
@@ -143,9 +142,11 @@ function Calendar(
   const handleHomeClick = () => {
     const initialDate = new Date();
     setDisplayedMonth(initialDate);
-    if (onSelect) {
-      onSelect(initialDate);
+   
+    if (onDisplayChange) {
+      onDisplayChange(initialDate);
     }
+    
   };
 
   /**
@@ -171,7 +172,7 @@ function Calendar(
     }
 
     if (onChange) {
-      onChange(formatDate(newDate))
+      onChange(formatDate(newDate));
     }
   };
 
@@ -232,6 +233,8 @@ function Calendar(
     }
   };
 
+  
+
   // Select class for customize
   const monthSelectClass = customStyles?.monthSelectClass || {};
   const yearSelectClass = customStyles?.yearSelectClass || {};
@@ -242,7 +245,7 @@ function Calendar(
   const dateStyle = customStyles?.dateStyle || {};
   const dropdownStyle = customStyles?.dropdownStyle || {};
 
-  // Render the Calendar component
+  // Render the JSX Calendar Component
   return (
     <div
       id="calendar"
@@ -267,7 +270,7 @@ function Calendar(
           }}
           className={`month-dropdown ${
             monthSelectClass ? "custom-month-select-style" : ""
-            } ${ isMonthDropdownOpen ? "custom-dropdown-open" : "" }`}
+          } ${isMonthDropdownOpen ? "custom-dropdown-open" : ""}`}
           style={dropdownStyle}
           tabIndex={0}
           onFocus={(e) => {
@@ -342,7 +345,7 @@ function Calendar(
           }}
           className={`year-dropdown ${
             yearSelectClass ? "custom-year-select-style" : ""
-            } ${ isYearDropdownOpen ? "custom-dropdown-open" : "" }`}
+          } ${isYearDropdownOpen ? "custom-dropdown-open" : ""}`}
           style={dropdownStyle}
           tabIndex={0}
           onFocus={(e) => {
@@ -364,7 +367,6 @@ function Calendar(
             }
           }}
           onKeyDown={(e) => {
-            console.log("key code:", e.code);
             if (e.code === "Enter") {
               e.preventDefault();
 
@@ -404,6 +406,7 @@ function Calendar(
               data-cy="arrow-left"
               tabIndex={0}
               onClick={() => handleMonthChange(-1)}
+             
             >
               <FontAwesomeIcon icon={faChevronLeft} className="icon" />
             </button>
@@ -416,6 +419,7 @@ function Calendar(
               data-cy="icon-home"
               tabIndex={0}
               onClick={handleHomeClick}
+             
             >
               <FontAwesomeIcon icon={faHome} className="icon" />
             </button>
