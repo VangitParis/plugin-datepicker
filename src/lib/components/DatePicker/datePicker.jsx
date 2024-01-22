@@ -227,7 +227,9 @@ export default function DatePicker({
    * @param {Event} e - The key press event.
    */
   const handleKeyPress = (e) => {
+    console.log("code===", e.code);
     if (e.code === "Enter") {
+  
       if (!clickInsideCalendar) {
         toggleCalendar();
         e.stopPropagation();
@@ -238,6 +240,7 @@ export default function DatePicker({
         setSelectedDate(parseDateInput(dateInput));
       } 
       setErrorMessage(null);
+      e.stopPropagation();
     } else if (e.code !== "Tab") {
       setShowCalendar(false);
     }

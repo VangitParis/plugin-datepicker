@@ -336,7 +336,18 @@ function Calendar(_ref, ref) {
     style: buttonStyle,
     "data-cy": "arrow-left",
     tabIndex: 0,
-    onClick: () => handleMonthChange(-1)
+    onClick: () => handleMonthChange(-1),
+    onFocus: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.target.classList.add("focused");
+    },
+    onKeyDown: e => {
+      if (e.code === "Enter") {
+        e.preventDefault();
+        handleMonthChange(-1);
+      }
+    }
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faChevronLeft,
     className: "icon"
@@ -366,7 +377,18 @@ function Calendar(_ref, ref) {
     style: buttonStyle,
     "data-cy": "arrow-right",
     tabIndex: 0,
-    onClick: () => handleMonthChange(1)
+    onClick: () => handleMonthChange(1),
+    onFocus: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.target.classList.add("focused");
+    },
+    onKeyDown: e => {
+      if (e.code === "Enter") {
+        e.preventDefault();
+        handleMonthChange(1);
+      }
+    }
   }, /*#__PURE__*/_react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _freeSolidSvgIcons.faChevronRight,
     className: "icon"

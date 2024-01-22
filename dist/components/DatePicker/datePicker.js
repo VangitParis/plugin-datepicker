@@ -220,6 +220,7 @@ function DatePicker(_ref) {
    * @param {Event} e - The key press event.
    */
   const handleKeyPress = e => {
+    console.log("code===", e.code);
     if (e.code === "Enter") {
       if (!clickInsideCalendar) {
         toggleCalendar();
@@ -231,6 +232,7 @@ function DatePicker(_ref) {
         setSelectedDate((0, _modelisation.parseDateInput)(dateInput));
       }
       setErrorMessage(null);
+      e.stopPropagation();
     } else if (e.code !== "Tab") {
       setShowCalendar(false);
     }

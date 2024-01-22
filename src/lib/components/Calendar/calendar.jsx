@@ -407,6 +407,18 @@ function Calendar(
               data-cy="arrow-left"
               tabIndex={0}
               onClick={() => handleMonthChange(-1)}
+              onFocus={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                e.target.classList.add("focused");
+    
+              }}
+              onKeyDown={(e) => {
+                if (e.code === "Enter") {
+                  e.preventDefault();
+                  handleMonthChange(-1)
+                }
+              }}
               
             >
               <FontAwesomeIcon icon={faChevronLeft} className="icon" />
@@ -444,6 +456,18 @@ function Calendar(
               data-cy="arrow-right"
               tabIndex={0}
               onClick={() => handleMonthChange(1)}
+              onFocus={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                e.target.classList.add("focused");
+    
+              }}
+              onKeyDown={(e) => {
+                if (e.code === "Enter") {
+                  e.preventDefault();
+                  handleMonthChange(1)
+                }
+              }}
             >
               <FontAwesomeIcon icon={faChevronRight} className="icon" />
             </button>
