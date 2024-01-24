@@ -28,7 +28,7 @@ import "./datePicker.css";
  * @returns {JSX.Element} The rendered DatePicker component.
  */
 export default function DatePicker({
-  showCurrentDateOnMount = true,
+  showCurrentDateOnMount = false,
   minYear,
   maxYear,
   dateFormat,
@@ -41,6 +41,7 @@ export default function DatePicker({
   type,
   placeholder,
   onChange,
+  resetState,
   customStyles: {
     calendarStyle,
     monthSelectClass,
@@ -70,7 +71,9 @@ export default function DatePicker({
       setSelectedDate(currentDate);
       setDateInput(formatDate(currentDate, dateFormat));
     }
-
+    if (resetState) {
+      resetInternalState();
+    }
     const handleClick = (event) => {
       if (event.target.closest("#calendar")) {
         handleCalendarClick();
@@ -85,7 +88,7 @@ export default function DatePicker({
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
-  }, [dateFormat, selectedDate, showCalendar, clickInsideCalendar, dateInput]);
+  }, [dateFormat, selectedDate, showCalendar, clickInsideCalendar, dateInput, resetState]);
 
   /**
    * Toggles the calendar visibility, opens only if errorMessage is null.
@@ -231,7 +234,12 @@ export default function DatePicker({
       onChange(parsedDate);
     }
   };
-
+  const resetInternalState = () => {
+    setSelectedDate("");
+    setDateInput("");
+    setShowCalendar(false);
+    setErrorMessage(null);
+  };
   /**
    * Handles blur event, updates the date based on the input value.
    */

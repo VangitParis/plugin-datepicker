@@ -91,6 +91,7 @@ export default App;
   - yearSelectClass (object): Styles for the year select dropdown.
   - buttonStyle (object): Styles for navigation buttons.
   - dateStyle (object): Styles for individual dates.
+<!-- TODO  Ajouter des props showcurrentonmount, error ....-->
 
 
 ## Features
