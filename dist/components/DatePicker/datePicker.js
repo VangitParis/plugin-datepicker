@@ -37,7 +37,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 function DatePicker(_ref) {
   let {
-    showCurrentDateOnMount = true,
+    showCurrentDateOnMount = false,
     minYear,
     maxYear,
     dateFormat,
@@ -50,6 +50,7 @@ function DatePicker(_ref) {
     type,
     placeholder,
     onChange,
+    resetState,
     customStyles: {
       calendarStyle,
       monthSelectClass,
@@ -79,6 +80,9 @@ function DatePicker(_ref) {
       setSelectedDate(currentDate);
       setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
     }
+    if (resetState) {
+      resetInternalState();
+    }
     const handleClick = event => {
       if (event.target.closest("#calendar")) {
         handleCalendarClick();
@@ -91,7 +95,7 @@ function DatePicker(_ref) {
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
-  }, [dateFormat, selectedDate, showCalendar, clickInsideCalendar, dateInput]);
+  }, [dateFormat, selectedDate, showCalendar, clickInsideCalendar, dateInput, resetState]);
 
   /**
    * Toggles the calendar visibility, opens only if errorMessage is null.
@@ -221,7 +225,12 @@ function DatePicker(_ref) {
       onChange(parsedDate);
     }
   };
-
+  const resetInternalState = () => {
+    setSelectedDate("");
+    setDateInput("");
+    setShowCalendar(false);
+    setErrorMessage(null);
+  };
   /**
    * Handles blur event, updates the date based on the input value.
    */
