@@ -57,6 +57,7 @@ export default function DatePicker({
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [clickInsideCalendar, setClickInsideCalendar] = useState(false);
+  const [internalResetState, setInternalResetState] = useState(false)
 
   // Reference to the input element
   const inputRef = useRef(null);
@@ -94,8 +95,13 @@ export default function DatePicker({
    * Toggles the calendar visibility, opens only if errorMessage is null.
    */
   const toggleCalendar = () => {
+    if (internalResetState) {
+     
+      resetInternalState();
+      setInternalResetState(false);
+    }
     if (!showCalendar) {
-      if (showCurrentDateOnMount === false || dateInput === "") {
+      if (showCurrentDateOnMount === false) {
         // Logique spécifique si showCurrentDateOnMount est false ou dateInput est vide
         if (errorMessage === null) {
           setDateInput("");
@@ -104,7 +110,7 @@ export default function DatePicker({
           setErrorMessage(null);
        
         } else if(errorMessage !== null){
-          setDateInput("");
+          // setDateInput("");
           setSelectedDate("");
           // handleDateChange(dateInput, dateFormat);
           setShowCalendar(true)
@@ -130,13 +136,14 @@ export default function DatePicker({
         setShowCalendar(true);
         setErrorMessage(null);
       } else {
-        setDateInput("");
+        // setDateInput("");
           setSelectedDate("");
           setShowCalendar(true);
           setErrorMessage(null);
           
       }
     }
+   
   };
   
 
@@ -244,6 +251,12 @@ export default function DatePicker({
    * Handles blur event, updates the date based on the input value.
    */
   const handleBlur = () => {
+    if (dateInput === "" && showCalendar === false) {
+      setErrorMessage("Please select Date");
+    } else {
+      setErrorMessage(null);
+    }
+  
     handleDateChange(dateInput);
   };
 

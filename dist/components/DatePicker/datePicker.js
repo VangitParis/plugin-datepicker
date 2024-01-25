@@ -66,6 +66,7 @@ function DatePicker(_ref) {
   const [showCalendar, setShowCalendar] = (0, _react.useState)(false);
   const [errorMessage, setErrorMessage] = (0, _react.useState)(null);
   const [clickInsideCalendar, setClickInsideCalendar] = (0, _react.useState)(false);
+  const [internalResetState, setInternalResetState] = (0, _react.useState)(false);
 
   // Reference to the input element
   const inputRef = (0, _react.useRef)(null);
@@ -101,8 +102,12 @@ function DatePicker(_ref) {
    * Toggles the calendar visibility, opens only if errorMessage is null.
    */
   const toggleCalendar = () => {
+    if (internalResetState) {
+      resetInternalState();
+      setInternalResetState(false);
+    }
     if (!showCalendar) {
-      if (showCurrentDateOnMount === false || dateInput === "") {
+      if (showCurrentDateOnMount === false) {
         // Logique spécifique si showCurrentDateOnMount est false ou dateInput est vide
         if (errorMessage === null) {
           setDateInput("");
@@ -110,7 +115,7 @@ function DatePicker(_ref) {
           setShowCalendar(true);
           setErrorMessage(null);
         } else if (errorMessage !== null) {
-          setDateInput("");
+          // setDateInput("");
           setSelectedDate("");
           // handleDateChange(dateInput, dateFormat);
           setShowCalendar(true);
@@ -136,7 +141,7 @@ function DatePicker(_ref) {
         setShowCalendar(true);
         setErrorMessage(null);
       } else {
-        setDateInput("");
+        // setDateInput("");
         setSelectedDate("");
         setShowCalendar(true);
         setErrorMessage(null);
@@ -235,6 +240,11 @@ function DatePicker(_ref) {
    * Handles blur event, updates the date based on the input value.
    */
   const handleBlur = () => {
+    if (dateInput === "" && showCalendar === false) {
+      setErrorMessage("Please select Date");
+    } else {
+      setErrorMessage(null);
+    }
     handleDateChange(dateInput);
   };
 

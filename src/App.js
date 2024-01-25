@@ -17,8 +17,8 @@ function App({ customClass }) {
         </label>
         <DatePicker
           type="text"
-          minYear={2000}
-          maxYear={2030}
+          minYear={1950}
+          maxYear={2050}
           dateFormat={"dd/MM/yyyy"}
           language={"en-EN"}
           font="Roboto, sans-serif"
