@@ -28,7 +28,7 @@ import "./datePicker.css";
  * @returns {JSX.Element} The rendered DatePicker component.
  */
 export default function DatePicker({
-  showCurrentDateOnMount = false,
+  showCurrentDateOnMount = true,
   minYear,
   maxYear,
   dateFormat,
@@ -101,7 +101,7 @@ export default function DatePicker({
       setInternalResetState(false);
     }
     if (!showCalendar) {
-      if (showCurrentDateOnMount === false) {
+      if (showCurrentDateOnMount === false && dateInput === "") {
         // Logique spécifique si showCurrentDateOnMount est false ou dateInput est vide
         if (errorMessage === null) {
           setDateInput("");
@@ -110,9 +110,9 @@ export default function DatePicker({
           setErrorMessage(null);
        
         } else if(errorMessage !== null){
-          // setDateInput("");
+          setDateInput("");
           setSelectedDate("");
-          // handleDateChange(dateInput, dateFormat);
+          handleDateChange(dateInput, dateFormat);
           setShowCalendar(true)
           setErrorMessage(null)
         }
@@ -136,7 +136,7 @@ export default function DatePicker({
         setShowCalendar(true);
         setErrorMessage(null);
       } else {
-        // setDateInput("");
+        setDateInput("");
           setSelectedDate("");
           setShowCalendar(true);
           setErrorMessage(null);
@@ -217,7 +217,7 @@ export default function DatePicker({
     } else {
       setShowCalendar(false);
 
-      if (dateInput === "" && showCurrentDateOnMount === true) {
+      if (dateInput === "") {
         setErrorMessage("Please select date");
       } else if(dateInput !== ""){
         setErrorMessage("Invalid date format");
@@ -251,13 +251,17 @@ export default function DatePicker({
    * Handles blur event, updates the date based on the input value.
    */
   const handleBlur = () => {
-    if (dateInput === "" && showCalendar === false) {
-      setErrorMessage("Please select Date");
-    } else {
+    // if (dateInput === "" && showCalendar === false) {
+    //   setErrorMessage("Please select Date");
+    // } else {
+    //   setErrorMessage(null);
+    // }
+    if (showCurrentDateOnMount === false) {
       setErrorMessage(null);
     }
-  
+    
     handleDateChange(dateInput);
+    // setErrorMessage(null)
   };
 
   /**
