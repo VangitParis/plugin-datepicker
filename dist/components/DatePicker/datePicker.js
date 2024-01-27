@@ -113,7 +113,7 @@ function DatePicker(_ref) {
     console.log("resetState:", resetInitialState);
     if (resetState) {
       resetInternalState();
-      setResetInitialState(true);
+      setResetInitialState(false);
     }
     if (!showCalendar) {
       if (showCurrentDateOnMount === false && dateInput === "") {

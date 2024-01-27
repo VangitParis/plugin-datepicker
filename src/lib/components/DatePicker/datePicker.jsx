@@ -114,7 +114,7 @@ export default function DatePicker({
      console.log("resetState:", resetInitialState);
     if (resetState) {
       resetInternalState();
-      setResetInitialState(true);
+      setResetInitialState(false);
     }
 
     if (!showCalendar) {
