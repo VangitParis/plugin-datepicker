@@ -103,7 +103,7 @@ export default function DatePicker({
   const resetInternalState = () => {
     console.log("Calling resetInternalState");
     setErrorMessage(null);
-    setResetInitialState(true);
+    setResetInitialState(false);
     console.log("Reset complete");
   };
 
@@ -111,10 +111,12 @@ export default function DatePicker({
    * Toggles the calendar visibility, opens only if errorMessage is null.
    */
   const toggleCalendar = () => {
-     console.log("resetState:", resetInitialState);
-    if (resetState) {
-      resetInternalState();
-    }
+    //  console.log("resetState:", resetInitialState);
+    // if (resetState) {
+    //   resetInternalState();
+    //   setResetInitialState(false);
+
+    // }
 
     if (!showCalendar) {
       if (showCurrentDateOnMount === false && dateInput === "") {
