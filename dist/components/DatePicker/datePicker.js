@@ -37,7 +37,7 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 function DatePicker(_ref) {
   let {
-    showCurrentDateOnMount = true,
+    showCurrentDateOnMount = false,
     minYear,
     maxYear,
     dateFormat,
@@ -104,7 +104,7 @@ function DatePicker(_ref) {
   const toggleCalendar = () => {
     if (internalResetState) {
       resetInternalState();
-      setInternalResetState(false);
+      setInternalResetState(true);
     }
     if (!showCalendar) {
       if (showCurrentDateOnMount === false && dateInput === "") {
@@ -245,7 +245,7 @@ function DatePicker(_ref) {
     // } else {
     //   setErrorMessage(null);
     // }
-    if (showCurrentDateOnMount === false) {
+    if (showCurrentDateOnMount === false && dateInput === "") {
       setErrorMessage(null);
     }
     handleDateChange(dateInput);

@@ -28,7 +28,7 @@ import "./datePicker.css";
  * @returns {JSX.Element} The rendered DatePicker component.
  */
 export default function DatePicker({
-  showCurrentDateOnMount = true,
+  showCurrentDateOnMount = false,
   minYear,
   maxYear,
   dateFormat,
@@ -98,7 +98,7 @@ export default function DatePicker({
     if (internalResetState) {
      
       resetInternalState();
-      setInternalResetState(false);
+      setInternalResetState(true);
     }
     if (!showCalendar) {
       if (showCurrentDateOnMount === false && dateInput === "") {
@@ -256,7 +256,7 @@ export default function DatePicker({
     // } else {
     //   setErrorMessage(null);
     // }
-    if (showCurrentDateOnMount === false) {
+    if (showCurrentDateOnMount === false && dateInput === "") {
       setErrorMessage(null);
     }
     
