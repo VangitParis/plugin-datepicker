@@ -81,9 +81,6 @@ function DatePicker(_ref) {
       setSelectedDate(currentDate);
       setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
     }
-    if (resetState) {
-      resetInternalState();
-    }
     const handleClick = event => {
       if (event.target.closest("#calendar")) {
         handleCalendarClick();
@@ -102,9 +99,8 @@ function DatePicker(_ref) {
    * Toggles the calendar visibility, opens only if errorMessage is null.
    */
   const toggleCalendar = () => {
-    if (internalResetState) {
+    if (resetState) {
       resetInternalState();
-      setInternalResetState(true);
     }
     if (!showCalendar) {
       if (showCurrentDateOnMount === false && dateInput === "") {
