@@ -66,7 +66,7 @@ function DatePicker(_ref) {
   const [showCalendar, setShowCalendar] = (0, _react.useState)(false);
   const [errorMessage, setErrorMessage] = (0, _react.useState)(null);
   const [clickInsideCalendar, setClickInsideCalendar] = (0, _react.useState)(false);
-  const [internalResetState, setInternalResetState] = (0, _react.useState)(false);
+  const [resetInitialState, setResetInitialState] = (0, _react.useState)(true);
 
   // Reference to the input element
   const inputRef = (0, _react.useRef)(null);
@@ -81,10 +81,11 @@ function DatePicker(_ref) {
       setSelectedDate(currentDate);
       setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
     }
-    if (resetState) {
-      resetInternalState();
-      handleDateChange(dateInput, dateFormat);
-    }
+    // console.log("resetState:", resetState);
+    // if (resetState) {
+    //   resetInternalState();
+    //   setResetState(false);
+    // }
     const handleClick = event => {
       if (event.target.closest("#calendar")) {
         handleCalendarClick();
@@ -97,15 +98,22 @@ function DatePicker(_ref) {
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
-  }, [dateFormat, selectedDate, showCalendar, clickInsideCalendar, dateInput, resetState]);
+  }, [dateFormat, selectedDate, showCalendar, clickInsideCalendar, dateInput, resetInitialState]);
+  const resetInternalState = () => {
+    console.log("Calling resetInternalState");
+    setErrorMessage(null);
+    setResetInitialState(false);
+    console.log("Reset complete");
+  };
 
   /**
    * Toggles the calendar visibility, opens only if errorMessage is null.
    */
   const toggleCalendar = () => {
-    if (internalResetState) {
+    console.log("resetState:", resetInitialState);
+    if (resetState) {
       resetInternalState();
-      setInternalResetState(false);
+      setResetInitialState(true);
     }
     if (!showCalendar) {
       if (showCurrentDateOnMount === false && dateInput === "") {
@@ -231,12 +239,7 @@ function DatePicker(_ref) {
       onChange(parsedDate);
     }
   };
-  const resetInternalState = () => {
-    setSelectedDate("");
-    setDateInput("");
-    setShowCalendar(false);
-    setErrorMessage(null);
-  };
+
   /**
    * Handles blur event, updates the date based on the input value.
    */
@@ -279,6 +282,7 @@ function DatePicker(_ref) {
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "input-container"
   }, /*#__PURE__*/_react.default.createElement("input", {
+    key: resetInitialState,
     ref: inputRef,
     id: id,
     type: type,

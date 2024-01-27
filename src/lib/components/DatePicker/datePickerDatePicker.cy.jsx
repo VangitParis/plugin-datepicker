@@ -36,7 +36,7 @@ describe("<DatePicker />", () => {
 
         // Check the month in the expected format : the output format of formatDate is 'DD/MM/YYYY
         const month = formattedDate.split("/")[1];
-        cy.log(`Month: ${month}`);
+        cy.log(`Month: ${ month }`);
         cy.get("select#calendar__month option:selected").should(
           "have.text",
           "January"
@@ -165,157 +165,186 @@ describe("<DatePicker />", () => {
     // Check if the input is focused
     cy.get("input").should("have.class", "focused");
   });
-});
 
-describe("Calendar", () => {
-  it("verifies that 01/01/2024 is a Monday", () => {
-    const dateToCheck = new Date(2024, 0, 1); // Month starts from 0, so January is 0
-
-    // Mount the Calendar component with the specified date
-    cy.mount(
-      <Calendar
-        onSelect={() => {}}
-        selectedDate={null}
-        onDisplayChange={() => {}}
-        minYear={2000}
-        maxYear={2030}
-        language="en-EN"
-        customStyles={{
-          calendarStyle: {
-            backgroundColor: "#f0f0f0",
-            color: "#333",
-            font: "Arial",
-            fontSize: "16px",
-          },
-        }}
-        displayed={dateToCheck}
-      />
-    );
-
-    // Check if the first day of the month in the calendar is a Monday
-    cy.get('[data-cy="calendar__days"] div').eq(1).should("have.text", "M");
-  });
-
-  it("should close calendar on outside click", () => {
-    cy.mount(<DatePicker minYear={2000} maxYear={2030} language="en-EN" />);
-
-    // Click to open the calendar
-    cy.get(".calendar-icon").click();
-
-    // Check if the calendar is open
-    cy.get("#calendar").should("be.visible");
-
-    // Click outside of Calendar
-    cy.get("body").click(0, 50);
-
-    cy.wait(500);
-
-    // Check if id=calendar is not present in the body
-    cy.get("body").should("not.have.id", "calendar");
-  });
-
-  it("customize buttons and selects elements of Calendar", () => {
-    // Mount the DatePicker component
+  it('should reset date on resetState prop', () => {
     cy.mount(
       <DatePicker
+        dateFormat="dd/MM/yyyy"
         minYear={2000}
         maxYear={2030}
         language="en-EN"
-        calendarWidth="400px"
-        calendarHeight="300px"
-        buttonStyle={{
-          backgroundColor: "white",
-          color: "black",
-          width: "100px",
-          height: "30px",
-          borderRadius: "10px",
-        }}
-        monthSelectClass="custom-month-select-style"
-        yearSelectClass="custom-year-select-style"
+        resetState={true}
       />
     );
+  // Sélectionnez le composant DatePicker par son ID ou une classe CSS
+  cy.get('input').as('datePicker');
 
-    // Click to open the calendar
-    cy.get(".calendar-icon").click();
+  // Cliquez pour ouvrir le calendrier
+  cy.get('.calendar-icon').click();
 
-    // Check if the calendar is open
-    cy.get("#calendar").should("be.visible");
+  // Sélectionnez la date dans le calendrier
+  cy.get('[data-cy="calendar-date"]').contains('1').click();
 
-    // Apply custom styles to the month select element
-    cy.get("select#calendar__month").invoke(
-      "attr",
-      "style",
-      "width: 150px; height: 150px; background-color: black; color: white; border-radius: 5px;"
-    );
+  // Attendez que la date soit sélectionnée dans le composant DatePicker
+  cy.get('@datePicker').should('have.value', '01/01/2024');
 
-    // Apply custom styles to the year select element
-    cy.get("select#calendar__year").invoke(
-      "attr",
-      "style",
-      "width: 150px; height: 150px; background-color: black; color: white; border-radius: 5px;"
-    );
+  // Déclenchez la réinitialisation du composant
+  cy.get('[data-cy="input-date"]').invoke('prop', 'resetState', true);
 
-    // Check if the month select element has the custom class and styles
-    cy.get("select#calendar__month")
-      .should("have.class", "custom-month-select-style")
-      .and("have.css", "width", "150px")
-      .and("have.css", "height", "150px")
-      .and("have.css", "background-color", "rgb(0, 0, 0)")
-      .and("have.css", "color", "rgb(255, 255, 255)")
-      .and("have.css", "border-radius");
-
-    // Check if the year select element has the custom class and styles
-    cy.get("select#calendar__year")
-      .should("have.class", "custom-year-select-style")
-      .and("have.css", "width", "150px")
-      .and("have.css", "height", "150px")
-      .and("have.css", "background-color", "rgb(0, 0, 0)")
-      .and("have.css", "color", "rgb(255, 255, 255)")
-      .and("have.css", "border-radius");
-
-    // Apply custom styles to the previous month button
-    cy.get(".btn.arrow-left").invoke(
-      "attr",
-      "style",
-      "width: 100px; height: 30px; background-color: white; color: black; border-radius: 10px;"
-    );
-
-    // Apply custom styles to the home button
-    cy.get(".btn.icon-home").invoke(
-      "attr",
-      "style",
-      "width: 100px; height: 30px; background-color: white; color: black; border-radius: 10px;"
-    );
-
-    // Apply custom styles to the next month button
-    cy.get(".btn.arrow-right").invoke(
-      "attr",
-      "style",
-      "width: 100px; height: 30px; background-color: white; color: black; border-radius: 10px;"
-    );
-
-    // Check if the previous month button has the custom styles
-    cy.get(".btn.arrow-left")
-      .should("have.css", "width", "100px")
-      .and("have.css", "height", "30px")
-      .and("have.css", "background-color", "rgb(255, 255, 255)")
-      .and("have.css", "color", "rgb(0, 0, 0)")
-      .and("have.css", "border-radius", "10px");
-
-    // Check if the home button has the custom styles
-    cy.get(".btn.icon-home")
-      .should("have.css", "width", "100px")
-      .and("have.css", "height", "30px")
-      .and("have.css", "background-color", "rgb(255, 255, 255)")
-      .and("have.css", "color", "rgb(0, 0, 0)")
-      .and("have.css", "border-radius", "10px");
-
-    // Check if the next month button has the custom styles
-    cy.get(".btn.arrow-right")
-      .should("have.css", "width", "100px")
-      .and("have.css", "height", "30px")
-      .and("have.css", "background-color", "rgb(255, 255, 255)")
-      .and("have.css", "color", "rgb(0, 0, 0)")
-      .and("have.css", "border-radius", "10px");
-  });
+  // Vérifiez que la date a été réinitialisée
+  cy.get('[data-cy="input-date"]').should('have.value', '');
 });
+  
+  });
+  describe("Calendar", () => {
+    it("verifies that 01/01/2024 is a Monday", () => {
+      const dateToCheck = new Date(2024, 0, 1); // Month starts from 0, so January is 0
+
+      // Mount the Calendar component with the specified date
+      cy.mount(
+        <Calendar
+          onSelect={() => { }}
+          selectedDate={null}
+          onDisplayChange={() => { }}
+          minYear={2000}
+          maxYear={2030}
+          language="en-EN"
+          customStyles={{
+            calendarStyle: {
+              backgroundColor: "#f0f0f0",
+              color: "#333",
+              font: "Arial",
+              fontSize: "16px",
+            },
+          }}
+          displayed={dateToCheck}
+        />
+      );
+
+      // Check if the first day of the month in the calendar is a Monday
+      cy.get('[data-cy="calendar__days"] div').eq(1).should("have.text", "M");
+    });
+
+    it("should close calendar on outside click", () => {
+      cy.mount(<DatePicker minYear={2000} maxYear={2030} language="en-EN" />);
+
+      // Click to open the calendar
+      cy.get(".calendar-icon").click();
+
+      // Check if the calendar is open
+      cy.get("#calendar").should("be.visible");
+
+      // Click outside of Calendar
+      cy.get("body").click(0, 50);
+
+      cy.wait(500);
+
+      // Check if id=calendar is not present in the body
+      cy.get("body").should("not.have.id", "calendar");
+    });
+
+    it("customize buttons and selects elements of Calendar", () => {
+      // Mount the DatePicker component
+      cy.mount(
+        <DatePicker
+          minYear={2000}
+          maxYear={2030}
+          language="en-EN"
+          calendarWidth="400px"
+          calendarHeight="300px"
+          buttonStyle={{
+            backgroundColor: "white",
+            color: "black",
+            width: "100px",
+            height: "30px",
+            borderRadius: "10px",
+          }}
+          monthSelectClass="custom-month-select-style"
+          yearSelectClass="custom-year-select-style"
+        />
+      );
+
+      // Click to open the calendar
+      cy.get(".calendar-icon").click();
+
+      // Check if the calendar is open
+      cy.get("#calendar").should("be.visible");
+
+      // Apply custom styles to the month select element
+      cy.get("select#calendar__month").invoke(
+        "attr",
+        "style",
+        "width: 150px; height: 150px; background-color: black; color: white; border-radius: 5px;"
+      );
+
+      // Apply custom styles to the year select element
+      cy.get("select#calendar__year").invoke(
+        "attr",
+        "style",
+        "width: 150px; height: 150px; background-color: black; color: white; border-radius: 5px;"
+      );
+
+      // Check if the month select element has the custom class and styles
+      cy.get("select#calendar__month")
+        .should("have.class", "custom-month-select-style")
+        .and("have.css", "width", "150px")
+        .and("have.css", "height", "150px")
+        .and("have.css", "background-color", "rgb(0, 0, 0)")
+        .and("have.css", "color", "rgb(255, 255, 255)")
+        .and("have.css", "border-radius");
+
+      // Check if the year select element has the custom class and styles
+      cy.get("select#calendar__year")
+        .should("have.class", "custom-year-select-style")
+        .and("have.css", "width", "150px")
+        .and("have.css", "height", "150px")
+        .and("have.css", "background-color", "rgb(0, 0, 0)")
+        .and("have.css", "color", "rgb(255, 255, 255)")
+        .and("have.css", "border-radius");
+
+      // Apply custom styles to the previous month button
+      cy.get(".btn.arrow-left").invoke(
+        "attr",
+        "style",
+        "width: 100px; height: 30px; background-color: white; color: black; border-radius: 10px;"
+      );
+
+      // Apply custom styles to the home button
+      cy.get(".btn.icon-home").invoke(
+        "attr",
+        "style",
+        "width: 100px; height: 30px; background-color: white; color: black; border-radius: 10px;"
+      );
+
+      // Apply custom styles to the next month button
+      cy.get(".btn.arrow-right").invoke(
+        "attr",
+        "style",
+        "width: 100px; height: 30px; background-color: white; color: black; border-radius: 10px;"
+      );
+
+      // Check if the previous month button has the custom styles
+      cy.get(".btn.arrow-left")
+        .should("have.css", "width", "100px")
+        .and("have.css", "height", "30px")
+        .and("have.css", "background-color", "rgb(255, 255, 255)")
+        .and("have.css", "color", "rgb(0, 0, 0)")
+        .and("have.css", "border-radius", "10px");
+
+      // Check if the home button has the custom styles
+      cy.get(".btn.icon-home")
+        .should("have.css", "width", "100px")
+        .and("have.css", "height", "30px")
+        .and("have.css", "background-color", "rgb(255, 255, 255)")
+        .and("have.css", "color", "rgb(0, 0, 0)")
+        .and("have.css", "border-radius", "10px");
+
+      // Check if the next month button has the custom styles
+      cy.get(".btn.arrow-right")
+        .should("have.css", "width", "100px")
+        .and("have.css", "height", "30px")
+        .and("have.css", "background-color", "rgb(255, 255, 255)")
+        .and("have.css", "color", "rgb(0, 0, 0)")
+        .and("have.css", "border-radius", "10px");
+    });
+  });
