@@ -81,11 +81,11 @@ function DatePicker(_ref) {
       setSelectedDate(currentDate);
       setDateInput((0, _modelisation.formatDate)(currentDate, dateFormat));
     }
-    // console.log("resetState:", resetState);
-    // if (resetState) {
-    //   resetInternalState();
-    //   setResetState(false);
-    // }
+    console.log("resetState:", resetState);
+    if (resetState) {
+      resetInternalState();
+      setResetInitialState(false);
+    }
     const handleClick = event => {
       if (event.target.closest("#calendar")) {
         handleCalendarClick();
@@ -102,7 +102,7 @@ function DatePicker(_ref) {
   const resetInternalState = () => {
     console.log("Calling resetInternalState");
     setErrorMessage(null);
-    setResetInitialState(false);
+    setResetInitialState(true);
     console.log("Reset complete");
   };
 
@@ -113,7 +113,6 @@ function DatePicker(_ref) {
     console.log("resetState:", resetInitialState);
     if (resetState) {
       resetInternalState();
-      setResetInitialState(false);
     }
     if (!showCalendar) {
       if (showCurrentDateOnMount === false && dateInput === "") {

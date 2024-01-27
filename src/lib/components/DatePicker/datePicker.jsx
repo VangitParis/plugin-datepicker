@@ -72,11 +72,11 @@ export default function DatePicker({
       setSelectedDate(currentDate);
       setDateInput(formatDate(currentDate, dateFormat));
     }
-    // console.log("resetState:", resetState);
-    // if (resetState) {
-    //   resetInternalState();
-    //   setResetState(false);
-    // }
+    console.log("resetState:", resetState);
+    if (resetState) {
+      resetInternalState();
+      setResetInitialState(false);
+    }
     const handleClick = (event) => {
       if (event.target.closest("#calendar")) {
         handleCalendarClick();
@@ -103,7 +103,7 @@ export default function DatePicker({
   const resetInternalState = () => {
     console.log("Calling resetInternalState");
     setErrorMessage(null);
-    setResetInitialState(false);
+    setResetInitialState(true);
     console.log("Reset complete");
   };
 
@@ -114,7 +114,6 @@ export default function DatePicker({
      console.log("resetState:", resetInitialState);
     if (resetState) {
       resetInternalState();
-      setResetInitialState(false);
     }
 
     if (!showCalendar) {
