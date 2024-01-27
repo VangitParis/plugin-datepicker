@@ -26,6 +26,7 @@ function App({ customClass }) {
           customInputClass={{ className: "custom-input-class" }}
           id="inputDate"
           placeholder="dd/mm/yyyy"
+          resetState={true}
         />
       </div>
     </main>

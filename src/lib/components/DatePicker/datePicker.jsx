@@ -41,7 +41,7 @@ export default function DatePicker({
   type,
   placeholder,
   onChange,
-resetState,
+  resetState,
   customStyles: {
     calendarStyle,
     monthSelectClass,
@@ -57,7 +57,7 @@ resetState,
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [clickInsideCalendar, setClickInsideCalendar] = useState(false);
-  const [resetInitialState, setResetInitialState] = useState(true);
+  const [resetInitialState, setResetInitialState] = useState(false);
 
   // Reference to the input element
   const inputRef = useRef(null);

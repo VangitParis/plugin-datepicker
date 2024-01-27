@@ -66,7 +66,7 @@ function DatePicker(_ref) {
   const [showCalendar, setShowCalendar] = (0, _react.useState)(false);
   const [errorMessage, setErrorMessage] = (0, _react.useState)(null);
   const [clickInsideCalendar, setClickInsideCalendar] = (0, _react.useState)(false);
-  const [resetInitialState, setResetInitialState] = (0, _react.useState)(true);
+  const [resetInitialState, setResetInitialState] = (0, _react.useState)(false);
 
   // Reference to the input element
   const inputRef = (0, _react.useRef)(null);
