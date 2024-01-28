@@ -165,35 +165,6 @@ describe("<DatePicker />", () => {
     // Check if the input is focused
     cy.get("input").should("have.class", "focused");
   });
-
-  it('should reset date on resetState prop', () => {
-    cy.mount(
-      <DatePicker
-        dateFormat="dd/MM/yyyy"
-        minYear={2000}
-        maxYear={2030}
-        language="en-EN"
-        resetState={true}
-      />
-    );
-  // Sélectionnez le composant DatePicker par son ID ou une classe CSS
-  cy.get('input').as('datePicker');
-
-  // Cliquez pour ouvrir le calendrier
-  cy.get('.calendar-icon').click();
-
-  // Sélectionnez la date dans le calendrier
-  cy.get('[data-cy="calendar-date"]').contains('1').click();
-
-  // Attendez que la date soit sélectionnée dans le composant DatePicker
-  cy.get('@datePicker').should('have.value', '01/01/2024');
-
-  // Déclenchez la réinitialisation du composant
-  cy.get('[data-cy="input-date"]').invoke('prop', 'resetState', true);
-
-  // Vérifiez que la date a été réinitialisée
-  cy.get('[data-cy="input-date"]').should('have.value', '');
-});
   
   });
   describe("Calendar", () => {

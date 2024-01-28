@@ -41,7 +41,6 @@ export default function DatePicker({
   type,
   placeholder,
   onChange,
-  resetState,
   customStyles: {
     calendarStyle,
     monthSelectClass,
@@ -57,7 +56,6 @@ export default function DatePicker({
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [clickInsideCalendar, setClickInsideCalendar] = useState(false);
-  const [resetInitialState, setResetInitialState] = useState(false);
 
   // Reference to the input element
   const inputRef = useRef(null);
@@ -72,11 +70,7 @@ export default function DatePicker({
       setSelectedDate(currentDate);
       setDateInput(formatDate(currentDate, dateFormat));
     }
-    console.log("resetState:", resetState);
-    if (resetState) {
-      resetInternalState();
-      setResetInitialState(false);
-    }
+   
     const handleClick = (event) => {
       if (event.target.closest("#calendar")) {
         handleCalendarClick();
@@ -97,27 +91,13 @@ export default function DatePicker({
     showCalendar,
     clickInsideCalendar,
     dateInput,
-    resetInitialState,
   ]);
 
-  const resetInternalState = () => {
-    console.log("Calling resetInternalState");
-    setErrorMessage(null);
-    setResetInitialState(false);
-    console.log("Reset complete");
-  };
 
   /**
    * Toggles the calendar visibility, opens only if errorMessage is null.
    */
   const toggleCalendar = () => {
-    //  console.log("resetState:", resetInitialState);
-    // if (resetState) {
-    //   resetInternalState();
-    //   setResetInitialState(false);
-
-    // }
-
     if (!showCalendar) {
       if (showCurrentDateOnMount === false && dateInput === "") {
         // Logique spécifique si showCurrentDateOnMount est false ou dateInput est vide
@@ -155,6 +135,7 @@ export default function DatePicker({
       } else {
         setDateInput("");
         setSelectedDate("");
+        // handleDateChange(dateInput, dateFormat);
         setShowCalendar(true);
         setErrorMessage(null);
       }
@@ -254,6 +235,7 @@ export default function DatePicker({
     if (onChange) {
       onChange(parsedDate);
     }
+ 
   };
 
   /**
@@ -301,7 +283,6 @@ export default function DatePicker({
       <div className="input-container">
         {/* Input element for date selection */}
         <input
-          key={resetInitialState}
           ref={inputRef}
           id={id}
           type={type}
