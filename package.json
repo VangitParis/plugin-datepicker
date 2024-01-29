@@ -29,7 +29,7 @@
     "build-examples": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build": "rm -rf dist && babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
+    "build": "rm -rf dist && babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__ && cp -r screenshots/ dist/",
     "cypress:open": "cypress open",
     "publish": "npm publish",
     "lint": "eslint src/"
