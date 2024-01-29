@@ -124,7 +124,6 @@ export default function DatePicker({
           handleDateChange(formatDate(selectedDate || currentDate, dateFormat));
           setErrorMessage(null);
           setShowCalendar(true);
-          console.log("showCurrentDateOnMount", showCurrentDateOnMount);
         }
       }
     } else {
@@ -226,7 +225,6 @@ export default function DatePicker({
    */
   const handleDateChange = (inputValue) => {
     // Check is date valid before validation
-    console.log("change date value====", inputValue);
     const parsedDate = parseDateInput(inputValue);
 
     setDateInput(inputValue);
@@ -242,17 +240,11 @@ export default function DatePicker({
    * Handles blur event, updates the date based on the input value.
    */
   const handleBlur = () => {
-    // if (dateInput === "" && showCalendar === false) {
-    //   setErrorMessage("Please select Date");
-    // } else {
-    //   setErrorMessage(null);
-    // }
+  
     if (showCurrentDateOnMount === false && dateInput === "") {
       setErrorMessage(null);
     }
-
     handleDateChange(dateInput);
-    // setErrorMessage(null)
   };
 
   /**
@@ -260,7 +252,6 @@ export default function DatePicker({
    * @param {Event} e - The key press event.
    */
   const handleKeyPress = (e) => {
-    console.log("code===", e.code);
     if (e.code === "Enter") {
       if (!clickInsideCalendar) {
         toggleCalendar();

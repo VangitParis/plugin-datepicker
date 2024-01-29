@@ -1,8 +1,8 @@
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
-var _datePicker = _interopRequireDefault(require("./datePicker"));
 var _modelisation = require("../../utils/modelisation");
+var _datePicker = _interopRequireDefault(require("./datePicker"));
 var _calendar = _interopRequireDefault(require("../Calendar/calendar"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /* eslint-disable no-undef */

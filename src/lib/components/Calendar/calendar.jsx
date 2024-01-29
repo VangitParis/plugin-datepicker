@@ -161,7 +161,6 @@ function Calendar(
       displayed.getMonth(),
       day
     );
-console.log(newDate);
     setDisplayedMonth(newDate);
 
     if (onSelect) {

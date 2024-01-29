@@ -123,7 +123,6 @@ function DatePicker(_ref) {
           handleDateChange((0, _modelisation.formatDate)(selectedDate || currentDate, dateFormat));
           setErrorMessage(null);
           setShowCalendar(true);
-          console.log("showCurrentDateOnMount", showCurrentDateOnMount);
         }
       }
     } else {
@@ -213,7 +212,6 @@ function DatePicker(_ref) {
    */
   const handleDateChange = inputValue => {
     // Check is date valid before validation
-    console.log("change date value====", inputValue);
     const parsedDate = (0, _modelisation.parseDateInput)(inputValue);
     setDateInput(inputValue);
     updateDate(parsedDate);
@@ -227,16 +225,10 @@ function DatePicker(_ref) {
    * Handles blur event, updates the date based on the input value.
    */
   const handleBlur = () => {
-    // if (dateInput === "" && showCalendar === false) {
-    //   setErrorMessage("Please select Date");
-    // } else {
-    //   setErrorMessage(null);
-    // }
     if (showCurrentDateOnMount === false && dateInput === "") {
       setErrorMessage(null);
     }
     handleDateChange(dateInput);
-    // setErrorMessage(null)
   };
 
   /**
@@ -244,7 +236,6 @@ function DatePicker(_ref) {
    * @param {Event} e - The key press event.
    */
   const handleKeyPress = e => {
-    console.log("code===", e.code);
     if (e.code === "Enter") {
       if (!clickInsideCalendar) {
         toggleCalendar();

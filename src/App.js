@@ -1,5 +1,5 @@
 import React from "react";
-import DatePicker from "./lib/components/DatePicker/datePicker.jsx";
+import DatePicker from "./lib/components/DatePicker/datePicker";
 import "./App.css";
 
 function App({ customClass }) {

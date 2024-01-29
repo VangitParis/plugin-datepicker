@@ -143,7 +143,6 @@ function Calendar(_ref, ref) {
    */
   const handleDateSelection = day => {
     const newDate = new Date(displayed.getFullYear(), displayed.getMonth(), day);
-    console.log(newDate);
     setDisplayedMonth(newDate);
     if (onSelect) {
       onSelect(newDate);
