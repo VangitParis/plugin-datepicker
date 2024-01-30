@@ -17,8 +17,8 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  * @param {{
  *   onSelect: Function,
  *   selectedDate: Date,
+ *   onChange:Function
  *   onDisplayChange: Function,
- *   onKeyPress: Function,
  *   minYear: number,
  *   maxYear: number,
  *   language: string,
@@ -39,7 +39,6 @@ function Calendar(_ref, ref) {
     onChange,
     selectedDate,
     onDisplayChange,
-    // showCurrentDateOnMount,
     minYear,
     maxYear,
     language,

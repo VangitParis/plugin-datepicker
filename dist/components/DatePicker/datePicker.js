@@ -24,6 +24,12 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  *   language: string,
  *   errorClass: string,
  *   errorMessage : string,
+ *   showError: boolean,
+ *   id : string,
+ *   type: string,
+ *   placeholder:string,
+ *   onChange: Function,
+ *   showCurrentDateOnMount:boolean,
  *   customStyles: {
  *     calendarStyle: Object,
  *     monthSelectClass: Object,
@@ -99,7 +105,7 @@ function DatePicker(_ref) {
   const toggleCalendar = () => {
     if (!showCalendar) {
       if (showCurrentDateOnMount === false && dateInput === "") {
-        // Logique spécifique si showCurrentDateOnMount est false ou dateInput est vide
+        // Logic if showCurrentDateOnMount is false or dateInput is empty
         if (errorMessage === null) {
           setDateInput("");
           handleDateChange(dateInput, dateFormat);
@@ -113,7 +119,7 @@ function DatePicker(_ref) {
           setErrorMessage(null);
         }
       } else {
-        // Logique spécifique si showCurrentDateOnMount est true
+        // Logic if showCurrentDateOnMount is true
         if (errorMessage === null) {
           setShowCalendar(true);
         } else {
@@ -126,14 +132,13 @@ function DatePicker(_ref) {
         }
       }
     } else {
-      // Logique pour le cas où le calendrier est déjà ouvert
+      // Case when  calendar is open
       if (errorMessage === null) {
         setShowCalendar(true);
         setErrorMessage(null);
       } else {
         setDateInput("");
         setSelectedDate("");
-        // handleDateChange(dateInput, dateFormat);
         setShowCalendar(true);
         setErrorMessage(null);
       }

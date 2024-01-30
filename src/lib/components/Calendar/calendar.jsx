@@ -14,8 +14,8 @@ import "./calendar.css";
  * @param {{
  *   onSelect: Function,
  *   selectedDate: Date,
+ *   onChange:Function
  *   onDisplayChange: Function,
- *   onKeyPress: Function,
  *   minYear: number,
  *   maxYear: number,
  *   language: string,
@@ -36,7 +36,6 @@ function Calendar(
     onChange,
     selectedDate,
     onDisplayChange,
-    // showCurrentDateOnMount,
     minYear,
     maxYear,
     language,
