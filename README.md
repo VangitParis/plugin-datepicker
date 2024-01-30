@@ -41,10 +41,24 @@ Description: Screenshot showing the final appearance of the input after date sel
 
 ## Installation
 
-To install the DatePicker component, use npm :
+### Prerequisites
+
+Node.js v18 or higher
+Please make sure you have the right versions and download both packages. You can verify this by using the following commands in your terminal:
+
+### Check Node.js version
+```bash
+node --version
+```
+### Check npm version
+```bash
+npm --version
+```
+
+## To install the DatePicker component, use npm :
 
 ```bash
-npm install plugin-datepicker --save
+npm install plugin-datepicker --save 
 ```
 
 ### Usage
