@@ -1,236 +1,29 @@
-/* Global Styles */
-
-body {
-  place-items: center;
-  background-color: #eaedf2;
-  /* height: 100vh;
-  margin: 3vmin; */
-}
-
-/* Calendar Container */
-
-.calendar {
-  --side-padding: 20px; 
-  --border-radius: 34px; 
-  --accent-br: 15px; 
-  width: 400px;
-  z-index: 5;
-}
-
-/* Calendar Options and Buttons */
-
-.calendar__opts, .calendar__buttons {
-  background-color: #fff;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 15px;
-}
-
-/* Calendar Options Section */
-
-.calendar__opts {
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
-  padding: 20px var(--side-padding);
-}
-
-/* Calendar Body */
-
-.calendar__body {
-  background-image: linear-gradient(to bottom, #f3f4f6, #fff);
-}
-
-/* Calendar Days Header */
-
-.calendar__days {
-  background-color: #fff;
-  padding: 10px var(--side-padding) 10px;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}  
-
-.calendar__days > div {
-  text-align: center;
-  color: #c6e2f5;
-  font-weight: bold;
-}
-
-/* Calendar Dates Grid */
-
-.calendar__dates {
-  padding: 10px var(--side-padding);
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-
-/* Calendar Individual Date Styles */
-
-.calendar__date {
-  --height: calc(400px / 6 - var(--side-padding));
-  text-align: center;
-  height: var(--height);
-  line-height: var(--height);
-  cursor: pointer;
-  position: relative;
-}
-
-/* Calendar Date Hover Effect */
-
-.calendar__date::before {
-  content: "";
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0);
-  width: 100%;
-  height: calc(var(--height) * 0.9);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: var(--accent-br);
-  transition: background-color 0.3s ease;
-}
-
-.calendar__date:not(.calendar__date--selected):not(.calendar__date--grey):not(.other-month):hover::before {
-  background-color: #ededed;
-}
-
-/* Other Month Styles */
-
-.other-month {
-  cursor: none;
-}
-
-.other-month:hover::before {
-  background-color: transparent !important;
-  transition: none !important; 
-}
-
-/* Selected Date Styles */
-
-.calendar__date.selected {
-  color: white;
-}
-
-.calendar__date.selected:hover{
-  color: black;
-} 
-
-/* Span Styles */
-
-span {
-  position: relative;
-  z-index: 1;
-}
-
-/* Button Styles */
-
-button {
-  border-radius: 20px;
-  outline: none;
-  border: 0;
-  padding: 15px 20px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  cursor: pointer;
-}
-
-/* Custom Button Styles */
-
-.btn{
-  background-color:#284bbd;
-  color: white;
-  font-weight: bold;
-  font-size: 0.7rem;
-  cursor: pointer;
-}
-
-/* Button Hover Effect */
-
-button:hover{
-  background-color: #ededed;
-  color: black;
-}
-
-/* Arrow Button Styles */
-
-.arrow-left{
-  background-color:#284bbd;
-}
-
-.arrow-right{
-  background-color: #284bbd;
-}
-
-/* Flex Container Styles */
-
-.flex-between-center{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Selected Date Hover Effect */
-
-.calendar__date.selected::before{
-  background-color: #284bbd;
-}
-
-/* Dropdown Styles */
-
-.month-dropdown, .year-dropdown {
-  color: #f3f4f6;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 20px;
-  outline: none;
-  border: 0;
-  padding: 15px 20px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='960px' height='560px' fill='white' viewBox='0 0 960 560' enable-background='new 0 0 960 560' xml:space='preserve'%3E%3Cg id='Rounded_Rectangle_33_copy_4_1_'%3E%3Cpath d='M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937 c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937 c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 24px;
-  background-repeat: no-repeat;
-  background-position: calc(100% - var(--side-padding)) center;
-  background-color: #284bbd;
-  height: 50px;
-  overflow-y: auto;
-  }
-
-/* Dropdown Hover Effect */
-
-.month-dropdown:hover, .year-dropdown:hover{
-background-color: #ededed;
-color: black;
-background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='960px' height='560px' fill='black' viewBox='0 0 960 560' enable-background='new 0 0 960 560' xml:space='preserve'%3E%3Cg id='Rounded_Rectangle_33_copy_4_1_'%3E%3Cpath d='M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937 c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937 c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-/* Open Dropdown Styles */
-
-.custom-dropdown-open{
-position: relative;
-z-index: 1;
-border: 2px solid #ffcc00;
-box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
-width: auto;
-height: auto;
-}
-
-/* Open Dropdown Hover Effect */
-
-.custom-dropdown-open:hover{
-background-color: #284bbd;
-color: #ededed;
-background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='960px' height='560px' fill='white' viewBox='0 0 960 560' enable-background='new 0 0 960 560' xml:space='preserve'%3E%3Cg id='Rounded_Rectangle_33_copy_4_1_'%3E%3Cpath d='M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937 c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937 c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-/* Focus Styles */
-
-select:focus-visible, .btn:focus-visible, .icon:focus-visible, .calendar__date:focus-visible{
-outline: 2px solid orange;
-}
-
-.other-month:focus-visible {
-outline: none;
-}
+body{place-items:center;background-color:#eaedf2}
+.calendar{--side-padding:20px;--border-radius:34px;--accent-br:15px;width:400px;z-index:5}
+.calendar__buttons,.calendar__opts{background-color:#fff;display:grid;grid-template-columns:1fr 1fr;column-gap:15px}
+.calendar__opts{border-top-left-radius:var(--border-radius);border-top-right-radius:var(--border-radius);padding:20px var(--side-padding)}
+.calendar__body{background-image:linear-gradient(to bottom,#f3f4f6,#fff)}
+.calendar__days{background-color:#fff;padding:10px var(--side-padding) 10px;display:grid;grid-template-columns:repeat(7,1fr)}
+.calendar__days>div{text-align:center;color:#c6e2f5;font-weight:700}
+.calendar__dates{padding:10px var(--side-padding);display:grid;grid-template-columns:repeat(7,1fr)}
+.calendar__date{--height:calc(400px / 6 - var(--side-padding));text-align:center;height:var(--height);line-height:var(--height);cursor:pointer;position:relative}
+.calendar__date::before{content:"";position:absolute;background-color:rgba(255,255,255,0);width:100%;height:calc(var(--height) * .9);top:50%;left:50%;transform:translate(-50%,-50%);border-radius:var(--accent-br);transition:background-color .3s ease}
+.calendar__date:not(.calendar__date--selected):not(.calendar__date--grey):not(.other-month):hover::before{background-color:#ededed}
+.other-month{cursor:none}
+.other-month:hover::before{background-color:transparent!important;transition:none!important}
+.calendar__date.selected{color:#fff}
+.calendar__date.selected:hover{color:#000}
+span{position:relative;z-index:1}
+button{border-radius:20px;outline:0;border:0;padding:15px 20px;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}
+.btn{background-color:#284bbd;color:#fff;font-weight:700;font-size:.7rem;cursor:pointer}
+button:hover{background-color:#ededed;color:#000}
+.arrow-left{background-color:#284bbd}
+.arrow-right{background-color:#284bbd}
+.flex-between-center{display:flex;justify-content:space-between;align-items:center}
+.calendar__date.selected::before{background-color:#284bbd}
+.month-dropdown,.year-dropdown{color:#f3f4f6;font-size:1rem;font-weight:600;border-radius:20px;outline:0;border:0;padding:15px 20px;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='960px' height='560px' fill='white' viewBox='0 0 960 560' enable-background='new 0 0 960 560' xml:space='preserve'%3E%3Cg id='Rounded_Rectangle_33_copy_4_1_'%3E%3Cpath d='M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937 c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937 c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z'/%3E%3C/g%3E%3C/svg%3E");background-size:24px;background-repeat:no-repeat;background-position:calc(100% - var(--side-padding)) center;background-color:#284bbd;height:50px;overflow-y:auto}
+.month-dropdown:hover,.year-dropdown:hover{background-color:#ededed;color:#000;background-image:url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='960px' height='560px' fill='black' viewBox='0 0 960 560' enable-background='new 0 0 960 560' xml:space='preserve'%3E%3Cg id='Rounded_Rectangle_33_copy_4_1_'%3E%3Cpath d='M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937 c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937 c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z'/%3E%3C/g%3E%3C/svg%3E")}
+.custom-dropdown-open{position:relative;z-index:1;border:2px solid #fc0;box-shadow:0 0 15px rgba(255,204,0,.5);width:auto;height:auto}
+.custom-dropdown-open:hover{background-color:#284bbd;color:#ededed;background-image:url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='960px' height='560px' fill='white' viewBox='0 0 960 560' enable-background='new 0 0 960 560' xml:space='preserve'%3E%3Cg id='Rounded_Rectangle_33_copy_4_1_'%3E%3Cpath d='M480,344.181L268.869,131.889c-15.756-15.859-41.3-15.859-57.054,0c-15.754,15.857-15.754,41.57,0,57.431l237.632,238.937 c8.395,8.451,19.562,12.254,30.553,11.698c10.993,0.556,22.159-3.247,30.555-11.698l237.631-238.937 c15.756-15.86,15.756-41.571,0-57.431s-41.299-15.859-57.051,0L480,344.181z'/%3E%3C/g%3E%3C/svg%3E")}
+.btn:focus-visible,.calendar__date:focus-visible,.icon:focus-visible,select:focus-visible{outline:2px solid orange}
+.other-month:focus-visible{outline:0}
